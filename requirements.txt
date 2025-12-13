@@ -1,0 +1,8 @@
+pandas
+numpy
+nba_api
+scikit-learn
+plotly
+dash
+gunicorn
+jupyter
