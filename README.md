@@ -75,13 +75,13 @@ NBA-lineup-archetypes-dashboard/
 ---
 
 ## 3. Installation
-A. Clone this repository
+### A. Clone this repository
 
   git clone https://github.com/<username>/NBA-lineup-archetypes-dashboard.git
 
   cd NBA-lineup-archetypes-dashboard
 
-B. Install environment (via Makefile)
+### B. Install environment (via Makefile)
 
   make install
 
@@ -92,7 +92,7 @@ B. Install environment (via Makefile)
 
   Prepare the project for development
 
-C. Run the dashboard locally
+### C. Run the dashboard locally
   make run
 
   Dashboard starts at:
@@ -115,7 +115,7 @@ Branching strategy
 Workflow example
 
   git checkout -b feature/clustering
-  # make changes
+  #### make changes
   git add .
 
   git commit -m "Implement clustering step"
@@ -127,13 +127,13 @@ Then open a Pull Request (PR) to main.
 ---
 
 ## 5. Data guidelines
-# Safe to commit:
+### Safe to commit:
 - Notebooks
 - Small raw datasets in data/raw/
 - Source code (src/)
 - Configuration files
 
-# Do NOT commit:
+### Do NOT commit:
 - data/interim/
 - data/processed/
 - Raw files > 50–100 MB (GitHub will reject them)
