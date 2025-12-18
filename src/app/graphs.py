@@ -1,5 +1,5 @@
 import dash
-from dash import dcc, html, Input, Output, State
+from dash import dcc, html
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import pandas as pd
