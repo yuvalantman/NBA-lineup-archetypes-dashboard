@@ -1,4 +1,5 @@
 from dash import Dash
+<<<<<<< HEAD
 from src.app.layout import create_layout
 from src.app.callbacks import register_callbacks
 
@@ -114,6 +115,13 @@ def create_app():
     </html>
     '''
 
+=======
+from .layout import create_layout
+from .callbacks import register_callbacks
+
+def create_app():
+    app = Dash(__name__)
+>>>>>>> 35217567569a3e4a4d5abe233313123ba3bbeed6
     app.layout = create_layout(app)
     register_callbacks(app)
     return app

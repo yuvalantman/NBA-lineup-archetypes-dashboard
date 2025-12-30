@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 """
 Load and prepare player data for dashboard.
 
@@ -62,3 +63,8 @@ if __name__ == '__main__':
         print(f"  {i+1}. {row['PLAYER']} - {row['Position']} - {row['CURRENT_TEAM']}")
 
     print("\n✓ All tests passed!")
+=======
+# TODO: load player-season data from data/raw
+def load_player_data():
+    pass
+>>>>>>> 35217567569a3e4a4d5abe233313123ba3bbeed6

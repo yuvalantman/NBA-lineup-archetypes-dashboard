@@ -22,6 +22,7 @@ Thumbs.db
 
 # --- Data (team decides what to track) ---
 data/interim/*
+<<<<<<< HEAD
 
 # ► Archive old experiments
 archive/
@@ -29,6 +30,9 @@ archive/
 # ► Test HTML outputs
 *.html
 !docs/**/*.html
+=======
+data/processed/*
+>>>>>>> 35217567569a3e4a4d5abe233313123ba3bbeed6
 
 # ► If any huge raw files should *not* go to GitHub, add them:
 # data/raw/bigfile*.parquet
