@@ -14,9 +14,9 @@ from pathlib import Path
 # Import data loaders
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from data.load_players import load_player_data
-from data.load_efficiency import load_efficiency_data
-from data.load_tendencies import load_tendency_data, normalize_metrics, create_lineup_label
+from src.data.load_players import load_player_data
+from src.data.load_efficiency import load_efficiency_data
+from src.data.load_tendencies import load_tendency_data, normalize_metrics, create_lineup_label
 
 # Import components
 from src.app.components.efficiency_landscape import create_efficiency_component
