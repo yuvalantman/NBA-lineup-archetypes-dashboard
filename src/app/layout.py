@@ -52,9 +52,49 @@ def create_layout(app, df_players):
                                 df_players=df_players,
                                 component_id='star-profile'
                             ),
-
-                            # Matchup analysis placeholder
-                            create_team_vs_opp_placeholder()
+                            # MAIN LINEUP SELECTOR (Step 1)
+                            html.Div(
+                                style={
+                                    'width': '380px',
+                                    'display': 'flex',
+                                    'flexDirection': 'column',
+                                    'gap': '4px'
+                                },
+                                children=[
+                                    html.Label("Main Lineup:",
+                                                style={'fontSize': '11px', 'color': '#00BFFF', 'fontWeight': 'bold', 'marginBottom': '2px'}),
+                                    dcc.Dropdown(
+                                        id='main-lineup-dropdown',
+                                        options=[], # Populated by callback
+                                        multi=False,
+                                        placeholder="Click to select...",
+                                        className="custom-clean-dropdown",
+                                        style={'fontSize': '13px'}
+                                    )
+                                ]
+                            ),
+                            # Compact lineup selector (Fixed Height, No visible tags)
+                            html.Div(
+                                style={
+                                    'width': '380px',
+                                    'display': 'flex',
+                                    'flexDirection': 'column',
+                                    'gap': '4px',
+                                    'marginTop': '18px'
+                                },
+                                children=[
+                                    html.Label("Compare Tendencies with Lineups:",
+                                                style={'fontSize': '11px', 'color': '#00BFFF', 'fontWeight': 'bold', 'marginBottom': '2px'}),
+                                    dcc.Dropdown(
+                                        id='lineup-dropdown',
+                                        options=[], # Populated by callback
+                                        multi=True,
+                                        placeholder="Click to select...",
+                                        className="custom-clean-dropdown",
+                                        style={'fontSize': '13px'}
+                                    )
+                                ]
+                            )
                         ]
                     ),
 
@@ -76,43 +116,82 @@ def create_layout(app, df_players):
                                     'borderRadius': '12px',
                                     'border': '1px solid #2d384d',
                                     'marginBottom': '10px'
+                                }
+                                # children=[
+                                #     html.H4(id='shot-chart-title', children="Shot Chart",
+                                #             style={'color': '#00BFFF', 'margin': '0', 'fontSize': '18px'}),
+                                #     html.H4("Efficiency Landscape", style={'color': '#00BFFF'}),
+                                # ]
+                            ),
+
+                            # SHOT CHART graph (colors: deep green and red)
+                            # html.Div(
+                            #     style={'backgroundColor': '#161d2b', 'borderRadius': '15px', 'padding': '20px', 'border': '1px solid #2d384d'},
+                            #     children=[
+                            #         html.Div(
+                            #             style={'flex': '1', 'backgroundColor': '#161d2b', 'borderRadius': '15px', 'padding': '20px', 'border': '1px solid #2d384d'},
+                            #             children=[
+                            #                 html.H4(id='shot-chart-title', children="Shot Chart",
+                            #                     style={'color': '#00BFFF', 'margin': '0', 'fontSize': '18px'}),
+                            #                 dcc.Graph(id='shot-chart-graph', style={'height': '500px'})
+                            #             ]
+                            #         ),
+                            #         #dcc.Graph(id='shot-chart-graph', style={'height': '500px'}),
+                            #         html.Div(
+                            #             style={'flex': '1', 'backgroundColor': '#161d2b', 'borderRadius': '15px', 'padding': '20px', 'border': '1px solid #2d384d'},
+                            #             children=[
+                            #                 html.H4("Efficiency Landscape", style={'color': '#00BFFF'}),
+                            #                 dcc.Graph(id='efficiency-graph', style={'height': '500px'})
+                            #             ]
+                            #         )
+                            #     ]
+                            # ),
+                            html.Div(
+                                style={
+                                    'display': 'flex',
+                                    'gap': '20px',
+                                    'backgroundColor': '#161d2b',
+                                    'borderRadius': '15px',
+                                    'padding': '20px',
+                                    'border': '1px solid #2d384d'
                                 },
                                 children=[
-                                    html.H4(id='shot-chart-title', children="Shot Chart",
-                                            style={'color': '#00BFFF', 'margin': '0', 'fontSize': '18px'}),
 
-                                    # Compact lineup selector (Fixed Height, No visible tags)
+                                    # SHOT CHART
                                     html.Div(
                                         style={
-                                            'width': '280px',
-                                            'display': 'flex',
-                                            'flexDirection': 'column',
-                                            'gap': '4px'
+                                            'flex': '1',
+                                            'backgroundColor': '#161d2b',
+                                            'borderRadius': '15px',
+                                            'padding': '20px',
+                                            'border': '1px solid #2d384d'
                                         },
                                         children=[
-                                            html.Label("Select Lineups:",
-                                                       style={'fontSize': '11px', 'color': 'rgba(255,255,255,0.7)', 'fontWeight': 'bold', 'marginBottom': '2px'}),
-                                            dcc.Dropdown(
-                                                id='lineup-dropdown',
-                                                options=[], # Populated by callback
-                                                multi=True,
-                                                placeholder="Click to select...",
-                                                className="custom-clean-dropdown",
-                                                style={'fontSize': '13px'}
-                                            )
+                                            html.H4(
+                                                id='shot-chart-title',
+                                                children="Shot Chart",
+                                                style={'color': '#00BFFF', 'marginBottom': '10px', 'fontSize': '18px'}
+                                            ),
+                                            dcc.Graph(id='shot-chart-graph', style={'height': '500px'})
+                                        ]
+                                    ),
+
+                                    # EFFICIENCY LANDSCAPE
+                                    html.Div(
+                                        style={
+                                            'flex': '1',
+                                            'backgroundColor': '#161d2b',
+                                            'borderRadius': '15px',
+                                            'padding': '20px',
+                                            'border': '1px solid #2d384d'
+                                        },
+                                        children=[
+                                            html.H4("Efficiency Landscape", style={'color': '#00BFFF', 'marginBottom': '10px'}),
+                                            dcc.Graph(id='efficiency-graph', style={'height': '500px'})
                                         ]
                                     )
                                 ]
                             ),
-
-                            # SHOT CHART graph (colors: deep green and red)
-                            html.Div(
-                                style={'backgroundColor': '#161d2b', 'borderRadius': '15px', 'padding': '20px', 'border': '1px solid #2d384d'},
-                                children=[
-                                    dcc.Graph(id='shot-chart-graph', style={'height': '500px'})
-                                ]
-                            ),
-
                             # Bottom row: Radar (orange-brown) + Efficiency
                             html.Div(
                                 style={'display': 'flex', 'gap': '20px'},
@@ -125,12 +204,18 @@ def create_layout(app, df_players):
                                             dcc.Graph(id='tendency-radar-graph', style={'height': '350px'})
                                         ]
                                     ),
-                                    # Efficiency Landscape
+                                    # Matchup analysis placeholder
                                     html.Div(
-                                        style={'flex': '1', 'backgroundColor': '#161d2b', 'borderRadius': '15px', 'padding': '20px', 'border': '1px solid #2d384d'},
+                                        style={
+                                            'flex': '1',
+                                            'backgroundColor': '#161d2b',
+                                            'borderRadius': '15px',
+                                            'padding': '20px',
+                                            'border': '1px solid #2d384d',
+                                            'height': '350px'   # ✅ force match radar
+                                        },
                                         children=[
-                                            html.H5("Efficiency Landscape", style={'color': '#00BFFF'}),
-                                            dcc.Graph(id='efficiency-graph', style={'height': '350px'})
+                                            create_team_vs_opp_placeholder()
                                         ]
                                     )
                                 ]

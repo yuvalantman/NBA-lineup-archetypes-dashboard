@@ -221,7 +221,8 @@ def create_comparative_radar(df_tendencies, selected_player, selected_lineups):
         ('Paint Pts', 'pct_pts_paint'),
         ('Fastbreak', 'pct_pts_fb'),
         ('Midrange', 'pct_pts_2pt_mr'),
-        ('Assisted FG', 'pct_ast_fgm')
+        ('Assisted FG', 'pct_ast_fgm'),
+        ('Unassisted FG', 'pct_uast_fgm')
     ]
 
     labels = [m[0] for m in metrics_map]

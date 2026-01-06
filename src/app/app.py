@@ -45,6 +45,34 @@ def create_app():
                 .Select-placeholder { color: rgba(255, 255, 255, 0.5) !important; }
                 .Select-input > input { color: white !important; }
                 .Select-arrow { border-color: #00BFFF transparent transparent !important; }
+                .custom-clean-dropdown .Select-control {
+                    background-color: #0b1019 !important;
+                    color: white !important;
+                    border: 1px solid #2d384d !important;
+                }
+
+                .custom-clean-dropdown .Select-menu-outer {
+                    background-color: #161d2b !important;
+                    color: white !important;
+                }
+
+                .custom-clean-dropdown .Select-option {
+                    background-color: #161d2b !important;
+                    color: white !important;
+                }
+
+                .custom-clean-dropdown .Select-option.is-focused {
+                    background-color: #1f2a44 !important;
+                }
+
+                .custom-clean-dropdown .Select-value-label {
+                    color: white !important;
+                }
+
+                .custom-clean-dropdown .Select-placeholder {
+                    color: rgba(255,255,255,0.5) !important;
+                }
+
             </style>
         </head>
         <body>
