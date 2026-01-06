@@ -76,6 +76,19 @@ def create_app():
                 .custom-clean-dropdown .Select-placeholder {
                     color: rgba(255,255,255,0.5) !important;
                 }
+                .custom-clean-dropdown .Select-control .Select-value-label {
+                    color: white !important;
+                }
+
+                .custom-clean-dropdown .Select-control .Select-input input {
+                    color: white !important;
+                }
+                .custom-clean-dropdown .Select-value-label {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-width: 320px;
+                }
 
             </style>
         </head>
@@ -92,7 +105,7 @@ def create_app():
 
     # 3. Connect Layout & Callbacks (Passing the loaded data)
     app.layout = create_layout(app, df_players)
-    register_callbacks(app, df_efficiency, df_tendencies, df_shots, df_team_vs_opp)
+    register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, df_team_vs_opp)
 
     return app
 

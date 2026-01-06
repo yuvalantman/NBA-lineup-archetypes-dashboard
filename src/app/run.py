@@ -72,7 +72,7 @@ def create_app():
     app.layout = create_layout(app, df_players)
 
     # Pass all three dataframes to callbacks
-    register_callbacks(app, df_efficiency, df_tendencies, df_shots, df_team_vs_opponent)
+    register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, df_team_vs_opponent)
 
     return app
 

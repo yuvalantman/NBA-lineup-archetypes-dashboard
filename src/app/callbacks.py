@@ -13,7 +13,7 @@ from src.app.components.tendency_radar_chart import create_tendency_radar
 from src.app.components.shot_chart import create_shot_chart
 
 
-def register_callbacks(app, df_efficiency, df_tendencies, df_shots, df_team_vs_opponent):
+def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, df_team_vs_opponent):
     """
     Registers all Dash callbacks with hierarchical filtering logic.
 
@@ -58,7 +58,7 @@ def register_callbacks(app, df_efficiency, df_tendencies, df_shots, df_team_vs_o
             return None, "Shot Chart", "Lineup Tendency Profile"
 
         # Get the first row for this player (for card display)
-        player_data = df_efficiency[df_efficiency['star_player'] == selected_player]
+        player_data = df_players[df_players['PLAYER'] == selected_player]
 
         if player_data.empty:
             return None, "Shot Chart", "Lineup Tendency Profile"
@@ -135,6 +135,9 @@ def register_callbacks(app, df_efficiency, df_tendencies, df_shots, df_team_vs_o
         # Ensure selected_lineups is a list (handle both single and multi-select)
         if not isinstance(compare_lineups, list):
             compare_lineups = [compare_lineups] if compare_lineups else []
+        # Remove duplicates while preserving order
+        seen = set()
+        compare_lineups = [x for x in compare_lineups if not (x in seen or seen.add(x))]
 
         radar_lineups = []
         if main_lineup:
@@ -224,7 +227,15 @@ def create_comparative_radar(df_tendencies, selected_player, selected_lineups):
     labels = [m[0] for m in metrics_map]
 
     # Basketball-themed color palette (orange/brown shades)
-    colors = ['#E67E22', '#D35400', '#CA6F1E', '#BA4A00', '#935116']
+    colors = [
+        '#00BFFF',  # cyan (main)
+        '#E74C3C',  # red
+        '#2ECC71',  # green
+        '#F1C40F',  # yellow
+        '#9B59B6',   # purple
+        '#3498DB',   # blue
+    ]
+
 
     fig = go.Figure()
 

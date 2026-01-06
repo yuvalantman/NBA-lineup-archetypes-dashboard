@@ -90,13 +90,13 @@ def create_efficiency_landscape(df, selected_lineups=None):
 
     xaxis=dict(
         title="Offensive Rating",
-        range=[100, 130],   # Keep this fixed
+        range=[98, 143],   # Keep this fixed
         fixedrange=True,    # Disables zoom/pan
         gridcolor='#2d384d'
     ),
     yaxis=dict(
         title="Defensive Rating",
-        range=[125, 95],    # Inverted: better defense at the top
+        range=[125, 70],    # Inverted: better defense at the top
         autorange=False,    # Stops automatic scaling
         fixedrange=True,    # Disables zoom/pan
         gridcolor='#2d384d'
@@ -104,5 +104,8 @@ def create_efficiency_landscape(df, selected_lineups=None):
 
 )
     fig.update_yaxes(scaleanchor="x", scaleratio=1)
+    fig.add_hline(y=df['defensive_rating'].mean(), line_dash='dot', line_color='rgba(255,255,255,0.3)')
+    fig.add_vline(x=df['offensive_rating'].mean(), line_dash='dot', line_color='rgba(255,255,255,0.3)')
+
 
     return fig
