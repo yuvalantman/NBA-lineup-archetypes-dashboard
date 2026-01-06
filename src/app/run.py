@@ -1,51 +1,83 @@
+"""
+NBA Dashboard Application Runner
+Loads data from CSV files and initializes the Dash application.
+"""
+
+import os
+import pandas as pd
 from dash import Dash
 from src.app.layout import create_layout
 from src.app.callbacks import register_callbacks
 
-def create_app():
-    app = Dash(__name__, suppress_callback_exceptions=True)
-    app.index_string = '''
-    <!DOCTYPE html>
-    <html>
-        <head>
-            {%metas%}
-            <title>NBA Lineup Archetypes</title>
-            {%favicon%}
-            {%css%}
-            <style>
-                .Select-control, .Select-menu-outer, .Select-menu, .VirtualizedSelectOption {
-                    font-family: Calibri, sans-serif !important;
-                    font-size: 13px !important;
-                }
-                .Select-control { background-color: #1a2332 !important; border-color: #00BFFF !important; }
-                .Select-menu-outer { background-color: #1a2332 !important; border-color: #00BFFF !important; }
-                .Select-menu { background-color: #1a2332 !important; }
-                .VirtualizedSelectOption { background-color: #1a2332 !important; color: white !important; }
-                .VirtualizedSelectOption:hover { background-color: #2a3642 !important; color: #00BFFF !important; }
-                .Select-value { background-color: #008080 !important; border-color: #00BFFF !important; color: white !important; }
-                .Select-value-label { color: white !important; }
-                .Select-placeholder { color: rgba(255, 255, 255, 0.5) !important; }
-                .Select-input > input { color: white !important; }
-                .Select-arrow { border-color: #00BFFF transparent transparent !important; }
-            </style>
-        </head>
-        <body>
-            {%app_entry%}
-            <footer>
-                {%config%}
-                {%scripts%}
-                {%renderer%}
-            </footer>
-        </body>
-    </html>
-    '''
 
-    # חיבור ה-Layout וה-Callbacks (הלוגיקה של האפליקציה)
-    app.layout = create_layout(app)
-    register_callbacks(app)
+def create_app():
+    """
+    Creates and configures the NBA Dashboard Dash application.
+
+    Data Sources:
+        - Data/processed/Ready_efficiency_data.csv (offensive/defensive ratings)
+        - Data/processed/Ready_tendencies_data.csv (play-style percentages)
+        - Data/processed/Ready_shots_data.csv (shot location data)
+
+    Returns:
+        Configured Dash app instance
+    """
+    app = Dash(__name__)
+
+    # --- Path Configuration ---
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    root_dir = os.path.abspath(os.path.join(current_dir, "..", ".."))
+
+    # Paths to the three processed CSV files
+    efficiency_path = os.path.join(root_dir, 'Data', 'processed', 'Ready_efficiency_data.csv')
+    tendencies_path = os.path.join(root_dir, 'Data', 'processed', 'Ready_tendencies_data.csv')
+    shots_path = os.path.join(root_dir, 'Data', 'processed', 'Ready_shots_data.csv')
+
+    # --- Data Loading ---
+    try:
+        df_efficiency = pd.read_csv(efficiency_path)
+        df_tendencies = pd.read_csv(tendencies_path)
+        df_shots = pd.read_csv(shots_path)
+
+        print(f"✅ Efficiency data loaded: {len(df_efficiency)} lineups")
+        print(f"✅ Tendencies data loaded: {len(df_tendencies)} lineups")
+        print(f"✅ Shots data loaded: {len(df_shots)} shots")
+
+        # For player dropdown and profile, use efficiency data as base
+        # Add placeholder columns for player profile component
+        if 'CURRENT_TEAM' not in df_efficiency.columns:
+            df_efficiency['CURRENT_TEAM'] = 'NBA Team'
+
+        for col in ['Height', 'Weight', 'Position']:
+            if col not in df_efficiency.columns:
+                df_efficiency[col] = "N/A"
+
+        print(f"✅ Setup Complete: Dashboard ready with {df_efficiency['star_player'].nunique()} players.")
+
+    except FileNotFoundError as e:
+        print(f"❌ Critical Error: Could not find CSV files")
+        print(f"   Expected paths:")
+        print(f"   - {efficiency_path}")
+        print(f"   - {tendencies_path}")
+        print(f"   - {shots_path}")
+        df_efficiency = pd.DataFrame(columns=['star_player', 'LINEUP_ARCHETYPE'])
+        df_tendencies = pd.DataFrame()
+        df_shots = pd.DataFrame()
+
+    # Initialize layout with efficiency data (for player selection)
+    app.layout = create_layout(app, df_efficiency)
+
+    # Pass all three dataframes to callbacks
+    register_callbacks(app, df_efficiency, df_tendencies, df_shots)
 
     return app
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app = create_app()
-    app.run_server(debug=True, port=8050)
+    print("\n" + "="*60)
+    print("🏀 NBA Lineup Strategic Analysis Dashboard")
+    print("="*60)
+    print("📊 Dashboard running at: http://localhost:8050")
+    print("🔄 Debug mode: Enabled")
+    print("="*60 + "\n")
+    app.run(debug=True, port=8050)

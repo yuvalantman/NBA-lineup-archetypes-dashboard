@@ -1,162 +1,181 @@
 """
-Player Profile Component for Dashboard Integration
-
-Provides a reusable player profile card with dropdown selector.
-Shows player photo, stats (name, height, weight, position), and team logo.
+Player Profile Component for NBA Dashboard
+Creates a 3-column layout with gradient background and special image handling.
 """
 
-import sys
-from pathlib import Path
-import pandas as pd
 import base64
-from dash import dcc, html, Input, Output
+from pathlib import Path
+from dash import dcc, html
 
 
-# Helper functions for finding and encoding images
-
-def find_player_image(player_name, images_dir='star_graph_data/player photos'):
-    """Find player image file with flexible matching."""
-    extensions = ['.png', '.jpg', '.jpeg', '.webp', '.avif']
-
-    # Try exact match
-    for ext in extensions:
-        exact_path = Path(images_dir) / f"{player_name}{ext}"
-        if exact_path.exists():
-            return str(exact_path)
-
-    # Try with trailing space
-    for ext in extensions:
-        space_path = Path(images_dir) / f"{player_name} {ext}"
-        if space_path.exists():
-            return str(space_path)
-
-    # Try with leading space
-    for ext in extensions:
-        leading_space_path = Path(images_dir) / f" {player_name}{ext}"
-        if leading_space_path.exists():
-            return str(leading_space_path)
-
-    # Special case for Nikola Jokić
-    if player_name == "Nikola Jokić":
-        special_path = Path(images_dir) / "nikola-jokic-2-1.jpg.webp"
-        if special_path.exists():
-            return str(special_path)
-
-    # Fallback: search by last name
-    last_name = player_name.split()[-1]
-    for file_path in Path(images_dir).glob('*'):
-        if last_name.lower() in file_path.name.lower():
-            return str(file_path)
-
-    return None
-
-
-def find_team_logo(team_name, logos_dir='star_graph_data/logo'):
-    """Find team logo file with flexible matching."""
-    extensions = ['.png', '.jpg', '.jpeg', '.webp', '.svg']
-
-    # Try standard format
-    for ext in extensions:
-        logo_path = Path(logos_dir) / f"{team_name} logo{ext}"
-        if logo_path.exists():
-            return str(logo_path)
-
-    # Special cases for known mismatches
-    special_cases = {
-        'Los Angeles Lakers': 'Los_Angeles_Lakers_logo.svg.png',
-        'Houston Rockets': 'Houston Rockets  logo.png',
-        'Minnesota Timberwolves': 'Minnesota Timberwolves logo.svg'
-    }
-
-    if team_name in special_cases:
-        special_path = Path(logos_dir) / special_cases[team_name]
-        if special_path.exists():
-            return str(special_path)
-
-    # Fallback: search by team keyword
-    team_keywords = team_name.split()[-1]
-    for file_path in Path(logos_dir).glob('*'):
-        if team_keywords.lower() in file_path.name.lower():
-            return str(file_path)
-
-    return None
-
+# --- Image Encoding Utilities ---
 
 def encode_image_to_base64(image_path):
-    """Convert image file to base64 for embedding in HTML."""
+    """
+    Encodes a local image file to Base64 for embedding in HTML.
+    Returns None if the file doesn't exist.
+    """
     if not image_path or not Path(image_path).exists():
         return None
 
-    with open(image_path, 'rb') as f:
-        encoded = base64.b64encode(f.read()).decode()
+    try:
+        with open(image_path, 'rb') as f:
+            encoded = base64.b64encode(f.read()).decode()
 
-    ext = Path(image_path).suffix.lower()
-    mime_types = {
-        '.png': 'image/png',
-        '.jpg': 'image/jpeg',
-        '.jpeg': 'image/jpeg',
-        '.webp': 'image/webp',
-        '.avif': 'image/avif',
-        '.svg': 'image/svg+xml'
-    }
-    mime_type = mime_types.get(ext, 'image/png')
+        ext = Path(image_path).suffix.lower()
+        mime_types = {
+            '.png': 'image/png',
+            '.jpg': 'image/jpeg',
+            '.jpeg': 'image/jpeg',
+            '.webp': 'image/webp',
+            '.avif': 'image/avif',
+            '.svg': 'image/svg+xml'
+        }
+        mime = mime_types.get(ext, 'image/png')
 
-    return f"data:{mime_type};base64,{encoded}"
+        return f"data:{mime};base64,{encoded}"
+    except Exception:
+        return None
 
 
-# Component creation function
-
-def create_player_profile_component(
-    df_players: pd.DataFrame,
-    component_id: str = 'player-profile',
-    default_player: str = None,
-    card_color: str = '#2A3642',
-    accent_color: str = '#008080',
-    border_color: str = '#00BFFF'
-) -> html.Div:
+def find_player_image(player_name):
     """
-    Create player profile component with dropdown selector and card.
+    Searches for player photo with flexible naming and special cases.
+
+    Handles:
+        - Multiple extensions (.png, .jpg, .jpeg, .webp, .avif)
+        - Leading/trailing spaces in filenames
+        - Special case for "Nikola Jokić" -> "nikola-jokic-2-1.jpg.webp"
+    """
+    base_dir = Path('assets/images/player_photos')
+
+    if not base_dir.exists():
+        return None
+
+    # Special case: Handle Nikola Jokić filename
+    if player_name == "Nikola Jokić":
+        jokic_path = base_dir / "nikola-jokic-2-1.jpg.webp"
+        if jokic_path.exists():
+            return str(jokic_path)
+
+    extensions = ['.png', '.jpg', '.jpeg', '.webp', '.avif']
+
+    # Try exact match first
+    for ext in extensions:
+        path = base_dir / f"{player_name}{ext}"
+        if path.exists():
+            return str(path)
+
+    # Try with stripped spaces
+    for ext in extensions:
+        path = base_dir / f"{player_name.strip()}{ext}"
+        if path.exists():
+            return str(path)
+
+    # Try case-insensitive search
+    try:
+        for file in base_dir.iterdir():
+            if file.stem.lower() == player_name.lower():
+                return str(file)
+    except Exception:
+        pass
+
+    return None
+
+
+def find_team_logo(team_name):
+    """
+    Searches for team logo with special cases for specific teams.
+
+    Special cases:
+        - Lakers: "Los_Angeles_Lakers_logo.svg.png"
+        - Timberwolves: "Minnesota Timberwolves logo.svg"
+    """
+    base_dir = Path('assets/logos/logo')
+
+    if not base_dir.exists():
+        return None
+
+    # Special cases mapping for teams with unusual filenames
+    special_cases = {
+        'Lakers': 'Los_Angeles_Lakers_logo.svg.png',
+        'Timberwolves': 'Minnesota Timberwolves logo.svg',
+        'Warriors': 'Golden State Warriors logo.png',
+        'Bucks': 'Milwaukee Bucks logo.jpeg',
+        'Nuggets': 'Denver Nuggets logo.webp',
+        'Thunder': 'Oklahoma City Thunder logo.png'
+    }
+
+    # Check if team has a special case
+    if team_name in special_cases:
+        path = base_dir / special_cases[team_name]
+        if path.exists():
+            return str(path)
+
+    # Standard naming: "{team_name} logo.{ext}"
+    extensions = ['.png', '.jpg', '.jpeg', '.svg', '.webp']
+
+    for ext in extensions:
+        path = base_dir / f"{team_name} logo{ext}"
+        if path.exists():
+            return str(path)
+
+    # Fallback: Try without "logo" suffix
+    for ext in extensions:
+        path = base_dir / f"{team_name}{ext}"
+        if path.exists():
+            return str(path)
+
+    return None
+
+
+# --- Player Profile Component ---
+
+def create_player_profile_component(df_players, component_id='star-profile', default_player=None):
+    """
+    Creates the player selection dropdown and placeholder for the player card.
 
     Args:
-        df_players: DataFrame with player data
-        component_id: Unique ID prefix for component elements
-        default_player: Default player to show (uses first if None)
-        card_color: Background color for card
-        accent_color: Accent color for text highlights
-        border_color: Border color
+        df_players: DataFrame with player data (must have 'star_player' or 'PLAYER' column)
+        component_id: Base ID for the component elements
+        default_player: Optional default player to select
 
     Returns:
-        Dash html.Div containing dropdown and profile card
+        Dash HTML component with dropdown and card container
     """
-    if default_player is None:
-        default_player = df_players.iloc[0]['PLAYER']
+    # Determine which column to use for player names
+    player_col = 'star_player' if 'star_player' in df_players.columns else 'PLAYER'
 
-    # Create player dropdown options
-    player_options = [
-        {'label': row['PLAYER'], 'value': row['PLAYER']}
-        for _, row in df_players.iterrows()
-    ]
+    if default_player is None and not df_players.empty:
+        default_player = df_players.iloc[0][player_col]
+
+    # Get unique player names for dropdown
+    unique_players = sorted(df_players[player_col].unique())
+    player_options = [{'label': player, 'value': player} for player in unique_players]
 
     return html.Div(
         style={'display': 'flex', 'flexDirection': 'column', 'gap': '15px'},
         children=[
-            # Player Dropdown Selector
+            # Player Selection Dropdown
             html.Div(
                 style={
-                    'backgroundColor': card_color,
-                    'padding': '12px',
-                    'borderRadius': '8px',
-                    'border': f'1px solid {border_color}'
+                    'backgroundColor': '#2A3642',
+                    'padding': '15px',
+                    'borderRadius': '10px',
+                    'border': '1px solid #00BFFF',
+                    'boxShadow': '0 4px 6px rgba(0, 0, 0, 0.3)'
                 },
                 children=[
                     html.Label(
-                        "Select Star Player:",
+                        "Select Star Player",
                         style={
-                            'color': 'white',
+                            'color': '#00BFFF',
                             'fontWeight': 'bold',
-                            'marginBottom': '8px',
+                            'marginBottom': '10px',
                             'display': 'block',
-                            'fontSize': '14px'
+                            'fontSize': '14px',
+                            'textTransform': 'uppercase',
+                            'letterSpacing': '1px'
                         }
                     ),
                     dcc.Dropdown(
@@ -164,241 +183,182 @@ def create_player_profile_component(
                         options=player_options,
                         value=default_player,
                         clearable=False,
-                        style={'fontFamily': 'Calibri, sans-serif'}
+                        style={
+                            'color': '#111',
+                            'borderRadius': '5px'
+                        }
                     )
                 ]
             ),
 
-            # Player Profile Card (will be populated by callback)
-            html.Div(
-                id=f'{component_id}-card-container',
-                children=[
-                    # Initial card with default player
-                    create_player_card_dash(
-                        df_players[df_players['PLAYER'] == default_player].iloc[0],
-                        card_color=card_color,
-                        accent_color=accent_color,
-                        border_color=border_color
-                    )
-                ]
-            )
+            # Player Card Container (populated by callback)
+            html.Div(id=f'{component_id}-card-container')
         ]
     )
 
 
-def create_player_card_dash(player_data, card_color='#2A3642', accent_color='#008080', border_color='#00BFFF'):
+def create_player_card_dash(player_data):
     """
-    Create player profile card using native Dash components.
+    Creates the 3-column player profile card with gradient background.
+
+    Layout:
+        Left: Player Photo
+        Center: Name, Height, Weight, Position
+        Right: Team Logo
 
     Args:
-        player_data: Dictionary or Series with player information
-        card_color: Background color
-        accent_color: Accent color for highlights
-        border_color: Border color
+        player_data: Series or dict with player information
 
     Returns:
-        Dash html.Div component with 3-column layout
+        Dash HTML component with the player card
     """
-    # Extract player info
-    name = player_data['PLAYER']
-    height = player_data['Height']
-    weight = player_data['Weight']
-    position = player_data['Position']
-    team = player_data['CURRENT_TEAM']
+    # Extract player information (support both column naming conventions)
+    name = player_data.get('star_player', player_data.get('PLAYER', 'Unknown'))
+    team = player_data.get('CURRENT_TEAM', 'NBA')
+    position = player_data.get('Position', 'N/A')
+    height = player_data.get('Height', 'N/A')
+    weight = player_data.get('Weight', 'N/A')
 
-    # Find and encode images
+    # Load images using the specialized functions
     player_img_path = find_player_image(name)
-    player_img_base64 = encode_image_to_base64(player_img_path)
-
     team_logo_path = find_team_logo(team)
-    team_logo_base64 = encode_image_to_base64(team_logo_path)
 
-    # Create the 3-column card
+    player_img_encoded = encode_image_to_base64(player_img_path)
+    team_logo_encoded = encode_image_to_base64(team_logo_path)
+
     return html.Div(
         style={
             'display': 'flex',
-            'backgroundColor': card_color,
-            'border': f'2px solid {border_color}',
-            'borderRadius': '10px',
-            'overflow': 'hidden',
-            'boxShadow': '0 4px 8px rgba(0, 191, 255, 0.3)',
-            'fontFamily': 'Calibri, sans-serif',
+            'background': 'linear-gradient(135deg, #1e2130 0%, #2a3142 50%, #1e2130 100%)',
+            'borderRadius': '15px',
+            'border': '2px solid #00BFFF',
+            'padding': '25px',
             'color': 'white',
-            'minHeight': '350px'
+            'alignItems': 'center',
+            'minHeight': '220px',
+            'boxShadow': '0 8px 16px rgba(0, 191, 255, 0.2)',
+            'position': 'relative',
+            'overflow': 'hidden'
         },
         children=[
-            # Left Panel: Player Photo
+            # Decorative background element
+            html.Div(style={
+                'position': 'absolute',
+                'top': '-50%',
+                'right': '-10%',
+                'width': '300px',
+                'height': '300px',
+                'background': 'radial-gradient(circle, rgba(0,191,255,0.1) 0%, transparent 70%)',
+                'borderRadius': '50%'
+            }),
+
+            # LEFT: Player Photo
             html.Div(
                 style={
                     'flex': '1',
+                    'textAlign': 'center',
                     'display': 'flex',
+                    'flexDirection': 'column',
                     'alignItems': 'center',
                     'justifyContent': 'center',
-                    'background': 'linear-gradient(135deg, rgba(0, 128, 128, 0.1), rgba(0, 191, 255, 0.1))',
-                    'padding': '20px'
+                    'zIndex': '1'
                 },
                 children=[
                     html.Img(
-                        src=player_img_base64,
+                        src=player_img_encoded if player_img_encoded else '',
                         style={
-                            'maxWidth': '100%',
-                            'maxHeight': '400px',
-                            'objectFit': 'contain',
-                            'borderRadius': '5px'
+                            'width': '150px',
+                            'height': '150px',
+                            'borderRadius': '50%',
+                            'objectFit': 'cover',
+                            'border': '3px solid #00BFFF',
+                            'backgroundColor': '#2A3642',
+                            'boxShadow': '0 4px 8px rgba(0, 0, 0, 0.4)'
                         }
-                    ) if player_img_base64 else html.Div(
-                        "No Photo Available",
-                        style={'color': 'gray', 'fontSize': '18px'}
+                    ) if player_img_encoded else html.Div(
+                        "No Photo",
+                        style={
+                            'width': '150px',
+                            'height': '150px',
+                            'borderRadius': '50%',
+                            'backgroundColor': '#2A3642',
+                            'border': '3px solid #00BFFF',
+                            'display': 'flex',
+                            'alignItems': 'center',
+                            'justifyContent': 'center',
+                            'color': '#666',
+                            'fontSize': '12px'
+                        }
                     )
                 ]
             ),
 
-            # Middle Panel: Player Stats
+            # CENTER: Bio Information
             html.Div(
                 style={
-                    'flex': '1',
-                    'padding': '30px',
-                    'display': 'flex',
-                    'flexDirection': 'column',
-                    'justifyContent': 'center'
+                    'flex': '1.5',
+                    'paddingLeft': '30px',
+                    'paddingRight': '20px',
+                    'zIndex': '1'
                 },
                 children=[
                     html.H2(
                         name,
                         style={
-                            'margin': '0 0 25px 0',
-                            'color': accent_color,
-                            'fontSize': '28px',
+                            'color': '#00BFFF',
+                            'marginBottom': '15px',
+                            'fontSize': '26px',
                             'fontWeight': 'bold',
-                            'borderBottom': f'2px solid {accent_color}',
-                            'paddingBottom': '10px'
+                            'textShadow': '0 2px 4px rgba(0, 0, 0, 0.5)'
                         }
                     ),
-
                     html.Div(
-                        style={'fontSize': '16px', 'lineHeight': '2.2'},
+                        style={'display': 'flex', 'flexDirection': 'column', 'gap': '8px'},
                         children=[
-                            html.Div([
-                                html.Span('Height:', style={'color': accent_color, 'fontWeight': 'bold'}),
-                                html.Span(f' {height}', style={'marginLeft': '10px'})
-                            ], style={'marginBottom': '10px'}),
-
-                            html.Div([
-                                html.Span('Weight:', style={'color': accent_color, 'fontWeight': 'bold'}),
-                                html.Span(f' {weight} lbs', style={'marginLeft': '10px'})
-                            ], style={'marginBottom': '10px'}),
-
-                            html.Div([
-                                html.Span('Position:', style={'color': accent_color, 'fontWeight': 'bold'}),
-                                html.Span(f' {position}', style={'marginLeft': '10px'})
-                            ], style={'marginBottom': '10px'})
+                            html.P([
+                                html.Span("Position: ", style={'color': '#888', 'fontWeight': 'normal'}),
+                                html.Span(position, style={'color': 'white', 'fontWeight': 'bold'})
+                            ], style={'margin': '0', 'fontSize': '15px'}),
+                            html.P([
+                                html.Span("Height: ", style={'color': '#888', 'fontWeight': 'normal'}),
+                                html.Span(height, style={'color': 'white', 'fontWeight': 'bold'})
+                            ], style={'margin': '0', 'fontSize': '15px'}),
+                            html.P([
+                                html.Span("Weight: ", style={'color': '#888', 'fontWeight': 'normal'}),
+                                html.Span(f"{weight} lbs", style={'color': 'white', 'fontWeight': 'bold'})
+                            ], style={'margin': '0', 'fontSize': '15px'}),
+                            html.P([
+                                html.Span("Team: ", style={'color': '#888', 'fontWeight': 'normal'}),
+                                html.Span(team, style={'color': '#00BFFF', 'fontWeight': 'bold'})
+                            ], style={'margin': '0', 'fontSize': '15px'})
                         ]
                     )
                 ]
             ),
 
-            # Right Panel: Team Logo Only
+            # RIGHT: Team Logo
             html.Div(
                 style={
                     'flex': '0.8',
+                    'textAlign': 'center',
                     'display': 'flex',
                     'alignItems': 'center',
                     'justifyContent': 'center',
-                    'background': 'rgba(0, 128, 128, 0.05)',
-                    'padding': '20px'
+                    'zIndex': '1'
                 },
                 children=[
                     html.Img(
-                        src=team_logo_base64,
+                        src=team_logo_encoded if team_logo_encoded else '',
                         style={
-                            'maxWidth': '150px',
-                            'maxHeight': '150px',
-                            'objectFit': 'contain'
+                            'width': '100px',
+                            'height': '100px',
+                            'objectFit': 'contain',
+                            'filter': 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4))'
                         }
-                    ) if team_logo_base64 else html.Div(
-                        "No Logo",
-                        style={'color': 'gray', 'fontSize': '14px'}
+                    ) if team_logo_encoded else html.Div(
+                        style={'height': '100px'}
                     )
                 ]
             )
         ]
     )
-
-
-# Callback registration function
-
-def register_player_profile_callbacks(app, df_players, component_id='player-profile'):
-    """
-    Register callbacks for player profile component.
-
-    Args:
-        app: Dash app instance
-        df_players: DataFrame with player data
-        component_id: Component ID prefix (must match component creation)
-    """
-
-    @app.callback(
-        Output(f'{component_id}-card-container', 'children'),
-        Input(f'{component_id}-player-dropdown', 'value')
-    )
-    def update_player_card(selected_player):
-        """Update player card when dropdown selection changes."""
-        if not selected_player:
-            selected_player = df_players.iloc[0]['PLAYER']
-
-        # Get player data
-        player_row = df_players[df_players['PLAYER'] == selected_player]
-
-        if player_row.empty:
-            return html.Div("Player not found", style={'color': 'red', 'padding': '20px'})
-
-        # Create and return updated card
-        return create_player_card_dash(player_row.iloc[0])
-
-
-# Example usage documentation
-INTEGRATION_EXAMPLE = """
-# How to integrate into your main dashboard:
-
-## Step 1: Import in your layout file (src/app/__init__.py)
-
-from src.data.load_players import load_player_data
-from src.app.components.player_profile import (
-    create_player_profile_component,
-    register_player_profile_callbacks
-)
-
-# Load data
-df_players = load_player_data('star_graph_data/allstar_data.csv')
-
-## Step 2: Add to your layout
-
-layout = html.Div([
-    # ... your existing components ...
-
-    create_player_profile_component(
-        df_players=df_players,
-        component_id='star-profile',
-        default_player=df_players.iloc[0]['PLAYER']
-    ),
-
-    # ... more components ...
-])
-
-## Step 3: Register callbacks
-
-register_player_profile_callbacks(
-    app,
-    df_players=df_players,
-    component_id='star-profile'
-)
-
-## Done!
-The player profile component is now integrated with dropdown selection.
-"""
-
-if __name__ == '__main__':
-    print("="*60)
-    print("Player Profile Component - Integration Guide")
-    print("="*60)
-    print(INTEGRATION_EXAMPLE)

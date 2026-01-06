@@ -1,368 +1,143 @@
-"""
-Main Dashboard Layout
-
-Integrates all NBA lineup analysis components into a unified 3-column dashboard:
-- Left: Player selector + Player profile + Opponent placeholder
-- Center: Shot chart heatmap
-- Right: Lineup dropdown + Efficiency + Tendency radar
-"""
-
 from dash import html, dcc
-import pandas as pd
-from pathlib import Path
+from src.app.components.player_profile import create_player_profile_component
+from src.app.components.team_vs_opp_placeholder import create_team_vs_opp_placeholder
 
-# Import data loaders
-import sys
-sys.path.insert(0, str(Path(__file__).parent.parent))
-from src.data.load_players import load_player_data
-from src.data.load_efficiency import load_efficiency_data
-from src.data.load_tendencies import load_tendency_data, normalize_metrics, create_lineup_label
-
-# Import components
-from src.app.components.efficiency_landscape import create_efficiency_component
-from src.app.components.opponent_placeholder import create_opponent_placeholder
-from src.app.components.tendency_radar import create_tendency_radar_component
-
-
-# Styling constants
-DARK_BG = '#1E2833'
-CARD_BG = '#2A3642'
-ACCENT_COLOR = '#008080'
-BORDER_COLOR = '#00BFFF'
-FONT_FAMILY = 'Calibri, sans-serif'
-
-
-def create_layout(app):
+def create_layout(app, df_players):
     """
-    Create the main dashboard layout with all integrated components.
+    Creates the main dashboard layout with hierarchical filtering.
+
+    Args:
+        app: Dash application instance
+        df_players: DataFrame with player data (efficiency data with star_player column)
 
     Returns:
-        Dash html.Div containing the complete dashboard
+        Dash HTML component with complete dashboard layout
     """
+    if df_players is None or df_players.empty:
+        return html.Div("Error: Data could not be loaded.", style={'color': 'red', 'textAlign': 'center'})
 
-    # Load all data
-    try:
-        df_players = load_player_data('data/raw/allstar_data.csv')
-        df_efficiency = load_efficiency_data('data/processed/luka_efficiency_graph_data.csv')
-        df_tendencies = load_tendency_data('data/processed/luka_team_tendencies_graph_data.csv')
-        df_tendencies = normalize_metrics(df_tendencies)
-
-        # Get player options for dropdown
-        player_options = [{'label': name, 'value': name} for name in sorted(df_players['PLAYER'].unique())]
-        default_player = 'Luka Dončić' if 'Luka Dončić' in df_players['PLAYER'].values else player_options[0]['value']
-
-        # Create lineup options for DROPDOWN (not checklist)
-        lineup_options = []
-        for i in range(len(df_efficiency)):
-            label = create_lineup_label(df_efficiency.iloc[i])
-            lineup_options.append({
-                'label': f"#{i+1}: {label}",
-                'value': i
-            })
-
-    except Exception as e:
-        print(f"Error loading data: {e}")
-        return html.Div([
-            html.H1("Error Loading Dashboard", style={'color': 'red', 'textAlign': 'center', 'fontFamily': FONT_FAMILY}),
-            html.P(f"Error: {str(e)}", style={'color': 'white', 'textAlign': 'center', 'fontFamily': FONT_FAMILY})
-        ], style={'backgroundColor': DARK_BG, 'padding': '40px', 'minHeight': '100vh'})
-
-    # Create main layout
     return html.Div(
         style={
-            'backgroundColor': DARK_BG,
+            'backgroundColor': '#0b1019',
             'minHeight': '100vh',
-            'padding': '8px 12px',
-            'fontFamily': FONT_FAMILY
+            'padding': '20px',
+            'fontFamily': 'Segoe UI, sans-serif',
+            'color': 'white'
         },
         children=[
-            # Header
-            html.H1(
-                "NBA Lineup Analysis Dashboard",
-                style={
-                    'textAlign': 'center',
-                    'color': ACCENT_COLOR,
-                    'marginBottom': '5px',
-                    'fontSize': '28px',
-                    'fontWeight': 'bold',
-                    'fontFamily': FONT_FAMILY
-                }
-            ),
-
-            html.H3(
-                "Strategic Insights for Star-Driven Lineups",
-                style={
-                    'textAlign': 'center',
-                    'color': 'rgba(255, 255, 255, 0.7)',
-                    'marginBottom': '10px',
-                    'fontSize': '14px',
-                    'fontWeight': 'normal',
-                    'fontFamily': FONT_FAMILY
-                }
-            ),
-
-            html.Hr(style={'borderColor': BORDER_COLOR, 'margin': '10px 0'}),
-
-            # Main 3-column layout
+            # --- HEADER ---
             html.Div(
-                style={
-                    'display': 'flex',
-                    'gap': '10px',
-                    'alignItems': 'flex-start'
-                },
+                style={'textAlign': 'center', 'marginBottom': '30px', 'borderBottom': '2px solid rgba(0, 191, 255, 0.3)'},
                 children=[
-                    # LEFT COLUMN (flex: 1.5)
+                    html.H1("🏀 NBA Lineup Strategic Analysis Dashboard",
+                            style={'color': '#00BFFF', 'fontSize': '32px', 'margin': '0'}),
+                    html.P("Strategic Insights for Star-Driven Lineups",
+                           style={'color': '#8e9aaf', 'fontSize': '14px'})
+                ]
+            ),
+
+            # --- MAIN CONTENT AREA ---
+            html.Div(
+                style={'display': 'flex', 'gap': '25px', 'alignItems': 'flex-start'},
+                children=[
+
+                    # ======================
+                    # SIDEBAR (Left Column)
+                    # ======================
                     html.Div(
-                        style={'flex': '1.5', 'minWidth': '280px'},
+                        style={'flex': '0 0 380px', 'display': 'flex', 'flexDirection': 'column', 'gap': '20px'},
                         children=[
-                            # Star Player Selector (moved here)
-                            html.Div(
-                                style={
-                                    'backgroundColor': CARD_BG,
-                                    'padding': '10px',
-                                    'borderRadius': '8px',
-                                    'marginBottom': '10px',
-                                    'border': f'2px solid {BORDER_COLOR}'
-                                },
-                                children=[
-                                    html.Label(
-                                        "Select Star Player:",
-                                        style={
-                                            'color': 'white',
-                                            'fontWeight': 'bold',
-                                            'fontSize': '13px',
-                                            'marginBottom': '6px',
-                                            'display': 'block',
-                                            'fontFamily': FONT_FAMILY
-                                        }
-                                    ),
-                                    dcc.Dropdown(
-                                        id='global-star-player-dropdown',
-                                        options=player_options,
-                                        value=default_player,
-                                        clearable=False,
-                                        style={'fontFamily': FONT_FAMILY, 'fontSize': '13px'}
-                                    )
-                                ]
+                            # Player selection and profile (includes image and bio data)
+                            create_player_profile_component(
+                                df_players=df_players,
+                                component_id='star-profile'
                             ),
 
-                            # Player Profile Card
-                            html.Div(
-                                style={'marginBottom': '10px'},
-                                children=[
-                                    html.H2(
-                                        "Star Player Profile",
-                                        style={
-                                            'color': ACCENT_COLOR,
-                                            'fontSize': '16px',
-                                            'marginBottom': '8px',
-                                            'fontWeight': 'bold',
-                                            'fontFamily': FONT_FAMILY
-                                        }
-                                    ),
-                                    html.Div(
-                                        id='player-profile-container',
-                                        children=[]  # Will be populated by callback
-                                    )
-                                ]
-                            ),
-
-                            # Opponent Placeholder
-                            html.Div(
-                                children=[
-                                    html.H2(
-                                        "Matchup Analysis",
-                                        style={
-                                            'color': ACCENT_COLOR,
-                                            'fontSize': '16px',
-                                            'marginBottom': '8px',
-                                            'fontWeight': 'bold',
-                                            'fontFamily': FONT_FAMILY
-                                        }
-                                    ),
-                                    create_opponent_placeholder(
-                                        component_id='opponent',
-                                        height=200,
-                                        card_color=CARD_BG,
-                                        accent_color=ACCENT_COLOR,
-                                        border_color=BORDER_COLOR
-                                    )
-                                ]
-                            )
+                            # Matchup analysis placeholder
+                            create_team_vs_opp_placeholder()
                         ]
                     ),
 
-                    # CENTER COLUMN (flex: 3)
+                    # =============================
+                    # MAIN VISUALIZATION AREA (Right)
+                    # =============================
                     html.Div(
-                        style={'flex': '3', 'minWidth': '550px'},
+                        style={'flex': '1', 'display': 'flex', 'flexDirection': 'column', 'gap': '20px'},
                         children=[
-                            html.H2(
-                                "Shot Chart",
-                                style={
-                                    'color': ACCENT_COLOR,
-                                    'fontSize': '16px',
-                                    'marginBottom': '8px',
-                                    'fontWeight': 'bold',
-                                    'textAlign': 'center',
-                                    'fontFamily': FONT_FAMILY
-                                }
-                            ),
 
+                            # Top control bar: Graph title + Compact lineup filter
                             html.Div(
                                 style={
-                                    'backgroundColor': CARD_BG,
-                                    'padding': '8px',
-                                    'borderRadius': '8px',
-                                    'border': f'2px solid {BORDER_COLOR}',
                                     'display': 'flex',
-                                    'justifyContent': 'center',
-                                    'width': '100%',
+                                    'justifyContent': 'space-between',
+                                    'alignItems': 'center',
+                                    'backgroundColor': '#161d2b',
+                                    'padding': '12px 20px',
+                                    'borderRadius': '12px',
+                                    'border': '1px solid #2d384d',
                                     'marginBottom': '10px'
                                 },
                                 children=[
-                                    dcc.Graph(
-                                        id='shot-chart-graph',
-                                        config={
-                                            'displayModeBar': True,
-                                            'displaylogo': False,
-                                            'toImageButtonOptions': {
-                                                'format': 'png',
-                                                'filename': 'shot_chart',
-                                                'height': 1200,
-                                                'width': 1000,
-                                                'scale': 2
-                                            }
-                                        },
-                                        style={'fontFamily': FONT_FAMILY, 'width': '100%'}
-                                    )
-                                ]
-                            ),
+                                    html.H4(id='shot-chart-title', children="Shot Chart",
+                                            style={'color': '#00BFFF', 'margin': '0', 'fontSize': '18px'}),
 
-                            # Efficiency Landscape
-                            html.Div(
-                                children=[
-                                    html.H2(
-                                       # "Efficiency Landscape",
-                                        style={
-                                            'color': ACCENT_COLOR,
-                                            'fontSize': '16px',
-                                            'marginBottom': '8px',
-                                            'fontWeight': 'bold',
-                                            'textAlign': 'center',
-                                            'fontFamily': FONT_FAMILY
-                                        }
-                                    ),
-                                    create_efficiency_component(
-                                        df_efficiency=df_efficiency,
-                                        component_id='efficiency',
-                                        star_player=default_player,
-                                        height=240,
-                                        card_color=CARD_BG,
-                                        accent_color=ACCENT_COLOR,
-                                        border_color=BORDER_COLOR
-                                    )
-                                ]
-                            )
-                        ]
-                    ),
-
-                    # RIGHT COLUMN (flex: 2.5)
-                    html.Div(
-                        style={'flex': '2.5', 'minWidth': '340px'},
-                        children=[
-                            # Lineup Selector - COMPACT DROPDOWN
-                            html.Div(
-                                style={
-                                    'backgroundColor': CARD_BG,
-                                    'padding': '10px',
-                                    'borderRadius': '8px',
-                                    'marginBottom': '10px',
-                                    'border': f'2px solid {BORDER_COLOR}'
-                                },
-                                children=[
-                                    html.Label(
-                                        "Select Lineups to Compare:",
-                                        style={
-                                            'color': 'white',
-                                            'fontWeight': 'bold',
-                                            'fontSize': '13px',
-                                            'marginBottom': '6px',
-                                            'display': 'block',
-                                            'fontFamily': FONT_FAMILY
-                                        }
-                                    ),
-
-                                    dcc.Dropdown(
-                                        id='lineup-comparison-dropdown',
-                                        options=lineup_options,
-                                        value=[0, 5, 10],  # Default: 3 lineups
-                                        multi=True,
-                                        searchable=True,
-                                        placeholder="Click to select lineups...",
-                                        style={
-                                            'fontFamily': FONT_FAMILY,
-                                            'fontSize': '13px'
-                                        },
-                                        className='custom-dropdown'
-                                    ),
-
+                                    # Compact lineup selector (Fixed Height, No visible tags)
                                     html.Div(
-                                        id='lineup-selection-summary',
                                         style={
-                                            'color': 'rgba(255, 255, 255, 0.7)',
-                                            'fontSize': '11px',
-                                            'marginTop': '6px',
-                                            'marginBottom': '0',
-                                            'fontFamily': FONT_FAMILY
-                                        }
+                                            'width': '280px',
+                                            'display': 'flex',
+                                            'flexDirection': 'column',
+                                            'gap': '4px'
+                                        },
+                                        children=[
+                                            html.Label("Select Lineups:",
+                                                       style={'fontSize': '11px', 'color': 'rgba(255,255,255,0.7)', 'fontWeight': 'bold', 'marginBottom': '2px'}),
+                                            dcc.Dropdown(
+                                                id='lineup-dropdown',
+                                                options=[], # Populated by callback
+                                                multi=True,
+                                                placeholder="Click to select...",
+                                                className="custom-clean-dropdown",
+                                                style={'fontSize': '13px'}
+                                            )
+                                        ]
                                     )
                                 ]
                             ),
 
-                            # Tendency Radar
+                            # SHOT CHART graph (colors: deep green and red)
                             html.Div(
+                                style={'backgroundColor': '#161d2b', 'borderRadius': '15px', 'padding': '20px', 'border': '1px solid #2d384d'},
                                 children=[
-                                    html.H2(
-                                       # "Lineup Tendency Profile",
-                                        style={
-                                            'color': ACCENT_COLOR,
-                                            'fontSize': '16px',
-                                            'marginBottom': '8px',
-                                            'fontWeight': 'bold',
-                                            'fontFamily': FONT_FAMILY
-                                        }
+                                    dcc.Graph(id='shot-chart-graph', style={'height': '500px'})
+                                ]
+                            ),
+
+                            # Bottom row: Radar (orange-brown) + Efficiency
+                            html.Div(
+                                style={'display': 'flex', 'gap': '20px'},
+                                children=[
+                                    # Tendency Radar
+                                    html.Div(
+                                        style={'flex': '1', 'backgroundColor': '#161d2b', 'borderRadius': '15px', 'padding': '20px', 'border': '1px solid #2d384d'},
+                                        children=[
+                                            html.H5(id='radar-chart-title', children="Luka Dončić - Lineup Tendency Profile", style={'color': '#00BFFF'}),
+                                            dcc.Graph(id='tendency-radar-graph', style={'height': '350px'})
+                                        ]
                                     ),
-                                    create_tendency_radar_component(
-                                        df_tendencies=df_tendencies,
-                                        default_lineups=[0, 5, 10],
-                                        component_id='tendency-radar',
-                                        star_player=default_player,
-                                        external_checklist_id='lineup-comparison-dropdown',
-                                        show_internal_checklist=False,
-                                        card_color=CARD_BG,
-                                        accent_color=BORDER_COLOR,
-                                        header_color=ACCENT_COLOR
+                                    # Efficiency Landscape
+                                    html.Div(
+                                        style={'flex': '1', 'backgroundColor': '#161d2b', 'borderRadius': '15px', 'padding': '20px', 'border': '1px solid #2d384d'},
+                                        children=[
+                                            html.H5("Efficiency Landscape", style={'color': '#00BFFF'}),
+                                            dcc.Graph(id='efficiency-graph', style={'height': '350px'})
+                                        ]
                                     )
                                 ]
                             )
                         ]
                     )
                 ]
-            ),
-
-            # Footer
-            html.Hr(style={'borderColor': BORDER_COLOR, 'margin': '10px 0'}),
-
-            html.P(
-                "NBA Lineup Analysis Dashboard | Data from NBA Stats API | Built with Dash & Plotly",
-                style={
-                    'textAlign': 'center',
-                    'color': 'rgba(255, 255, 255, 0.4)',
-                    'fontSize': '11px',
-                    'marginBottom': '5px',
-                    'marginTop': '5px',
-                    'fontFamily': FONT_FAMILY
-                }
             )
         ]
     )

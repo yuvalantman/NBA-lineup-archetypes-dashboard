@@ -1,444 +1,302 @@
 """
-Dashboard Callbacks
-
-Registers all callbacks for the integrated NBA lineup analysis dashboard:
-1. Star player filter → Player profile card + Shot chart
-2. Lineup dropdown → Efficiency landscape + Tendency radar
+Callback Functions for NBA Dashboard
+Implements hierarchical filtering with multi-select comparative analysis.
 """
 
-from dash import Input, Output, html
-import pandas as pd
-from pathlib import Path
-import base64
+import plotly.graph_objects as go
+from dash import Input, Output
 
-# Import data loaders
-import sys
-sys.path.insert(0, str(Path(__file__).parent.parent))
-from data.load_players import load_player_data
-from data.load_efficiency import load_efficiency_data
-from data.load_tendencies import load_tendency_data, normalize_metrics
-
-# Import component callback registration
-from .components.efficiency_landscape import register_efficiency_callbacks
-from .components.tendency_radar import register_tendency_radar_callbacks
+# Import component creation functions
+from src.app.components.player_profile import create_player_card_dash
+from src.app.components.efficiency_landscape import create_efficiency_landscape
+from src.app.components.tendency_radar_chart import create_tendency_radar
+from src.app.components.shot_chart import create_shot_chart
 
 
-# Styling constants (match layout.py)
-CARD_BG = '#2A3642'
-ACCENT_COLOR = '#008080'
-BORDER_COLOR = '#00BFFF'
-FONT_FAMILY = 'Calibri, sans-serif'
-
-
-# Helper functions for finding and encoding images
-def find_player_image(player_name, images_dir='assets/images/player_photos'):
-    """Find player image file with flexible matching."""
-    extensions = ['.png', '.jpg', '.jpeg', '.webp', '.avif']
-
-    # Try exact match
-    for ext in extensions:
-        exact_path = Path(images_dir) / f"{player_name}{ext}"
-        if exact_path.exists():
-            return str(exact_path)
-
-    # Try with trailing space
-    for ext in extensions:
-        space_path = Path(images_dir) / f"{player_name} {ext}"
-        if space_path.exists():
-            return str(space_path)
-
-    # Try with leading space
-    for ext in extensions:
-        leading_space_path = Path(images_dir) / f" {player_name}{ext}"
-        if leading_space_path.exists():
-            return str(leading_space_path)
-
-    # Special case for Nikola Jokić
-    if player_name == "Nikola Jokić":
-        special_path = Path(images_dir) / "nikola-jokic-2-1.jpg.webp"
-        if special_path.exists():
-            return str(special_path)
-
-    # Fallback: search by last name
-    last_name = player_name.split()[-1]
-    for file_path in Path(images_dir).glob('*'):
-        if last_name.lower() in file_path.name.lower():
-            return str(file_path)
-
-    return None
-
-
-def find_team_logo(team_name, logos_dir='assets/logos'):
-    """Find team logo file with flexible matching."""
-    extensions = ['.png', '.jpg', '.jpeg', '.webp', '.svg']
-
-    # Try standard format
-    for ext in extensions:
-        logo_path = Path(logos_dir) / f"{team_name} logo{ext}"
-        if logo_path.exists():
-            return str(logo_path)
-
-    # Special cases for known mismatches
-    special_cases = {
-        'Los Angeles Lakers': 'Los_Angeles_Lakers_logo.svg.png',
-        'Houston Rockets': 'Houston Rockets  logo.png',
-        'Minnesota Timberwolves': 'Minnesota Timberwolves logo.svg'
-    }
-
-    if team_name in special_cases:
-        special_path = Path(logos_dir) / special_cases[team_name]
-        if special_path.exists():
-            return str(special_path)
-
-    # Fallback: search by team keyword
-    team_keywords = team_name.split()[-1]
-    for file_path in Path(logos_dir).glob('*'):
-        if team_keywords.lower() in file_path.name.lower():
-            return str(file_path)
-
-    return None
-
-
-def encode_image_to_base64(image_path):
-    """Convert image file to base64 for embedding in HTML."""
-    if not image_path or not Path(image_path).exists():
-        return None
-
-    with open(image_path, 'rb') as f:
-        encoded = base64.b64encode(f.read()).decode()
-
-    ext = Path(image_path).suffix.lower()
-    mime_types = {
-        '.png': 'image/png',
-        '.jpg': 'image/jpeg',
-        '.jpeg': 'image/jpeg',
-        '.webp': 'image/webp',
-        '.avif': 'image/avif',
-        '.svg': 'image/svg+xml'
-    }
-
-    mime = mime_types.get(ext, 'image/png')
-    return f"data:{mime};base64,{encoded}"
-
-
-def create_player_card_dash(player_data, card_color='#2A3642', accent_color='#008080', border_color='#00BFFF'):
-    """Create player profile card using native Dash components."""
-    # Extract player info
-    name = player_data['PLAYER']
-    height = player_data['Height']
-    weight = player_data['Weight']
-    position = player_data['Position']
-    team = player_data['CURRENT_TEAM']
-
-    # Find and encode images
-    player_img_path = find_player_image(name)
-    player_img_base64 = encode_image_to_base64(player_img_path)
-
-    team_logo_path = find_team_logo(team)
-    team_logo_base64 = encode_image_to_base64(team_logo_path)
-
-    # Create the 3-column card
-    return html.Div(
-        style={
-            'display': 'flex',
-            'alignItems': 'center',
-            'justifyContent': 'space-between',
-            'backgroundColor': card_color,
-            'padding': '12px',
-            'borderRadius': '8px',
-            'border': f'2px solid {border_color}',
-            'gap': '12px',
-            'fontFamily': FONT_FAMILY
-        },
-        children=[
-            # Left: Player Photo
-            html.Div(
-                style={'flex': '1', 'display': 'flex', 'justifyContent': 'center'},
-                children=[
-                    html.Img(
-                        src=player_img_base64 if player_img_base64 else '',
-                        style={
-                            'width': '100px',
-                            'height': '100px',
-                            'borderRadius': '50%',
-                            'objectFit': 'cover',
-                            'border': f'3px solid {accent_color}',
-                            'display': 'block' if player_img_base64 else 'none'
-                        }
-                    ) if player_img_base64 else html.Div(
-                        "📷",
-                        style={
-                            'fontSize': '60px',
-                            'opacity': '0.3',
-                            'textAlign': 'center'
-                        }
-                    )
-                ]
-            ),
-
-            # Middle: Player Stats
-            html.Div(
-                style={'flex': '2', 'color': 'white'},
-                children=[
-                    html.H2(
-                        name,
-                        style={
-                            'margin': '0 0 10px 0',
-                            'fontSize': '20px',
-                            'color': accent_color,
-                            'fontWeight': 'bold',
-                            'fontFamily': FONT_FAMILY
-                        }
-                    ),
-                    html.Div(
-                        [
-                            html.Div(f"Height: {height}", style={'fontSize': '14px', 'marginBottom': '5px', 'fontFamily': FONT_FAMILY}),
-                            html.Div(f"Weight: {weight}", style={'fontSize': '14px', 'marginBottom': '5px', 'fontFamily': FONT_FAMILY}),
-                            html.Div(f"Position: {position}", style={'fontSize': '14px', 'fontFamily': FONT_FAMILY})
-                        ]
-                    )
-                ]
-            ),
-
-            # Right: Team Logo
-            html.Div(
-                style={'flex': '1', 'display': 'flex', 'justifyContent': 'center'},
-                children=[
-                    html.Img(
-                        src=team_logo_base64 if team_logo_base64 else '',
-                        style={
-                            'maxWidth': '80px',
-                            'maxHeight': '80px',
-                            'objectFit': 'contain',
-                            'display': 'block' if team_logo_base64 else 'none'
-                        }
-                    ) if team_logo_base64 else html.Div(
-                        "🏀",
-                        style={
-                            'fontSize': '50px',
-                            'opacity': '0.3',
-                            'textAlign': 'center'
-                        }
-                    )
-                ]
-            )
-        ]
-    )
-
-
-def register_callbacks(app):
+def register_callbacks(app, df_efficiency, df_tendencies, df_shots):
     """
-    Register all dashboard callbacks.
+    Registers all Dash callbacks with hierarchical filtering logic.
+
+    Filtering Hierarchy:
+        Level 1: Star Player Selection
+            - Updates Player Profile Card
+            - Filters Lineup Archetype options
+
+        Level 2: Lineup Archetype Selection (Multi-select)
+            - Filters all visualizations (Shot Chart, Radar, Efficiency)
+            - Supports comparative analysis with multiple lineups
 
     Args:
-        app: Dash app instance
+        app: Dash application instance
+        df_efficiency: DataFrame with efficiency data
+        df_tendencies: DataFrame with tendency data
+        df_shots: DataFrame with shot location data
     """
 
-    # Load data (needed for callbacks)
-    df_players = load_player_data('data/raw/allstar_data.csv')
-    df_efficiency = load_efficiency_data('data/processed/luka_efficiency_graph_data.csv')
-    df_tendencies = load_tendency_data('data/processed/luka_team_tendencies_graph_data.csv')
-    df_tendencies = normalize_metrics(df_tendencies)
+    # --- LEVEL 1 FILTERING: Player Selection ---
 
-    # Load shot data
-    df_shots = pd.read_csv('data/raw/allstar_shots_with_lineups.csv')
-
-    # ========================================
-    # CALLBACK 1: Star Player → Player Profile Card
-    # ========================================
     @app.callback(
-        Output('player-profile-container', 'children'),
-        Input('global-star-player-dropdown', 'value')
+        [Output('star-profile-card-container', 'children'),
+         Output('shot-chart-title', 'children'),
+         Output('radar-chart-title', 'children')],
+        Input('star-profile-player-dropdown', 'value')
     )
-    def update_player_profile(selected_player):
-        """Update player profile card when star player changes."""
-        if not selected_player:
-            return []
+    def update_player_card_and_titles(selected_player):
+        """
+        Updates the player profile card when a player is selected.
 
-        # Get player data
-        player_row = df_players[df_players['PLAYER'] == selected_player]
+        This is the first level of filtering - updates the UI to show
+        the selected player's information and graph titles.
 
-        if player_row.empty:
-            return html.Div(
-                f"Player '{selected_player}' not found",
-                style={'color': 'red', 'padding': '20px', 'fontFamily': FONT_FAMILY}
-            )
+        Args:
+            selected_player: Name of the selected star player
 
-        player_data = player_row.iloc[0]
+        Returns:
+            Tuple of (player card, shot chart title, radar chart title)
+        """
+        if not selected_player or df_efficiency.empty:
+            return None, "Shot Chart", "Lineup Tendency Profile"
 
-        # Create player card
-        return create_player_card_dash(
-            player_data=player_data,
-            card_color=CARD_BG,
-            accent_color=ACCENT_COLOR,
-            border_color=BORDER_COLOR
+        # Get the first row for this player (for card display)
+        player_data = df_efficiency[df_efficiency['star_player'] == selected_player]
+
+        if player_data.empty:
+            return None, "Shot Chart", "Lineup Tendency Profile"
+
+        # Create dynamic titles with player name
+        shot_title = f"{selected_player} - Shot Chart"
+        radar_title = f"{selected_player} - Lineup Tendency Profile"
+
+        # Use the first lineup's data for the player card
+        return (
+            create_player_card_dash(player_data.iloc[0]),
+            shot_title,
+            radar_title
         )
 
-    # ========================================
-    # CALLBACK 2: Star Player → Shot Chart
-    # ========================================
+
     @app.callback(
-        Output('shot-chart-graph', 'figure'),
-        Input('global-star-player-dropdown', 'value')
+        [Output('lineup-dropdown', 'options'),
+         Output('lineup-dropdown', 'value')],
+        Input('star-profile-player-dropdown', 'value')
     )
-    def update_shot_chart(selected_player):
-        """Update shot chart when star player changes."""
+    def update_lineup_options(selected_player):
+        """
+        Updates lineup dropdown options based on selected player.
+
+        This filters the available lineups to only show those that
+        include the selected star player.
+
+        Args:
+            selected_player: Name of the selected star player
+
+        Returns:
+            Tuple of (dropdown options, default selected values)
+        """
+        if not selected_player or df_efficiency.empty:
+            return [], []
+
+        # Filter efficiency data for selected player
+        player_df = df_efficiency[df_efficiency['star_player'] == selected_player]
+
+        if 'LINEUP_ARCHETYPE' in player_df.columns:
+            unique_lineups = player_df['LINEUP_ARCHETYPE'].unique()
+            options = [{'label': lineup, 'value': lineup} for lineup in unique_lineups]
+
+            # For multi-select, default to first lineup only
+            default_value = [options[0]['value']] if options else []
+
+            return options, default_value
+
+        return [], []
+
+
+    # --- LEVEL 2 FILTERING: Lineup Selection (Multi-select) ---
+
+    @app.callback(
+        [Output('efficiency-graph', 'figure'),
+         Output('tendency-radar-graph', 'figure'),
+         Output('shot-chart-graph', 'figure')],
+        [Input('star-profile-player-dropdown', 'value'),
+         Input('lineup-dropdown', 'value')]
+    )
+    def update_all_visualizations(selected_player, selected_lineups):
+        """
+        Updates all three visualization graphs with hierarchical filtering.
+
+        Filtering Logic:
+            1. First filters by star_player
+            2. Then filters by selected lineup(s) from dropdown
+            3. Supports multiple lineup selection for comparison
+
+        Args:
+            selected_player: Name of the selected star player
+            selected_lineups: List of selected lineup archetypes (multi-select)
+
+        Returns:
+            Tuple of (efficiency_fig, radar_fig, shot_fig)
+        """
+        # Default empty figure
+        empty_fig = go.Figure().update_layout(
+            template="plotly_dark",
+            paper_bgcolor='rgba(0,0,0,0)'
+        )
+
+        # If no player selected, return empty figures
         if not selected_player:
-            # Return empty figure
-            import plotly.graph_objects as go
-            fig = go.Figure()
-            fig.add_annotation(
-                text="Select a star player to view shot chart",
-                xref="paper", yref="paper",
-                x=0.5, y=0.5, showarrow=False,
-                font=dict(size=16, color='white', family=FONT_FAMILY)
-            )
-            fig.update_layout(
-                height=580, width=800,
-                plot_bgcolor='#1a2332',  # Dark blue background
-                paper_bgcolor='#1a2332',  # Dark blue background
-                font=dict(color='white', family=FONT_FAMILY)
-            )
-            return fig
+            return [empty_fig] * 3
 
-        # Filter shots for selected player
-        player_shots = df_shots[df_shots['PLAYER_NAME'] == selected_player]
+        # Ensure selected_lineups is a list (handle both single and multi-select)
+        if not isinstance(selected_lineups, list):
+            selected_lineups = [selected_lineups] if selected_lineups else []
 
-        if player_shots.empty:
-            # No data - return empty figure
-            import plotly.graph_objects as go
-            fig = go.Figure()
-            fig.add_annotation(
-                text=f"No shot data available for {selected_player}",
-                xref="paper", yref="paper",
-                x=0.5, y=0.5, showarrow=False,
-                font=dict(size=16, color='white', family=FONT_FAMILY)
-            )
-            fig.update_layout(
-                height=580, width=800,
-                plot_bgcolor='#1a2332',  # Dark blue background
-                paper_bgcolor='#1a2332',  # Dark blue background
-                font=dict(color='white', family=FONT_FAMILY)
-            )
-            return fig
+        # --- 1. EFFICIENCY LANDSCAPE ---
+        # Shows ALL lineups for the selected player
+        # Highlights the selected lineup(s)
+        player_efficiency = df_efficiency[df_efficiency['star_player'] == selected_player]
 
-        # Create shot chart with POINT-BASED HEATMAP
-        import plotly.graph_objects as go
-        from src.app.components.court_visualization import draw_nba_court
-
-        # Calculate FG% for coloring
-        player_shots['FG_PCT'] = player_shots['SHOT_MADE_FLAG']
-
-        # Create color based on shot result
-        colors = player_shots['SHOT_MADE_FLAG'].apply(
-            lambda x: '#4CAF50' if x == 1 else '#F44336'  # Green for made, red for missed
+        # For efficiency, highlight all selected lineups
+        fig_efficiency = create_efficiency_landscape(
+            player_efficiency,
+            selected_lineups  # Pass list of selected lineups for highlighting
         )
 
-        # Create figure
-        fig = go.Figure()
+        # If no lineup selected yet, return efficiency graph only
+        if not selected_lineups:
+            return fig_efficiency, empty_fig, empty_fig
 
-        # Draw court first with dark blue background
-        fig = draw_nba_court(
-            fig=fig,
-            line_color='white',
-            line_width=2,
-            court_background='rgba(0,0,0,0)'
-        )
+        # --- 2. TENDENCY RADAR CHART ---
+        # For comparative analysis: overlay multiple lineups if selected
+        # Or show single lineup if only one is selected
 
-        # Add shot points
-        fig.add_trace(go.Scatter(
-            x=player_shots['LOC_X'],
-            y=player_shots['LOC_Y'],
-            mode='markers',
-            marker=dict(
-                size=8,
-                color=colors,
-                opacity=0.6,
-                line=dict(width=0.5, color='white')
-            ),
-            text=[
-                f"<b>{selected_player}</b><br>" +
-                f"Distance: {int(row['SHOT_DISTANCE'])}ft<br>" +
-                f"Zone: {row['SHOT_ZONE_BASIC']}<br>" +
-                f"Result: {'Made' if row['SHOT_MADE_FLAG'] == 1 else 'Missed'}"
-                for _, row in player_shots.iterrows()
-            ],
-            hovertemplate='%{text}<extra></extra>',
-            showlegend=False
+        if len(selected_lineups) == 1:
+            # Single lineup selected - show standard radar
+            player_tendency = df_tendencies[
+                (df_tendencies['star_player'] == selected_player) &
+                (df_tendencies['LINEUP_ARCHETYPE'] == selected_lineups[0])
+            ]
+
+            if player_tendency.empty:
+                fig_radar = empty_fig
+            else:
+                fig_radar = create_tendency_radar(player_tendency.iloc[0])
+
+        else:
+            # Multiple lineups selected - create comparative radar
+            fig_radar = create_comparative_radar(
+                df_tendencies,
+                selected_player,
+                selected_lineups
+            )
+
+        # --- 3. SHOT CHART ---
+        # Combine shots from all selected lineups for comparison
+        lineup_shots = df_shots[
+            (df_shots['star_player'] == selected_player) &
+            (df_shots['LINEUP_ARCHETYPE'].isin(selected_lineups))
+        ]
+
+        fig_shot = create_shot_chart(lineup_shots)
+
+        return fig_efficiency, fig_radar, fig_shot
+
+
+def create_comparative_radar(df_tendencies, selected_player, selected_lineups):
+    """
+    Creates a comparative radar chart overlaying multiple lineups.
+
+    Args:
+        df_tendencies: Full tendencies dataframe
+        selected_player: Selected star player name
+        selected_lineups: List of lineup archetypes to compare
+
+    Returns:
+        Plotly figure with overlaid radar charts
+    """
+    from src.app.components.tendency_radar_chart import create_tendency_radar
+
+    # Define metrics for comparison
+    metrics_map = [
+        ('3PT Pts', 'pct_pts_3pt'),
+        ('Paint Pts', 'pct_pts_paint'),
+        ('Fastbreak', 'pct_pts_fb'),
+        ('Midrange', 'pct_pts_2pt_mr'),
+        ('Assisted FG', 'pct_ast_fgm')
+    ]
+
+    labels = [m[0] for m in metrics_map]
+
+    # Basketball-themed color palette (orange/brown shades)
+    colors = ['#E67E22', '#D35400', '#CA6F1E', '#BA4A00', '#935116']
+
+    fig = go.Figure()
+
+    # Add a trace for each selected lineup
+    for idx, lineup in enumerate(selected_lineups[:5]):  # Limit to 5 for readability
+        lineup_data = df_tendencies[
+            (df_tendencies['star_player'] == selected_player) &
+            (df_tendencies['LINEUP_ARCHETYPE'] == lineup)
+        ]
+
+        if lineup_data.empty:
+            continue
+
+        row = lineup_data.iloc[0]
+
+        # Extract values and convert to percentages
+        values = []
+        for _, col in metrics_map:
+            val = row.get(col, 0)
+            if isinstance(val, (int, float)):
+                values.append(float(val) * 100)
+            else:
+                values.append(0.0)
+
+        # Close the radar circle
+        values_closed = values + [values[0]]
+        labels_closed = labels + [labels[0]]
+
+        # Add trace for this lineup
+        color = colors[idx % len(colors)]
+        fig.add_trace(go.Scatterpolar(
+            r=values_closed,
+            theta=labels_closed,
+            fill='toself',
+            name=lineup,
+            line=dict(color=color, width=2),
+            fillcolor=f'rgba{tuple(list(bytes.fromhex(color[1:])) + [0.2])}',
+            hovertemplate=f"<b>{lineup}</b><br>%{{theta}}: %{{r:.1f}}%<extra></extra>"
         ))
 
-        # Update layout with DARK BLUE background
-        fig.update_layout(
-            title=dict(
-                text=f"<b>{selected_player} - Shot Chart</b>",
-                font=dict(size=14, color='white', family=FONT_FAMILY),
-                x=0.5,
-                xanchor='center'
+    # Update layout
+    fig.update_layout(
+        template="plotly_dark",
+        polar=dict(
+            radialaxis=dict(
+                visible=True,
+                range=[0, 100],
+                showticklabels=True,
+                tickvals=[0, 25, 50, 75, 100],
+                ticktext=['0%', '25%', '50%', '75%', '100%'],
+                gridcolor='rgba(255, 255, 255, 0.1)'
             ),
-            height=340,
-            plot_bgcolor='#1a2332',  # Dark blue background
-            paper_bgcolor='#1a2332',  # Dark blue background
-            font=dict(family=FONT_FAMILY, color='white'),
-            xaxis=dict(
-                range=[-260, 260],
-                showgrid=False,
-                zeroline=False,
-                showticklabels=False,
-                scaleanchor='y',
-                scaleratio=1,
-                fixedrange=False
+            angularaxis=dict(
+                gridcolor='rgba(255, 255, 255, 0.1)'
             ),
-            yaxis=dict(
-                range=[-57.5, 432.5],
-                showgrid=False,
-                zeroline=False,
-                showticklabels=False,
-                fixedrange=False
-            ),
-            margin=dict(l=10, r=10, t=30, b=10),
-            hoverlabel=dict(
-                bgcolor='rgba(0,0,0,0.8)',
-                font_size=13,
-                font_family=FONT_FAMILY,
-                font_color='white'
-            )
+            bgcolor='rgba(0,0,0,0)'
+        ),
+        paper_bgcolor='rgba(0,0,0,0)',
+        margin=dict(l=40, r=40, t=30, b=30),
+        height=350,
+        showlegend=True,
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=-0.3,
+            xanchor="center",
+            x=0.5,
+            font=dict(size=10)
         )
-
-        return fig
-
-    # ========================================
-    # CALLBACK 3: Lineup Dropdown → Efficiency Landscape
-    # ========================================
-    register_efficiency_callbacks(
-        app=app,
-        df_efficiency=df_efficiency,
-        lineup_checklist_id='lineup-comparison-dropdown',  # Dropdown ID
-        component_id='efficiency'
     )
 
-    # ========================================
-    # CALLBACK 4: Lineup Dropdown → Selection Summary
-    # ========================================
-    @app.callback(
-        Output('lineup-selection-summary', 'children'),
-        Input('lineup-comparison-dropdown', 'value')
-    )
-    def update_lineup_summary(selected_lineups):
-        """Update text showing which lineups are selected."""
-        if not selected_lineups or len(selected_lineups) == 0:
-            return "No lineups selected"
-
-        count = len(selected_lineups)
-        lineup_nums = ", ".join([f"#{i+1}" for i in sorted(selected_lineups)])
-        return f"Selected {count} lineup{'s' if count != 1 else ''}: {lineup_nums}"
-
-    # ========================================
-    # CALLBACK 5: Lineup Dropdown → Tendency Radar
-    # ========================================
-    register_tendency_radar_callbacks(
-        app=app,
-        df_tendencies=df_tendencies,
-        component_id='tendency-radar',
-        star_player='Luka Dončić',
-        external_checklist_id='lineup-comparison-dropdown'  # Dropdown ID
-    )
+    return fig
