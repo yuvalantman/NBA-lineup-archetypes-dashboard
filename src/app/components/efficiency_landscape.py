@@ -51,7 +51,7 @@ def create_efficiency_landscape(df, selected_lineups=None):
             'net_rating': 'Net Rating'
         }
     )
-
+    fig.update_traces(marker=dict(size=10), selector=dict(mode='markers'))
     # Highlight the currently selected lineup(s) with cyan rings
     if selected_lineups:
         # Ensure it's a list for consistent handling
@@ -101,6 +101,8 @@ def create_efficiency_landscape(df, selected_lineups=None):
         fixedrange=True,    # Disables zoom/pan
         gridcolor='#2d384d'
     )
+
 )
+    fig.update_yaxes(scaleanchor="x", scaleratio=1)
 
     return fig

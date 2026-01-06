@@ -29,15 +29,19 @@ def create_app():
     root_dir = os.path.abspath(os.path.join(current_dir, "..", ".."))
 
     # Paths to the three processed CSV files
+    players_path = os.path.join(root_dir, 'Data', 'raw', 'allstar_data.csv')
     efficiency_path = os.path.join(root_dir, 'Data', 'processed', 'Ready_efficiency_data.csv')
     tendencies_path = os.path.join(root_dir, 'Data', 'processed', 'Ready_tendencies_data.csv')
     shots_path = os.path.join(root_dir, 'Data', 'processed', 'Ready_shots_data.csv')
+    team_vs_opp_path = os.path.join(root_dir, 'Data', 'processed', 'Ready_team_vs_opp_data.csv')
 
     # --- Data Loading ---
     try:
+        df_players = pd.read_csv(players_path)
         df_efficiency = pd.read_csv(efficiency_path)
         df_tendencies = pd.read_csv(tendencies_path)
         df_shots = pd.read_csv(shots_path)
+        df_team_vs_opponent = pd.read_csv(team_vs_opp_path)
 
         print(f"✅ Efficiency data loaded: {len(df_efficiency)} lineups")
         print(f"✅ Tendencies data loaded: {len(df_tendencies)} lineups")
@@ -45,14 +49,14 @@ def create_app():
 
         # For player dropdown and profile, use efficiency data as base
         # Add placeholder columns for player profile component
-        if 'CURRENT_TEAM' not in df_efficiency.columns:
-            df_efficiency['CURRENT_TEAM'] = 'NBA Team'
+        if 'CURRENT_TEAM' not in df_players.columns:
+            df_players['CURRENT_TEAM'] = 'NBA Team'
 
         for col in ['Height', 'Weight', 'Position']:
-            if col not in df_efficiency.columns:
-                df_efficiency[col] = "N/A"
+            if col not in df_players.columns:
+                df_players[col] = "N/A"
 
-        print(f"✅ Setup Complete: Dashboard ready with {df_efficiency['star_player'].nunique()} players.")
+        print(f"✅ Setup Complete: Dashboard ready with {df_players['PLAYER'].nunique()} players.")
 
     except FileNotFoundError as e:
         print(f"❌ Critical Error: Could not find CSV files")
@@ -65,10 +69,10 @@ def create_app():
         df_shots = pd.DataFrame()
 
     # Initialize layout with efficiency data (for player selection)
-    app.layout = create_layout(app, df_efficiency)
+    app.layout = create_layout(app, df_players)
 
     # Pass all three dataframes to callbacks
-    register_callbacks(app, df_efficiency, df_tendencies, df_shots)
+    register_callbacks(app, df_efficiency, df_tendencies, df_shots, df_team_vs_opponent)
 
     return app
 

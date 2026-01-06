@@ -309,7 +309,11 @@ def create_player_card_dash(player_data):
                             'marginBottom': '15px',
                             'fontSize': '26px',
                             'fontWeight': 'bold',
-                            'textShadow': '0 2px 4px rgba(0, 0, 0, 0.5)'
+                            'textShadow': '0 2px 4px rgba(0, 0, 0, 0.5)',
+                            'whiteSpace': 'nowrap',
+                            'overflow': 'hidden',
+                            'textOverflow': 'ellipsis',
+                            'maxWidth': '260px'
                         }
                     ),
                     html.Div(

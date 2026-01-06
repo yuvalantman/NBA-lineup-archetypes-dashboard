@@ -13,7 +13,7 @@ from src.app.components.tendency_radar_chart import create_tendency_radar
 from src.app.components.shot_chart import create_shot_chart
 
 
-def register_callbacks(app, df_efficiency, df_tendencies, df_shots):
+def register_callbacks(app, df_efficiency, df_tendencies, df_shots, df_team_vs_opponent):
     """
     Registers all Dash callbacks with hierarchical filtering logic.
 
@@ -76,51 +76,37 @@ def register_callbacks(app, df_efficiency, df_tendencies, df_shots):
 
 
     @app.callback(
-        [Output('lineup-dropdown', 'options'),
-         Output('lineup-dropdown', 'value')],
+        Output('main-lineup-dropdown', 'options'),
+        Output('main-lineup-dropdown', 'value'),
+        Output('lineup-dropdown', 'options'),
+        Output('lineup-dropdown', 'value'),
         Input('star-profile-player-dropdown', 'value')
     )
-    def update_lineup_options(selected_player):
-        """
-        Updates lineup dropdown options based on selected player.
-
-        This filters the available lineups to only show those that
-        include the selected star player.
-
-        Args:
-            selected_player: Name of the selected star player
-
-        Returns:
-            Tuple of (dropdown options, default selected values)
-        """
+    def update_lineup_dropdowns(selected_player):
         if not selected_player or df_efficiency.empty:
-            return [], []
+            return [], None, [], []
 
-        # Filter efficiency data for selected player
         player_df = df_efficiency[df_efficiency['star_player'] == selected_player]
+        unique_lineups = player_df['LINEUP_ARCHETYPE'].unique()
 
-        if 'LINEUP_ARCHETYPE' in player_df.columns:
-            unique_lineups = player_df['LINEUP_ARCHETYPE'].unique()
-            options = [{'label': lineup, 'value': lineup} for lineup in unique_lineups]
+        options = [{'label': l, 'value': l} for l in unique_lineups]
+        default_main = options[0]['value'] if options else None
 
-            # For multi-select, default to first lineup only
-            default_value = [options[0]['value']] if options else []
-
-            return options, default_value
-
-        return [], []
+        # comparison starts empty; radar logic will always include main
+        return options, default_main, options, []
 
 
     # --- LEVEL 2 FILTERING: Lineup Selection (Multi-select) ---
 
     @app.callback(
-        [Output('efficiency-graph', 'figure'),
-         Output('tendency-radar-graph', 'figure'),
-         Output('shot-chart-graph', 'figure')],
-        [Input('star-profile-player-dropdown', 'value'),
-         Input('lineup-dropdown', 'value')]
+        Output('efficiency-graph', 'figure'),
+        Output('tendency-radar-graph', 'figure'),
+        Output('shot-chart-graph', 'figure'),
+        Input('star-profile-player-dropdown', 'value'),
+        Input('main-lineup-dropdown', 'value'),
+        Input('lineup-dropdown', 'value')
     )
-    def update_all_visualizations(selected_player, selected_lineups):
+    def update_all_visualizations(selected_player, main_lineup, compare_lineups):
         """
         Updates all three visualization graphs with hierarchical filtering.
 
@@ -147,33 +133,43 @@ def register_callbacks(app, df_efficiency, df_tendencies, df_shots):
             return [empty_fig] * 3
 
         # Ensure selected_lineups is a list (handle both single and multi-select)
-        if not isinstance(selected_lineups, list):
-            selected_lineups = [selected_lineups] if selected_lineups else []
+        if not isinstance(compare_lineups, list):
+            compare_lineups = [compare_lineups] if compare_lineups else []
+
+        radar_lineups = []
+        if main_lineup:
+            radar_lineups.append(main_lineup)
+
+        for l in compare_lineups:
+            if l and l != main_lineup:
+                radar_lineups.append(l)
 
         # --- 1. EFFICIENCY LANDSCAPE ---
         # Shows ALL lineups for the selected player
         # Highlights the selected lineup(s)
         player_efficiency = df_efficiency[df_efficiency['star_player'] == selected_player]
+        fig_efficiency = create_efficiency_landscape(player_efficiency, selected_lineups=main_lineup)
+
 
         # For efficiency, highlight all selected lineups
-        fig_efficiency = create_efficiency_landscape(
-            player_efficiency,
-            selected_lineups  # Pass list of selected lineups for highlighting
-        )
+        # fig_efficiency = create_efficiency_landscape(
+        #     player_efficiency,
+        #     selected_lineups  # Pass list of selected lineups for highlighting
+        # )
 
         # If no lineup selected yet, return efficiency graph only
-        if not selected_lineups:
-            return fig_efficiency, empty_fig, empty_fig
+        # if not selected_lineups:
+        #     return fig_efficiency, empty_fig, empty_fig
 
         # --- 2. TENDENCY RADAR CHART ---
         # For comparative analysis: overlay multiple lineups if selected
         # Or show single lineup if only one is selected
 
-        if len(selected_lineups) == 1:
+        if len(compare_lineups) == 1:
             # Single lineup selected - show standard radar
             player_tendency = df_tendencies[
                 (df_tendencies['star_player'] == selected_player) &
-                (df_tendencies['LINEUP_ARCHETYPE'] == selected_lineups[0])
+                (df_tendencies['LINEUP_ARCHETYPE'] == compare_lineups[0])
             ]
 
             if player_tendency.empty:
@@ -186,17 +182,17 @@ def register_callbacks(app, df_efficiency, df_tendencies, df_shots):
             fig_radar = create_comparative_radar(
                 df_tendencies,
                 selected_player,
-                selected_lineups
+                compare_lineups
             )
 
         # --- 3. SHOT CHART ---
         # Combine shots from all selected lineups for comparison
         lineup_shots = df_shots[
             (df_shots['star_player'] == selected_player) &
-            (df_shots['LINEUP_ARCHETYPE'].isin(selected_lineups))
+            (df_shots['LINEUP_ARCHETYPE'] == main_lineup)
         ]
-
         fig_shot = create_shot_chart(lineup_shots)
+
 
         return fig_efficiency, fig_radar, fig_shot
 

@@ -3,6 +3,8 @@ from dash import Dash
 import pandas as pd
 from src.app.layout import create_layout
 from src.app.callbacks import register_callbacks
+from src.data.load_players import load_players
+
 
 def create_app():
     app = Dash(__name__, suppress_callback_exceptions=True)
@@ -10,8 +12,10 @@ def create_app():
     # 1. Load Data (Crucial for the dashboard to function)
     try:
         # Update these paths to match your folder structure
+        df_players = load_players()
         df_efficiency = pd.read_csv('data/Ready_efficiency_data.csv')
         df_shots = pd.read_csv('data/Ready_shot_data.csv')
+        df_tendencies = pd.read_csv('data/Ready_tendencies_data.csv')
         df_team_vs_opp = pd.read_csv('data/Ready_team_vs_opp_data.csv')
         print("✅ Data loaded successfully!")
     except Exception as e:
@@ -87,8 +91,8 @@ def create_app():
     '''
 
     # 3. Connect Layout & Callbacks (Passing the loaded data)
-    app.layout = create_layout(app, df_efficiency)
-    register_callbacks(app, df_efficiency, df_shots, df_team_vs_opp)
+    app.layout = create_layout(app, df_players)
+    register_callbacks(app, df_efficiency, df_tendencies, df_shots, df_team_vs_opp)
 
     return app
 
