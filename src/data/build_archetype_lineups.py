@@ -73,6 +73,7 @@ def build_archetype_lineups(df_archetypes: pd.DataFrame, df_lineups: pd.DataFram
         .to_dict()
     )
     rows = []
+    df_lineups = df_lineups[df_lineups["MIN"] >= 4]
 
     for _, row in df_lineups.iterrows():
         rows.extend(

@@ -39,6 +39,11 @@ def create_app():
                     font-family: Calibri, sans-serif !important;
                     font-size: 13px !important;
                 }
+                html, body {
+                    background-color: #0b1019 !important;
+                    margin: 0;
+                    padding: 0;
+                }
                 .Select-control { background-color: #1a2332 !important; border-color: #00BFFF !important; }
                 .Select-menu-outer { background-color: #1a2332 !important; border-color: #00BFFF !important; }
                 .Select-menu { background-color: #1a2332 !important; }
@@ -49,20 +54,36 @@ def create_app():
                 .Select-placeholder { color: rgba(255, 255, 255, 0.5) !important; }
                 .Select-input > input { color: white !important; }
                 .Select-arrow { border-color: #00BFFF transparent transparent !important; }
+                
+                .custom-clean-dropdown .VirtualizedSelectOption {
+                    color: white !important;
+                    background-color: #161d2b !important;
+                }
+
+                .custom-clean-dropdown .VirtualizedSelectFocusedOption {
+                    color: #00BFFF !important;
+                    background-color: #1f2a44 !important;
+                }
+
+                .custom-clean-dropdown .Select-option {
+                    color: #161d2b !important;
+                    background-color: #161d2b !important;
+                }
+
                 .custom-clean-dropdown .Select-control {
                     background-color: #0b1019 !important;
-                    color: white !important;
+                    color: #161d2b !important;
                     border: 1px solid #2d384d !important;
                 }
 
                 .custom-clean-dropdown .Select-menu-outer {
                     background-color: #161d2b !important;
-                    color: white !important;
+                    color: #161d2b !important;
                 }
 
                 .custom-clean-dropdown .Select-option {
                     background-color: #161d2b !important;
-                    color: white !important;
+                    color: #161d2b !important;
                 }
 
                 .custom-clean-dropdown .Select-option.is-focused {
@@ -70,18 +91,18 @@ def create_app():
                 }
 
                 .custom-clean-dropdown .Select-value-label {
-                    color: white !important;
+                    color: #161d2b !important;
                 }
 
                 .custom-clean-dropdown .Select-placeholder {
                     color: rgba(255,255,255,0.5) !important;
                 }
                 .custom-clean-dropdown .Select-control .Select-value-label {
-                    color: white !important;
+                    color: #161d2b !important;
                 }
 
                 .custom-clean-dropdown .Select-control .Select-input input {
-                    color: white !important;
+                    color: #161d2b !important;
                 }
                 .custom-clean-dropdown .Select-value-label {
                     white-space: nowrap;

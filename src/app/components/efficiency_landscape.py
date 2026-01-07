@@ -51,7 +51,7 @@ def create_efficiency_landscape(df, selected_lineups=None):
             'net_rating': 'Net Rating'
         }
     )
-    fig.update_traces(marker=dict(size=10), selector=dict(mode='markers'))
+    fig.update_traces(marker=dict(size=12), selector=dict(mode='markers'))
     # Highlight the currently selected lineup(s) with cyan rings
     if selected_lineups:
         # Ensure it's a list for consistent handling
@@ -87,16 +87,17 @@ def create_efficiency_landscape(df, selected_lineups=None):
     plot_bgcolor='rgba(0,0,0,0)',
     margin=dict(l=10, r=10, t=30, b=10),
     height=350,
+    hoverlabel=dict(font_size=11),
 
     xaxis=dict(
         title="Offensive Rating",
-        range=[98, 143],   # Keep this fixed
+        range=[70, 143],   # Keep this fixed
         fixedrange=True,    # Disables zoom/pan
         gridcolor='#2d384d'
     ),
     yaxis=dict(
         title="Defensive Rating",
-        range=[125, 70],    # Inverted: better defense at the top
+        range=[143, 70],    # Inverted: better defense at the top
         autorange=False,    # Stops automatic scaling
         fixedrange=True,    # Disables zoom/pan
         gridcolor='#2d384d'

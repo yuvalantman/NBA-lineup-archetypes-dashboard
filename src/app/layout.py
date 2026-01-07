@@ -22,7 +22,8 @@ def create_layout(app, df_players):
             'minHeight': '100vh',
             'padding': '20px',
             'fontFamily': 'Segoe UI, sans-serif',
-            'color': 'white'
+            'color': 'white',
+            'overflowX': 'hidden'
         },
         children=[
             # --- HEADER ---
@@ -55,7 +56,7 @@ def create_layout(app, df_players):
                             # MAIN LINEUP SELECTOR (Step 1)
                             html.Div(
                                 style={
-                                    'width': '380px',
+                                    'width': '450px',
                                     'display': 'flex',
                                     'flexDirection': 'column',
                                     'gap': '4px'
@@ -76,7 +77,7 @@ def create_layout(app, df_players):
                             # Compact lineup selector (Fixed Height, No visible tags)
                             html.Div(
                                 style={
-                                    'width': '380px',
+                                    'width': '450px',
                                     'display': 'flex',
                                     'flexDirection': 'column',
                                     'gap': '4px',
@@ -187,6 +188,18 @@ def create_layout(app, df_players):
                                         },
                                         children=[
                                             html.H4("Efficiency Landscape", style={'color': '#00BFFF', 'marginBottom': '10px'}),
+                                            html.Div(
+                                                id='efficiency-hover-info',
+                                                style={
+                                                    'minHeight': '24px',
+                                                    'marginBottom': '8px',
+                                                    'color': 'rgba(255,255,255,0.85)',
+                                                    'fontSize': '14px'
+                                                },
+                                                children=[
+                                                    html.H5("Hover a point to see lineup details.", style={'color': 'white', 'marginBottom' : '5px'})
+                                                ]
+                                            ),
                                             dcc.Graph(id='efficiency-graph', style={'height': '500px'})
                                         ]
                                     )

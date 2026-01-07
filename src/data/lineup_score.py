@@ -28,7 +28,7 @@ def lineups_scores(
         .merge(df_tendencies, on=["star_player", "LINEUP_ARCHETYPE"], how="left")
         .merge(df_team_vs_opponent, on=["star_player", "LINEUP_ARCHETYPE"], how="left")
     )
-    MIN_THRESH = 48
+    MIN_THRESH = 55
     df = df[df["min_sum"] >= MIN_THRESH].copy()
 
     # ------------------------------------------------
@@ -94,7 +94,7 @@ def lineups_scores(
     df["MIN_CONF"] = (
         np.log1p(df["min_sum"]) /
         np.log1p(df.groupby("star_player")["min_sum"].transform("max"))
-    ) ** 1.25
+    ) ** 1.35
 
     # ------------------------------------------------
     # 5. Final score

@@ -4,7 +4,8 @@ Implements hierarchical filtering with multi-select comparative analysis.
 """
 
 import plotly.graph_objects as go
-from dash import Input, Output
+from dash import Input, Output, no_update
+import plotly.express as px
 
 # Import component creation functions
 from src.app.components.player_profile import create_player_card_dash
@@ -80,20 +81,29 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
         Output('main-lineup-dropdown', 'value'),
         Output('lineup-dropdown', 'options'),
         Output('lineup-dropdown', 'value'),
-        Input('star-profile-player-dropdown', 'value')
+        Input('star-profile-player-dropdown', 'value'),
+        Input('main-lineup-dropdown', 'value')
     )
-    def update_lineup_dropdowns(selected_player):
+    def update_lineup_dropdowns(selected_player, current_main):
         if not selected_player or df_efficiency.empty:
             return [], None, [], []
 
         player_df = df_efficiency[df_efficiency['star_player'] == selected_player]
-        unique_lineups = player_df['LINEUP_ARCHETYPE'].unique()
+        unique_lineups = player_df['LINEUP_ARCHETYPE'].unique().tolist()
 
-        options = [{'label': l, 'value': l} for l in unique_lineups]
-        default_main = options[0]['value'] if options else None
+        # compare options include main
 
-        # comparison starts empty; radar logic will always include main
-        return options, default_main, options, []
+        options_main = [{'label': l, 'value': l} for l in unique_lineups]
+        if current_main in unique_lineups:
+            main_value = current_main
+        else:
+            main_value = unique_lineups[0] if unique_lineups else None
+
+        # compare options exclude main
+        compare_lineups = [l for l in unique_lineups if l != main_value]
+        options_compare = [{'label': l, 'value': l} for l in compare_lineups]
+
+        return options_main, main_value, options_compare, []
 
 
     # --- LEVEL 2 FILTERING: Lineup Selection (Multi-select) ---
@@ -137,6 +147,7 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
             compare_lineups = [compare_lineups] if compare_lineups else []
         # Remove duplicates while preserving order
         seen = set()
+        seen.add(main_lineup)
         compare_lineups = [x for x in compare_lineups if not (x in seen or seen.add(x))]
 
         radar_lineups = []
@@ -168,25 +179,15 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
         # For comparative analysis: overlay multiple lineups if selected
         # Or show single lineup if only one is selected
 
-        if len(compare_lineups) == 1:
-            # Single lineup selected - show standard radar
+        if len(radar_lineups) == 1:
             player_tendency = df_tendencies[
                 (df_tendencies['star_player'] == selected_player) &
-                (df_tendencies['LINEUP_ARCHETYPE'] == compare_lineups[0])
+                (df_tendencies['LINEUP_ARCHETYPE'] == radar_lineups[0])
             ]
-
-            if player_tendency.empty:
-                fig_radar = empty_fig
-            else:
-                fig_radar = create_tendency_radar(player_tendency.iloc[0])
-
+            fig_radar = empty_fig if player_tendency.empty else create_tendency_radar(player_tendency.iloc[0])
         else:
-            # Multiple lineups selected - create comparative radar
-            fig_radar = create_comparative_radar(
-                df_tendencies,
-                selected_player,
-                compare_lineups
-            )
+            fig_radar = create_comparative_radar(df_tendencies, selected_player, radar_lineups)
+
 
         # --- 3. SHOT CHART ---
         # Combine shots from all selected lineups for comparison
@@ -198,6 +199,23 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
 
 
         return fig_efficiency, fig_radar, fig_shot
+    
+    @app.callback(
+        Output('efficiency-hover-info', 'children'),
+        Input('efficiency-graph', 'hoverData')
+    )
+    def update_efficiency_hover(hoverData):
+        if not hoverData or 'points' not in hoverData or not hoverData['points']:
+            return "Hover a point to see lineup details."
+
+        p = hoverData['points'][0]
+        lineup = p.get('hovertext') or p.get('customdata', [None])[0]
+        x = p.get('x')
+        y = p.get('y')
+        color = p.get('net_rating')
+
+        return f"Hovered Lineup: {lineup} \n OffRtg: {x:.2f} \n DefRtg: {y:.2f}"
+
 
 
 def create_comparative_radar(df_tendencies, selected_player, selected_lineups):
@@ -227,14 +245,22 @@ def create_comparative_radar(df_tendencies, selected_player, selected_lineups):
     labels = [m[0] for m in metrics_map]
 
     # Basketball-themed color palette (orange/brown shades)
-    colors = [
-        '#00BFFF',  # cyan (main)
-        '#E74C3C',  # red
-        '#2ECC71',  # green
-        '#F1C40F',  # yellow
-        '#9B59B6',   # purple
-        '#3498DB',   # blue
-    ]
+    # colors = [
+    #     '#00BFFF',  # cyan (main)
+    #     '#E74C3C',  # red
+    #     '#2ECC71',  # green
+    #     '#F1C40F',  # yellow
+    #     '#9B59B6',   # purple
+    #     '#3498DB',   # blue
+    # ]
+
+    colors = px.colors.qualitative.Dark24
+    def hex_to_rgba(hex_color, alpha=0.15):
+        hex_color = hex_color.lstrip('#')
+        r = int(hex_color[0:2], 16)
+        g = int(hex_color[2:4], 16)
+        b = int(hex_color[4:6], 16)
+        return f'rgba({r},{g},{b},{alpha})'
 
 
     fig = go.Figure()
@@ -272,7 +298,7 @@ def create_comparative_radar(df_tendencies, selected_player, selected_lineups):
             fill='toself',
             name=lineup,
             line=dict(color=color, width=2),
-            fillcolor=f'rgba{tuple(list(bytes.fromhex(color[1:])) + [0.2])}',
+            fillcolor=hex_to_rgba(color, 0.15),
             hovertemplate=f"<b>{lineup}</b><br>%{{theta}}: %{{r:.1f}}%<extra></extra>"
         ))
 

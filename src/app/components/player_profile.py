@@ -229,6 +229,8 @@ def create_player_card_dash(player_data):
     return html.Div(
         style={
             'display': 'flex',
+            'width': '450px',
+            'boxSizing': 'border-box',
             'background': 'linear-gradient(135deg, #1e2130 0%, #2a3142 50%, #1e2130 100%)',
             'borderRadius': '15px',
             'border': '2px solid #00BFFF',
@@ -299,7 +301,10 @@ def create_player_card_dash(player_data):
                     'flex': '1.5',
                     'paddingLeft': '30px',
                     'paddingRight': '20px',
-                    'zIndex': '1'
+                    'zIndex': '1',
+                    'alignItems': 'center',
+                    'justifyContent': 'space-between',
+                    'gap': '10px'
                 },
                 children=[
                     html.H2(
@@ -307,13 +312,13 @@ def create_player_card_dash(player_data):
                         style={
                             'color': '#00BFFF',
                             'marginBottom': '15px',
-                            'fontSize': '26px',
+                            'fontSize': '22px',
                             'fontWeight': 'bold',
                             'textShadow': '0 2px 4px rgba(0, 0, 0, 0.5)',
                             'whiteSpace': 'nowrap',
                             'overflow': 'hidden',
                             'textOverflow': 'ellipsis',
-                            'maxWidth': '260px'
+                            'maxWidth': '220px'
                         }
                     ),
                     html.Div(
@@ -354,8 +359,11 @@ def create_player_card_dash(player_data):
                     html.Img(
                         src=team_logo_encoded if team_logo_encoded else '',
                         style={
-                            'width': '100px',
-                            'height': '100px',
+                            'marginTop': '20px',
+                            'marginLeft': '-20px',
+                            'width': '70px',
+                            'height': '70px',
+                            'flex' : '0 0 70px',
                             'objectFit': 'contain',
                             'filter': 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4))'
                         }
