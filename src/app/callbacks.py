@@ -4,14 +4,17 @@ Implements hierarchical filtering with multi-select comparative analysis.
 """
 
 import plotly.graph_objects as go
-from dash import Input, Output, no_update
+from dash import Input, Output, no_update, html
 import plotly.express as px
 
 # Import component creation functions
 from src.app.components.player_profile import create_player_card_dash
 from src.app.components.efficiency_landscape import create_efficiency_landscape
-from src.app.components.tendency_radar_chart import create_tendency_radar
-from src.app.components.shot_chart import create_shot_chart
+# from src.app.components.tendency_radar_chart import create_tendency_radar  # COMMENTED: Radar chart
+from src.app.components.tendency_heatmap import create_tendency_heatmap  # NEW: Heatmap
+from src.app.components.shot_chart import create_shot_chart, create_hexbin_shot_chart
+from src.app.components.team_vs_opp import create_team_vs_opp_chart
+from src.app.components.archetype_profile import create_archetype_card_dash
 
 
 def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, df_team_vs_opponent):
@@ -39,7 +42,8 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
     @app.callback(
         [Output('star-profile-card-container', 'children'),
          Output('shot-chart-title', 'children'),
-         Output('radar-chart-title', 'children')],
+         Output('radar-chart-title', 'children'),
+         Output('team-vs-opp-title', 'children')],
         Input('star-profile-player-dropdown', 'value')
     )
     def update_player_card_and_titles(selected_player):
@@ -53,26 +57,28 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
             selected_player: Name of the selected star player
 
         Returns:
-            Tuple of (player card, shot chart title, radar chart title)
+            Tuple of (player card, shot chart title, heatmap chart title, team vs opp title)
         """
         if not selected_player or df_efficiency.empty:
-            return None, "Shot Chart", "Lineup Tendency Profile"
+            return None, "Shot Chart", "Lineup Tendency Heatmap", "Team vs Opponent Comparison"
 
         # Get the first row for this player (for card display)
         player_data = df_players[df_players['PLAYER'] == selected_player]
 
         if player_data.empty:
-            return None, "Shot Chart", "Lineup Tendency Profile"
+            return None, "Shot Chart", "Lineup Tendency Heatmap", "Team vs Opponent Comparison"
 
         # Create dynamic titles with player name
         shot_title = f"{selected_player} - Shot Chart"
-        radar_title = f"{selected_player} - Lineup Tendency Profile"
+        heatmap_title = f"{selected_player} - Lineup Tendency Heatmap"
+        team_vs_opp_title = f"{selected_player} - Team vs Opponent Comparison"
 
         # Use the first lineup's data for the player card
         return (
             create_player_card_dash(player_data.iloc[0]),
             shot_title,
-            radar_title
+            heatmap_title,
+            team_vs_opp_title
         )
 
 
@@ -105,6 +111,72 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
 
         return options_main, main_value, options_compare, []
 
+    @app.callback(
+        Output('lineup-specs-content', 'children'),
+        Input('star-profile-player-dropdown', 'value'),
+        Input('main-lineup-dropdown', 'value')
+    )
+    def update_main_lineup_specs(selected_player, main_lineup):
+        """
+        Updates the main lineup specifications section with archetype details and minutes played.
+        
+        Args:
+            selected_player: Currently selected star player
+            main_lineup: Selected main lineup archetype
+            
+        Returns:
+            Dash HTML component with lineup specifications
+        """
+        if not selected_player or not main_lineup or df_efficiency.empty:
+            return html.P("Select a lineup to view specifications", style={'color': '#8e9aaf', 'fontStyle': 'italic'})
+        
+        # Get the main lineup data
+        lineup_data = df_efficiency[
+            (df_efficiency['star_player'] == selected_player) & 
+            (df_efficiency['LINEUP_ARCHETYPE'] == main_lineup)
+        ]
+        
+        if lineup_data.empty:
+            return html.P("No data available for selected lineup", style={'color': '#8e9aaf', 'fontStyle': 'italic'})
+        
+        lineup_row = lineup_data.iloc[0]
+        
+        # Parse archetypes from LINEUP_ARCHETYPE (separated by "-")
+        archetypes = [arch.strip() for arch in main_lineup.split('-')]
+        
+        # Get minutes played
+        min_sum = lineup_row.get('min_sum', 0)
+        
+        return html.Div([
+            # Archetypes section
+            html.Div([
+                html.H6("Lineup Archetypes:", style={'color': '#00BFFF', 'fontSize': '12px', 'marginBottom': '6px', 'fontWeight': 'bold', 'marginTop': '0'}),
+                html.Div(
+                    [html.Span(
+                        archetype,
+                        style={
+                            'display': 'inline-block',
+                            'backgroundColor': 'rgba(0, 191, 255, 0.15)',
+                            'color': '#00BFFF',
+                            'padding': '4px 10px',
+                            'borderRadius': '6px',
+                            'fontSize': '11px',
+                            'margin': '2px 6px 2px 0',
+                            'border': '1px solid rgba(0, 191, 255, 0.4)',
+                            'fontWeight': '500'
+                        }
+                    ) for archetype in archetypes],
+                    style={'marginBottom': '8px'}
+                )
+            ]),
+            
+            # Minutes played section
+            html.Div([
+                html.Span("Total Minutes Played Together: ", style={'color': '#b8c5d6', 'fontSize': '11px', 'fontWeight': 'bold'}),
+                html.Span(f"{min_sum:.1f}", style={'color': '#4ade80', 'fontSize': '12px', 'fontWeight': 'bold'})
+            ])
+        ])
+
 
     # --- LEVEL 2 FILTERING: Lineup Selection (Multi-select) ---
 
@@ -112,13 +184,15 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
         Output('efficiency-graph', 'figure'),
         Output('tendency-radar-graph', 'figure'),
         Output('shot-chart-graph', 'figure'),
+        Output('team-vs-opp-graph', 'figure'),
         Input('star-profile-player-dropdown', 'value'),
         Input('main-lineup-dropdown', 'value'),
-        Input('lineup-dropdown', 'value')
+        Input('lineup-dropdown', 'value'),
+        Input('shot-chart-type', 'value')
     )
-    def update_all_visualizations(selected_player, main_lineup, compare_lineups):
+    def update_all_visualizations(selected_player, main_lineup, compare_lineups, shot_chart_type):
         """
-        Updates all three visualization graphs with hierarchical filtering.
+        Updates all visualization graphs with hierarchical filtering.
 
         Filtering Logic:
             1. First filters by star_player
@@ -127,10 +201,12 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
 
         Args:
             selected_player: Name of the selected star player
-            selected_lineups: List of selected lineup archetypes (multi-select)
+            main_lineup: Main lineup archetype
+            compare_lineups: List of lineup archetypes for comparison (multi-select)
+            shot_chart_type: Type of shot chart ('raw' or 'hexbin')
 
         Returns:
-            Tuple of (efficiency_fig, radar_fig, shot_fig)
+            Tuple of (efficiency_fig, heatmap_fig, shot_fig, team_vs_opp_fig)
         """
         # Default empty figure
         empty_fig = go.Figure().update_layout(
@@ -140,7 +216,7 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
 
         # If no player selected, return empty figures
         if not selected_player:
-            return [empty_fig] * 3
+            return [empty_fig] * 4  # 4 outputs: efficiency, heatmap, shot, team_vs_opp
 
         # Ensure selected_lineups is a list (handle both single and multi-select)
         if not isinstance(compare_lineups, list):
@@ -175,18 +251,23 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
         # if not selected_lineups:
         #     return fig_efficiency, empty_fig, empty_fig
 
-        # --- 2. TENDENCY RADAR CHART ---
-        # For comparative analysis: overlay multiple lineups if selected
-        # Or show single lineup if only one is selected
-
-        if len(radar_lineups) == 1:
-            player_tendency = df_tendencies[
-                (df_tendencies['star_player'] == selected_player) &
-                (df_tendencies['LINEUP_ARCHETYPE'] == radar_lineups[0])
-            ]
-            fig_radar = empty_fig if player_tendency.empty else create_tendency_radar(player_tendency.iloc[0])
-        else:
-            fig_radar = create_comparative_radar(df_tendencies, selected_player, radar_lineups)
+        # --- 2. TENDENCY HEATMAP ---
+        # Shows color-normalized metrics per lineup (max 5 lineups)
+        # Green = highest, Red = lowest (normalized per metric across all player lineups)
+        
+        fig_radar = create_tendency_heatmap(df_tendencies, selected_player, radar_lineups)
+        
+        # ============================================================================
+        # COMMENTED OUT: ORIGINAL RADAR CHART CODE (kept for potential future use)
+        # ============================================================================
+        # if len(radar_lineups) == 1:
+        #     player_tendency = df_tendencies[
+        #         (df_tendencies['star_player'] == selected_player) &
+        #         (df_tendencies['LINEUP_ARCHETYPE'] == radar_lineups[0])
+        #     ]
+        #     fig_radar = empty_fig if player_tendency.empty else create_tendency_radar(player_tendency.iloc[0])
+        # else:
+        #     fig_radar = create_comparative_radar(df_tendencies, selected_player, radar_lineups)
 
 
         # --- 3. SHOT CHART ---
@@ -195,31 +276,124 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
             (df_shots['star_player'] == selected_player) &
             (df_shots['LINEUP_ARCHETYPE'] == main_lineup)
         ]
-        fig_shot = create_shot_chart(lineup_shots)
+        
+        # Choose shot chart type based on user selection
+        if shot_chart_type == 'hexbin':
+            fig_shot = create_hexbin_shot_chart(lineup_shots)
+        else:
+            fig_shot = create_shot_chart(lineup_shots)
+        
+        fig_team_vs_opp = create_team_vs_opp_chart(
+            df_team_vs_opponent[df_team_vs_opponent["star_player"] == selected_player],
+            lineup_key=main_lineup
+        )
 
-
-        return fig_efficiency, fig_radar, fig_shot
+        return fig_efficiency, fig_radar, fig_shot, fig_team_vs_opp
     
     @app.callback(
         Output('efficiency-hover-info', 'children'),
+        Output('efficiency-hover-info', 'style'),
         Input('efficiency-graph', 'hoverData')
     )
     def update_efficiency_hover(hoverData):
+        base_style = {
+            'minHeight': '24px',
+            'marginBottom': '8px',
+            'color': 'rgba(255,255,255,0.85)',
+            'fontSize': '14px',
+            'padding': '10px 14px',
+            'borderRadius': '8px',
+            'border': '1px solid #2d384d',
+            'backgroundColor': 'transparent'
+        }
+
+        # When not hovering (clear_on_unhover=True makes hoverData None)
         if not hoverData or 'points' not in hoverData or not hoverData['points']:
-            return "Hover a point to see lineup details."
+            return (
+                html.H5("Hover a point to see lineup details.", style={'color': 'white', 'marginBottom': '5px'}),
+                base_style
+            )
 
         p = hoverData['points'][0]
-        lineup = p.get('hovertext') or p.get('customdata', [None])[0]
-        x = p.get('x')
-        y = p.get('y')
-        color = p.get('net_rating')
+        lineup, off, deff, net, bg = p['customdata']
 
-        return f"Hovered Lineup: {lineup} \n OffRtg: {x:.2f} \n DefRtg: {y:.2f}"
+        style = dict(base_style)
+        style['backgroundColor'] = bg  # this is now a real rgba/rgb string
+
+        return (
+            html.Div([
+                html.Div(lineup, style={'fontWeight': 'bold', 'fontSize': '14px', 'marginBottom': '6px'}),
+                html.Div(f"OffRtg: {off:.1f}   |   DefRtg: {deff:.1f}   |   Net: {net:+.1f}")
+            ]),
+            style
+        )
+
+    # --- ARCHETYPE EXPLORATION ---
+    
+    @app.callback(
+        Output('archetype-dropdown', 'options'),
+        Input('star-profile-player-dropdown', 'value')
+    )
+    def populate_archetype_dropdown(selected_player):
+        """
+        Populates archetype dropdown options.
+        
+        TODO: This will be populated from a DataFrame provided later.
+        For now, returns empty list to prevent errors.
+        
+        Args:
+            selected_player: Currently selected player (for future filtering)
+            
+        Returns:
+            List of archetype options for dropdown
+        """
+        # Placeholder - will be replaced when archetype data is provided
+        # Example structure when data is ready:
+        # return [{'label': archetype, 'value': archetype} for archetype in df_archetypes['archetype_name'].unique()]
+        return []
+    
+    @app.callback(
+        Output('archetype-card-container', 'children'),
+        Input('archetype-dropdown', 'value')
+    )
+    def update_archetype_card(selected_archetype):
+        """
+        Updates the archetype profile card when an archetype is selected.
+        
+        TODO: This will fetch data from a DataFrame provided later.
+        For now, returns empty state card.
+        
+        Args:
+            selected_archetype: Name of the selected archetype
+            
+        Returns:
+            Archetype profile card component
+        """
+        if not selected_archetype:
+            return create_archetype_card_dash()
+        
+        # Placeholder - will be replaced when archetype data is provided
+        # Example structure when data is ready:
+        # archetype_row = df_archetypes[df_archetypes['archetype_name'] == selected_archetype].iloc[0]
+        # return create_archetype_card_dash(archetype_row)
+        
+        # For now, return a sample card to show the template
+        sample_data = {
+            'archetype_name': selected_archetype,
+            'description': 'Archetype data will be loaded from DataFrame',
+            'strengths': ['Data pending'],
+            'weaknesses': ['Data pending'],
+            'similar_players': ['Data pending']
+        }
+        return create_archetype_card_dash(sample_data)
 
 
-
+# ============================================================================
+# COMMENTED OUT: COMPARATIVE RADAR CHART FUNCTION (kept for potential future use)
+# ============================================================================
+"""
 def create_comparative_radar(df_tendencies, selected_player, selected_lineups):
-    """
+    '''
     Creates a comparative radar chart overlaying multiple lineups.
 
     Args:
@@ -229,7 +403,7 @@ def create_comparative_radar(df_tendencies, selected_player, selected_lineups):
 
     Returns:
         Plotly figure with overlaid radar charts
-    """
+    '''
     from src.app.components.tendency_radar_chart import create_tendency_radar
 
     # Define metrics for comparison
@@ -244,16 +418,6 @@ def create_comparative_radar(df_tendencies, selected_player, selected_lineups):
 
     labels = [m[0] for m in metrics_map]
 
-    # Basketball-themed color palette (orange/brown shades)
-    # colors = [
-    #     '#00BFFF',  # cyan (main)
-    #     '#E74C3C',  # red
-    #     '#2ECC71',  # green
-    #     '#F1C40F',  # yellow
-    #     '#9B59B6',   # purple
-    #     '#3498DB',   # blue
-    # ]
-
     colors = px.colors.qualitative.Dark24
     def hex_to_rgba(hex_color, alpha=0.15):
         hex_color = hex_color.lstrip('#')
@@ -261,7 +425,6 @@ def create_comparative_radar(df_tendencies, selected_player, selected_lineups):
         g = int(hex_color[2:4], 16)
         b = int(hex_color[4:6], 16)
         return f'rgba({r},{g},{b},{alpha})'
-
 
     fig = go.Figure()
 
@@ -334,3 +497,4 @@ def create_comparative_radar(df_tendencies, selected_player, selected_lineups):
     )
 
     return fig
+"""

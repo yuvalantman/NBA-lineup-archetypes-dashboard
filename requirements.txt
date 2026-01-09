@@ -6,3 +6,5 @@ plotly
 dash
 gunicorn
 jupyter
+matplotlib
+scipy

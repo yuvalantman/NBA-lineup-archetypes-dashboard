@@ -246,7 +246,8 @@ def build_team_vs_opponent_df(df_archetype_lineups: pd.DataFrame, df_opponent=pd
         }))
         .reset_index(drop=True)
     )
-
+    df_team_vs_opponent_grouped["fg_pct"] = df_team_vs_opponent_grouped["fg_pct"] * 100
+    df_team_vs_opponent_grouped["opp_fg_pct"] = df_team_vs_opponent_grouped["opp_fg_pct"] * 100   
     #df_team_vs_opponent_grouped.drop(columns=["MIN"], inplace=True)
     df_team_vs_opponent_grouped[["player1_archetype", "player2_archetype", "player3_archetype",
                             "player4_archetype"]] = df_team_vs_opponent_grouped["LINEUP_ARCHETYPE"].str.split("-", expand=True)

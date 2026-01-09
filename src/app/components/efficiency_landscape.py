@@ -5,6 +5,9 @@ Visualizes Offensive vs Defensive ratings for all lineups of a selected player.
 
 import plotly.express as px
 import plotly.graph_objects as go
+import numpy as np
+from plotly.colors import sample_colorscale
+
 
 
 def create_efficiency_landscape(df, selected_lineups=None):
@@ -31,6 +34,18 @@ def create_efficiency_landscape(df, selected_lineups=None):
             template="plotly_dark",
             paper_bgcolor='rgba(0,0,0,0)'
         )
+    # Compute an explicit point color per row (so hover callback can use it)
+    vals = df['net_rating'].astype(float)
+
+    # Normalize to [0,1] for colorscale sampling
+    vmin, vmax = float(vals.min()), float(vals.max())
+    if vmax - vmin < 1e-9:
+        t = np.full(len(vals), 0.5)
+    else:
+        t = (vals - vmin) / (vmax - vmin)
+
+    df = df.copy()
+    df['_hover_bg'] = sample_colorscale('RdYlGn', t.tolist())
 
     # Create scatter plot with custom hover data
     fig = px.scatter(
@@ -39,11 +54,11 @@ def create_efficiency_landscape(df, selected_lineups=None):
         y='defensive_rating',
         color='net_rating',
         hover_name='LINEUP_ARCHETYPE',
-        hover_data={
-            'offensive_rating': ':.2f',
-            'defensive_rating': ':.2f',
-            'net_rating': ':.2f'
-        },
+        # hover_data={
+        #     'offensive_rating': ':.2f',
+        #     'defensive_rating': ':.2f',
+        #     'net_rating': ':.2f'
+        # },
         color_continuous_scale='RdYlGn',
         labels={
             'offensive_rating': 'Offensive Rating',
@@ -51,7 +66,13 @@ def create_efficiency_landscape(df, selected_lineups=None):
             'net_rating': 'Net Rating'
         }
     )
-    fig.update_traces(marker=dict(size=12), selector=dict(mode='markers'))
+    fig.update_traces(
+        customdata=df[['LINEUP_ARCHETYPE', 'offensive_rating', 'defensive_rating', 'net_rating', '_hover_bg']],
+        hoverinfo="none",
+        hovertemplate=" ",
+        marker=dict(size=12),
+        selector=dict(mode='markers')
+    )
     # Highlight the currently selected lineup(s) with cyan rings
     if selected_lineups:
         # Ensure it's a list for consistent handling
@@ -74,37 +95,41 @@ def create_efficiency_landscape(df, selected_lineups=None):
                     showlegend=False,
                     hoverinfo='skip'
                 ))
+    x_min, x_max = df['offensive_rating'].min(), df['offensive_rating'].max()
+    y_min, y_max = df['defensive_rating'].min(), df['defensive_rating'].max()
 
+    x_pad = max((x_max - x_min) * 0.1, 2)  # At least 2 points padding
+    y_pad = max((y_max - y_min) * 0.1, 2)  # At least 2 points padding
+    
     # Update layout with fixed ranges to prevent graph movement
     fig.update_layout(
     template="plotly_dark",
     
     # UI REVISION: This is the "Magic" fix for Dash. 
     # It tells the browser to keep the axis state even when data updates.
-    uirevision='constant_value', 
+    uirevision=f'{x_min}_{x_max}_{y_min}_{y_max}',  # Changes when data changes
+    hovermode='closest',
 
     paper_bgcolor='rgba(0,0,0,0)',
     plot_bgcolor='rgba(0,0,0,0)',
     margin=dict(l=10, r=10, t=30, b=10),
     height=350,
-    hoverlabel=dict(font_size=11),
+    #hoverlabel=dict(font_size=11),
 
     xaxis=dict(
         title="Offensive Rating",
-        range=[70, 143],   # Keep this fixed
-        fixedrange=True,    # Disables zoom/pan
+        range=[x_min - x_pad, x_max + x_pad],
         gridcolor='#2d384d'
     ),
     yaxis=dict(
         title="Defensive Rating",
-        range=[143, 70],    # Inverted: better defense at the top
-        autorange=False,    # Stops automatic scaling
-        fixedrange=True,    # Disables zoom/pan
+        range=[y_max + y_pad, y_min - y_pad],    # Inverted: better defense at the top
         gridcolor='#2d384d'
     )
 
 )
-    fig.update_yaxes(scaleanchor="x", scaleratio=1)
+    # Remove the scaleanchor to allow independent axis scaling
+    # fig.update_yaxes(scaleanchor="x", scaleratio=1)
     fig.add_hline(y=df['defensive_rating'].mean(), line_dash='dot', line_color='rgba(255,255,255,0.3)')
     fig.add_vline(x=df['offensive_rating'].mean(), line_dash='dot', line_color='rgba(255,255,255,0.3)')
 

@@ -11,8 +11,11 @@ def draw_nba_court(fig, line_color='#555555', line_width=2):
     fig.add_shape(type="line", x0=-30, y0=-7.5, x1=30, y1=-7.5, line=dict(color=line_color, width=line_width))
     # Paint
     fig.add_shape(type="rect", x0=-80, y0=-47.5, x1=80, y1=142.5, line=dict(color=line_color, width=line_width))
-    # 3-Point Line
-    fig.add_shape(type="path", path="M -220 92.5 A 237.5 237.5 0 0 1 220 92.5", line=dict(color=line_color, width=line_width))
+    # 3-Point Line (arc + corner lines)
+    # Arc from left to right - using large-arc-flag=1 to draw the outer arc
+    fig.add_shape(type="path", path="M -220 92.5 A 237.5 237.5 0 1 1 220 92.5", line=dict(color=line_color, width=line_width))
+    # Left corner three
     fig.add_shape(type="line", x0=-220, y0=-47.5, x1=-220, y1=92.5, line=dict(color=line_color, width=line_width))
+    # Right corner three
     fig.add_shape(type="line", x0=220, y0=-47.5, x1=220, y1=92.5, line=dict(color=line_color, width=line_width))
     return fig

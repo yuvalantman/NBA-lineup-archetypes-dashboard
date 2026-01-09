@@ -66,16 +66,26 @@ def find_player_image(player_name):
         if path.exists():
             return str(path)
 
-    # Try with stripped spaces
+    # Try with trailing space in filename (common issue)
+    for ext in extensions:
+        path = base_dir / f"{player_name} {ext}"
+        if path.exists():
+            return str(path)
+
+    # Try with stripped spaces from player name
     for ext in extensions:
         path = base_dir / f"{player_name.strip()}{ext}"
         if path.exists():
             return str(path)
 
-    # Try case-insensitive search
+    # Try case-insensitive search by comparing filenames
     try:
         for file in base_dir.iterdir():
-            if file.stem.lower() == player_name.lower():
+            # Remove extension and compare (case-insensitive and space-tolerant)
+            file_stem = file.stem.strip()
+            player_stripped = player_name.strip()
+            
+            if file_stem.lower() == player_stripped.lower():
                 return str(file)
     except Exception:
         pass
@@ -99,11 +109,23 @@ def find_team_logo(team_name):
     # Special cases mapping for teams with unusual filenames
     special_cases = {
         'Lakers': 'Los_Angeles_Lakers_logo.svg.png',
+        'Los Angeles Lakers': 'Los_Angeles_Lakers_logo.svg.png',
         'Timberwolves': 'Minnesota Timberwolves logo.svg',
+        'Minnesota Timberwolves': 'Minnesota Timberwolves logo.svg',
         'Warriors': 'Golden State Warriors logo.png',
+        'Golden State Warriors': 'Golden State Warriors logo.png',
         'Bucks': 'Milwaukee Bucks logo.jpeg',
+        'Milwaukee Bucks': 'Milwaukee Bucks logo.jpeg',
         'Nuggets': 'Denver Nuggets logo.webp',
-        'Thunder': 'Oklahoma City Thunder logo.png'
+        'Denver Nuggets': 'Denver Nuggets logo.webp',
+        'Thunder': 'Oklahoma City Thunder logo.png',
+        'Oklahoma City Thunder': 'Oklahoma City Thunder logo.png',
+        'Rockets': 'Houston Rockets  logo.png',
+        'Houston Rockets': 'Houston Rockets  logo.png',
+        'Clippers': 'Los Angeles Clippers logo.png',
+        'Los Angeles Clippers': 'Los Angeles Clippers logo.png',
+        'Suns': 'Phoenix Suns logo.jpg',
+        'Phoenix Suns': 'Phoenix Suns logo.jpg'
     }
 
     # Check if team has a special case
@@ -175,7 +197,8 @@ def create_player_profile_component(df_players, component_id='star-profile', def
                             'display': 'block',
                             'fontSize': '14px',
                             'textTransform': 'uppercase',
-                            'letterSpacing': '1px'
+                            'letterSpacing': '1px',
+                            'pointerEvents': 'none'
                         }
                     ),
                     dcc.Dropdown(
@@ -185,7 +208,9 @@ def create_player_profile_component(df_players, component_id='star-profile', def
                         clearable=False,
                         style={
                             'color': '#111',
-                            'borderRadius': '5px'
+                            'borderRadius': '5px',
+                            'cursor': 'pointer',
+                            'width': '100%'
                         }
                     )
                 ]
@@ -229,7 +254,9 @@ def create_player_card_dash(player_data):
     return html.Div(
         style={
             'display': 'flex',
-            'width': '450px',
+            'width': '480px',
+            'minWidth': '480px',
+            'maxWidth': '480px',
             'boxSizing': 'border-box',
             'background': 'linear-gradient(135deg, #1e2130 0%, #2a3142 50%, #1e2130 100%)',
             'borderRadius': '15px',
@@ -240,7 +267,7 @@ def create_player_card_dash(player_data):
             'minHeight': '220px',
             'boxShadow': '0 8px 16px rgba(0, 191, 255, 0.2)',
             'position': 'relative',
-            'overflow': 'hidden'
+            'overflow': 'visible'
         },
         children=[
             # Decorative background element
@@ -269,8 +296,8 @@ def create_player_card_dash(player_data):
                     html.Img(
                         src=player_img_encoded if player_img_encoded else '',
                         style={
-                            'width': '150px',
-                            'height': '150px',
+                            'width': '130px',
+                            'height': '130px',
                             'borderRadius': '50%',
                             'objectFit': 'cover',
                             'border': '3px solid #00BFFF',
@@ -280,8 +307,8 @@ def create_player_card_dash(player_data):
                     ) if player_img_encoded else html.Div(
                         "No Photo",
                         style={
-                            'width': '150px',
-                            'height': '150px',
+                            'width': '130px',
+                            'height': '130px',
                             'borderRadius': '50%',
                             'backgroundColor': '#2A3642',
                             'border': '3px solid #00BFFF',
@@ -312,13 +339,12 @@ def create_player_card_dash(player_data):
                         style={
                             'color': '#00BFFF',
                             'marginBottom': '15px',
-                            'fontSize': '22px',
+                            'fontSize': '18px',
                             'fontWeight': 'bold',
                             'textShadow': '0 2px 4px rgba(0, 0, 0, 0.5)',
-                            'whiteSpace': 'nowrap',
-                            'overflow': 'hidden',
-                            'textOverflow': 'ellipsis',
-                            'maxWidth': '220px'
+                            'lineHeight': '1.2',
+                            'wordBreak': 'break-word',
+                            'overflowWrap': 'break-word'
                         }
                     ),
                     html.Div(
@@ -359,11 +385,10 @@ def create_player_card_dash(player_data):
                     html.Img(
                         src=team_logo_encoded if team_logo_encoded else '',
                         style={
-                            'marginTop': '20px',
-                            'marginLeft': '-20px',
-                            'width': '70px',
-                            'height': '70px',
-                            'flex' : '0 0 70px',
+                            'width': '80px',
+                            'height': '80px',
+                            'maxWidth': '80px',
+                            'maxHeight': '80px',
                             'objectFit': 'contain',
                             'filter': 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4))'
                         }

@@ -35,9 +35,27 @@ def create_app():
             {%favicon%}
             {%css%}
             <style>
+                /* Ensure ALL dropdown elements are fully clickable */
+                * {
+                    pointer-events: auto;
+                }
+                
                 .Select-control, .Select-menu-outer, .Select-menu, .VirtualizedSelectOption {
                     font-family: Calibri, sans-serif !important;
                     font-size: 13px !important;
+                    pointer-events: auto !important;
+                    cursor: pointer !important;
+                }
+                
+                /* Dropdown control and all child elements must be clickable */
+                .Select-control,
+                .Select-control *,
+                div[class*="control"],
+                div[class*="control"] *,
+                div[class*="Control"],
+                div[class*="Control"] * {
+                    pointer-events: auto !important;
+                    cursor: pointer !important;
                 }
                 html, body {
                     background-color: #0b1019 !important;
@@ -46,7 +64,14 @@ def create_app():
                 }
                 .Select-control { background-color: #1a2332 !important; border-color: #00BFFF !important; }
                 .Select-menu-outer { background-color: #1a2332 !important; border-color: #00BFFF !important; }
+                .Select-menu-outer * { color: white !important; background-color: #1a2332 !important; }
                 .Select-menu { background-color: #1a2332 !important; }
+                .Select-menu * { color: white !important; background-color: #1a2332 !important; }
+                .Select-menu div { color: white !important; }
+                .custom-clean-dropdown .Select-menu-outer { background-color: #161d2b !important; }
+                .custom-clean-dropdown .Select-menu-outer * { color: white !important; background-color: #161d2b !important; }
+                .custom-clean-dropdown .Select-menu { background-color: #161d2b !important; }
+                .custom-clean-dropdown .Select-menu div { color: white !important; background-color: #161d2b !important; }
                 .VirtualizedSelectOption { background-color: #1a2332 !important; color: white !important; }
                 .VirtualizedSelectOption:hover { background-color: #2a3642 !important; color: #00BFFF !important; }
                 .Select-value { background-color: #008080 !important; border-color: #00BFFF !important; color: white !important; }
@@ -54,62 +79,54 @@ def create_app():
                 .Select-placeholder { color: rgba(255, 255, 255, 0.5) !important; }
                 .Select-input > input { color: white !important; }
                 .Select-arrow { border-color: #00BFFF transparent transparent !important; }
-                
-                .custom-clean-dropdown .VirtualizedSelectOption {
-                    color: white !important;
+                .custom-clean-dropdown .Select-menu-outer {
                     background-color: #161d2b !important;
+                }
+
+                .custom-clean-dropdown .VirtualizedSelectOption {
+                    background-color: #161d2b !important;
+                    color: white !important;
                 }
 
                 .custom-clean-dropdown .VirtualizedSelectFocusedOption {
-                    color: #00BFFF !important;
                     background-color: #1f2a44 !important;
-                }
-
-                .custom-clean-dropdown .Select-option {
-                    color: #161d2b !important;
-                    background-color: #161d2b !important;
-                }
-
-                .custom-clean-dropdown .Select-control {
-                    background-color: #0b1019 !important;
-                    color: #161d2b !important;
-                    border: 1px solid #2d384d !important;
-                }
-
-                .custom-clean-dropdown .Select-menu-outer {
-                    background-color: #161d2b !important;
-                    color: #161d2b !important;
+                    color: white !important;
                 }
 
                 .custom-clean-dropdown .Select-option {
                     background-color: #161d2b !important;
-                    color: #161d2b !important;
+                    color: white !important;
                 }
 
                 .custom-clean-dropdown .Select-option.is-focused {
                     background-color: #1f2a44 !important;
+                    color: white !important;
+                }
+
+                .custom-clean-dropdown .Select-option.is-selected {
+                    background-color: rgba(0, 191, 255, 0.3) !important;
+                    color: white !important;
                 }
 
                 .custom-clean-dropdown .Select-value-label {
-                    color: #161d2b !important;
+                    color: white !important;
                 }
 
-                .custom-clean-dropdown .Select-placeholder {
-                    color: rgba(255,255,255,0.5) !important;
-                }
-                .custom-clean-dropdown .Select-control .Select-value-label {
-                    color: #161d2b !important;
+                /* Comprehensive dropdown option fix */
+                .custom-clean-dropdown div[class*="option"],
+                .custom-clean-dropdown div[class*="Option"],
+                .custom-clean-dropdown [role="option"] {
+                    background-color: #161d2b !important;
+                    color: white !important;
                 }
 
-                .custom-clean-dropdown .Select-control .Select-input input {
-                    color: #161d2b !important;
+                .custom-clean-dropdown div[class*="menu"],
+                .custom-clean-dropdown div[class*="Menu"],
+                .custom-clean-dropdown [role="listbox"] {
+                    background-color: #161d2b !important;
                 }
-                .custom-clean-dropdown .Select-value-label {
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    max-width: 320px;
-                }
+
+
 
             </style>
         </head>

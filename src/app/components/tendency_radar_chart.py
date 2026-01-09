@@ -64,10 +64,10 @@ def create_tendency_radar(row):
         polar=dict(
             radialaxis=dict(
                 visible=True,
-                range=[0, 100],      # FIXED: Always 0-100%
+                range=[0, 75],      # FIXED: Always 0-100%
                 showticklabels=True,
-                tickvals=[0, 25, 50, 75, 100],
-                ticktext=['0%', '25%', '50%', '75%', '100%'],
+                tickvals=[0, 25, 50, 75],
+                ticktext=['0%', '25%', '50%', '75%'],
                 gridcolor='rgba(255, 255, 255, 0.1)'
             ),
             angularaxis=dict(

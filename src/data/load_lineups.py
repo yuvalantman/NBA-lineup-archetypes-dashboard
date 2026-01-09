@@ -33,6 +33,10 @@ def load_lineups_data():
         .groupby("star_player", as_index=False, group_keys=False)
         .head(15)
     )
+    df_efficiency = df_efficiency.round(2)
+    df_tendencies = df_tendencies.round(2)
+    df_team_vs_opponent = df_team_vs_opponent.round(2)
+    
     top15 = top15[["star_player", "LINEUP_ARCHETYPE"]]
     return {
         "lineups": df_scores_lineups,

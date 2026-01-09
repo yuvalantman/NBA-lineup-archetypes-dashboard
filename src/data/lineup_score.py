@@ -28,7 +28,7 @@ def lineups_scores(
         .merge(df_tendencies, on=["star_player", "LINEUP_ARCHETYPE"], how="left")
         .merge(df_team_vs_opponent, on=["star_player", "LINEUP_ARCHETYPE"], how="left")
     )
-    MIN_THRESH = 55
+    MIN_THRESH = 96
     df = df[df["min_sum"] >= MIN_THRESH].copy()
 
     # ------------------------------------------------

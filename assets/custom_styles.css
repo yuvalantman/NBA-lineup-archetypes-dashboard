@@ -9,6 +9,7 @@
     border: 1px solid #2d384d !important;
     background-color: #161d2b !important;
     overflow: hidden !important;
+    color: white !important;
 }
 
 /* Hide the selected value tags/chips */
@@ -27,6 +28,10 @@
     color: rgba(255, 255, 255, 0.7) !important;
 }
 
+.custom-clean-dropdown .Select-input > input {
+    color: white !important;
+}
+
 /* Dropdown menu styling */
 .custom-clean-dropdown .Select-menu-outer {
     background-color: #161d2b !important;
@@ -34,8 +39,17 @@
     max-height: 250px !important;
 }
 
+.custom-clean-dropdown .Select-menu-outer * {
+    color: white !important;
+}
+
 .custom-clean-dropdown .Select-menu {
     max-height: 248px !important;
+    background-color: #161d2b !important;
+}
+
+.custom-clean-dropdown .Select-menu * {
+    color: white !important;
 }
 
 /* Dropdown options */
@@ -47,11 +61,29 @@
 
 .custom-clean-dropdown .Select-option.is-focused {
     background-color: rgba(0, 191, 255, 0.2) !important;
+    color: white !important;
 }
 
 .custom-clean-dropdown .Select-option.is-selected {
     background-color: rgba(0, 191, 255, 0.4) !important;
+    color: white !important;
     font-weight: bold !important;
+}
+
+/* Additional support for VirtualizedSelectOption (older Dash) */
+.custom-clean-dropdown .VirtualizedSelectOption {
+    background-color: #161d2b !important;
+    color: white !important;
+}
+
+.custom-clean-dropdown .VirtualizedSelectFocusedOption {
+    background-color: rgba(0, 191, 255, 0.2) !important;
+    color: white !important;
+}
+
+.custom-clean-dropdown .VirtualizedSelectSelectedOption {
+    background-color: rgba(0, 191, 255, 0.4) !important;
+    color: white !important;
 }
 
 /* Arrow indicator */
@@ -95,12 +127,77 @@
 .custom-clean-dropdown .dropdown__option {
     background-color: #161d2b !important;
     color: white !important;
+    padding: 8px 12px !important;
 }
 
 .custom-clean-dropdown .dropdown__option--is-focused {
     background-color: rgba(0, 191, 255, 0.2) !important;
+    color: white !important;
 }
 
 .custom-clean-dropdown .dropdown__option--is-selected {
     background-color: rgba(0, 191, 255, 0.4) !important;
+    color: white !important;
+    font-weight: bold !important;
+}
+
+/* ============================================
+   GLOBAL DROPDOWN FIX - All possible selectors
+   ============================================ */
+
+/* Target all dropdown options regardless of class structure */
+.custom-clean-dropdown div[class*="option"],
+.custom-clean-dropdown div[class*="Option"],
+.custom-clean-dropdown [role="option"] {
+    background-color: #161d2b !important;
+    color: white !important;
+}
+
+.custom-clean-dropdown div[class*="option"]:hover,
+.custom-clean-dropdown div[class*="Option"]:hover,
+.custom-clean-dropdown [role="option"]:hover {
+    background-color: rgba(0, 191, 255, 0.2) !important;
+    color: white !important;
+}
+
+/* Target menu/list containers */
+.custom-clean-dropdown div[class*="menu"],
+.custom-clean-dropdown div[class*="Menu"],
+.custom-clean-dropdown [role="listbox"] {
+    background-color: #161d2b !important;
+}
+
+/* Ensure all dropdown controls are clickable */
+.Select-control,
+.Select-arrow-zone,
+.Select-arrow,
+.Select-value,
+.Select-placeholder,
+.Select-input,
+div[class*="control"],
+div[class*="Control"],
+div[class*="indicatorContainer"],
+div[class*="IndicatorContainer"],
+div[class*="indicator"],
+div[class*="Indicator"],
+div[class*="ValueContainer"],
+div[class*="valueContainer"],
+div[class*="singleValue"],
+div[class*="SingleValue"] {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+/* Make sure the entire dropdown wrapper is clickable */
+.Select,
+div[class*="Select"],
+[class*="dropdown"] {
+    cursor: pointer !important;
+}
+
+/* Ensure the control fills the full width */
+.Select-control,
+div[class*="control"] {
+    width: 100% !important;
+    min-height: 38px !important;
 }

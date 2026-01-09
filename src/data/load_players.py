@@ -36,6 +36,10 @@ def load_player_data(csv_path='data/raw/allstar_data.csv'):
     return df
 
 
+# Alias for backward compatibility
+load_players = load_player_data
+
+
 # Testing functionality
 if __name__ == '__main__':
     print("Testing Player Data Loading...\n")
