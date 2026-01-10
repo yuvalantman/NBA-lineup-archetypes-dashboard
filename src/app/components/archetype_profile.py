@@ -72,7 +72,7 @@ def create_archetype_card_dash(archetype_data=None):
                 description,
                 style={
                     'color': '#b8c5d6',
-                    'fontSize': '12px',
+                    'fontSize': '16px',
                     'marginBottom': '15px',
                     'fontStyle': 'italic',
                     'textAlign': 'center'
@@ -82,11 +82,11 @@ def create_archetype_card_dash(archetype_data=None):
             # Strengths Section
             html.Div([
                 html.H6(
-                    "💪 Strengths",
-                    style={'color': '#4ade80', 'fontSize': '13px', 'marginBottom': '8px', 'fontWeight': 'bold'}
+                    "✓ Strengths",
+                    style={'color': '#4ade80', 'fontSize': '15px', 'marginBottom': '8px', 'fontWeight': 'bold'}
                 ),
                 html.Ul(
-                    [html.Li(strength, style={'color': '#b8c5d6', 'fontSize': '11px', 'marginBottom': '4px'}) 
+                    [html.Li(strength, style={'color': '#e5e7eb', 'fontSize': '13px', 'marginBottom': '4px'}) 
                      for strength in (strengths if strengths else ['No strengths data available'])],
                     style={'marginTop': '0', 'marginBottom': '15px', 'paddingLeft': '20px'}
                 )
@@ -95,12 +95,12 @@ def create_archetype_card_dash(archetype_data=None):
             # Weaknesses Section
             html.Div([
                 html.H6(
-                    "⚠️ Weaknesses",
-                    style={'color': '#f87171', 'fontSize': '13px', 'marginBottom': '8px', 'fontWeight': 'bold'}
+                    "✕ Limitations",
+                    style={'color': '#f87171', 'fontSize': '15px', 'marginBottom': '8px', 'fontWeight': 'bold'}
                 ),
                 html.Ul(
-                    [html.Li(weakness, style={'color': '#b8c5d6', 'fontSize': '11px', 'marginBottom': '4px'}) 
-                     for weakness in (weaknesses if weaknesses else ['No weaknesses data available'])],
+                    [html.Li(weakness, style={'color': '#e5e7eb', 'fontSize': '13px', 'marginBottom': '4px'}) 
+                     for weakness in (weaknesses if weaknesses else ['No limitations data available'])],
                     style={'marginTop': '0', 'marginBottom': '15px', 'paddingLeft': '20px'}
                 )
             ]),
@@ -108,8 +108,8 @@ def create_archetype_card_dash(archetype_data=None):
             # Similar Players Section
             html.Div([
                 html.H6(
-                    "⭐ Notable Players in Cluster",
-                    style={'color': '#fbbf24', 'fontSize': '13px', 'marginBottom': '8px', 'fontWeight': 'bold'}
+                    "👥 Key Players",
+                    style={'color': '#fbbf24', 'fontSize': '15px', 'marginBottom': '8px', 'fontWeight': 'bold'}
                 ),
                 html.Div(
                     [html.Span(
@@ -120,7 +120,7 @@ def create_archetype_card_dash(archetype_data=None):
                             'color': '#00BFFF',
                             'padding': '4px 10px',
                             'borderRadius': '12px',
-                            'fontSize': '11px',
+                            'fontSize': '15px',
                             'margin': '2px 4px 2px 0',
                             'border': '1px solid rgba(0, 191, 255, 0.3)'
                         }

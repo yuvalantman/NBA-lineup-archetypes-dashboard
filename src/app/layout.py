@@ -207,7 +207,7 @@ def create_layout(app, df_players):
                                     'marginBottom': '12px'
                                 },
                                 children=[
-                                    html.H4("Main Lineup Specifications", style={'color': '#00BFFF', 'marginBottom': '8px', 'fontSize': '15px'}),
+                                    html.H4("Main Lineup Specifications", style={'color': '#00BFFF', 'marginTop': '0', 'marginBottom': '8px', 'fontSize': '15px'}),
                                     html.Div(id='lineup-specs-content', children=[
                                         html.P("Select a lineup to view specifications", style={'color': '#8e9aaf', 'fontStyle': 'italic', 'fontSize': '12px', 'margin': '0'})
                                     ])
@@ -251,8 +251,8 @@ def create_layout(app, df_players):
                                                     dcc.RadioItems(
                                                         id='shot-chart-type',
                                                         options=[
-                                                            {'label': ' Raw', 'value': 'raw'},
-                                                            {'label': ' Hexbin', 'value': 'hexbin'}
+                                                            {'label': ' Make/Miss', 'value': 'raw'},
+                                                            {'label': ' Zones', 'value': 'zones'}
                                                         ],
                                                         value='raw',
                                                         inline=True,
@@ -260,6 +260,10 @@ def create_layout(app, df_players):
                                                         labelStyle={'marginLeft': '10px', 'cursor': 'pointer'}
                                                     )
                                                 ]
+                                            ),
+                                            html.P(
+                                                "Toggle between Make/Miss (individual shot outcomes) and Zones (FG% by court zones with opacity showing frequency). Red zones = low FG%, green = high FG%.",
+                                                style={'color': 'white', 'fontSize': '13px', 'marginTop': '0', 'marginBottom': '12px', 'fontStyle': 'italic'}
                                             ),
                                             dcc.Graph(id='shot-chart-graph', style={'height': '500px'})
                                         ]
@@ -275,7 +279,7 @@ def create_layout(app, df_players):
                                             'border': '1px solid #2d384d'
                                         },
                                         children=[
-                                            html.H4("Efficiency Landscape", style={'color': '#00BFFF', 'marginBottom': '10px'}),
+                                            html.H4(id='efficiency-landscape-title', children="Efficiency Landscape", style={'color': '#00BFFF', 'marginBottom': '10px'}),
                                             html.Div(
                                                 id='efficiency-hover-info',
                                                 style={
@@ -347,7 +351,7 @@ def create_layout(app, df_players):
                                             html.H5(id='radar-chart-title', style={'color': '#00BFFF', 'marginBottom': '5px'}),
                                             html.P(
                                                 "Each metric is independently normalized across all player lineups (darker = below average, brighter = above average)",
-                                                style={'color': '#8e9aaf', 'fontSize': '11px', 'marginTop': '0', 'marginBottom': '15px', 'fontStyle': 'italic'}
+                                                style={'color': 'white', 'fontSize': '13px', 'marginTop': '0', 'marginBottom': '15px', 'fontStyle': 'italic'}
                                             ),
                                             dcc.Graph(id='tendency-radar-graph', style={'height': '460px'})
                                         ]
@@ -367,7 +371,7 @@ def create_layout(app, df_players):
                                             html.H5(id='team-vs-opp-title', style={'color': '#00BFFF', 'marginBottom': '5px'}),
                                             html.P(
                                                 "Compares lineup performance against opponents. Circles show lineup values, triangles show opponent values. Larger gaps indicate stronger advantages or disadvantages.",
-                                                style={'color': '#8e9aaf', 'fontSize': '11px', 'marginTop': '0', 'marginBottom': '15px', 'fontStyle': 'italic'}
+                                                style={'color': 'white', 'fontSize': '13px', 'marginTop': '0', 'marginBottom': '15px', 'fontStyle': 'italic'}
                                             ),
                                             dcc.Graph(id='team-vs-opp-graph', style={'height': '460px'})
                                         ]

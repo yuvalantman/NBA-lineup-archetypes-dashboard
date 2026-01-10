@@ -1,166 +1,166 @@
 ,star_player,LINEUP_ARCHETYPE,player1_archetype,player2_archetype,player3_archetype,player4_archetype,pct_pts_3pt,pct_pts_paint,pct_pts_fb,pct_pts_2pt_mr,pct_ast_fgm,pct_uast_fgm,efg_pct,ts_pct,min_sum
-0,Anthony Edwards,All Around Guard-Rim Runner/Protector-Wing Shot Creator-Wing Shot Creator,All Around Guard,Rim Runner/Protector,Wing Shot Creator,Wing Shot Creator,0.35,0.45,0.11,0.06,0.62,0.38,0.57,0.6,2112.0
-1,Anthony Edwards,Pure Point Guard-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,Pure Point Guard,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.37,0.43,0.13,0.07,0.59,0.41,0.57,0.59,521.0
-2,Anthony Edwards,All Around Guard-Movement Shooter-Rim Runner/Protector-Wing Shot Creator,All Around Guard,Movement Shooter,Rim Runner/Protector,Wing Shot Creator,0.38,0.43,0.12,0.05,0.61,0.39,0.6,0.63,516.0
+0,Anthony Edwards,All Around Guard-Rim Runner/Protector-Wing Shot Creator-Wing Shot Creator,All Around Guard,Rim Runner/Protector,Wing Shot Creator,Wing Shot Creator,0.35,0.45,0.11,0.06,0.62,0.38,0.57,0.6,2107.0
+1,Anthony Edwards,Pure Point Guard-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,Pure Point Guard,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.37,0.43,0.13,0.07,0.59,0.41,0.57,0.59,517.0
+2,Anthony Edwards,All Around Guard-Movement Shooter-Rim Runner/Protector-Wing Shot Creator,All Around Guard,Movement Shooter,Rim Runner/Protector,Wing Shot Creator,0.38,0.43,0.13,0.05,0.62,0.38,0.6,0.63,500.0
 3,Anthony Edwards,Movement Shooter-Rim Runner/Protector-Wing Shot Creator-Wing Shot Creator,Movement Shooter,Rim Runner/Protector,Wing Shot Creator,Wing Shot Creator,0.37,0.45,0.09,0.02,0.54,0.46,0.56,0.59,363.0
-4,Anthony Edwards,All Around Guard-Movement Shooter-Wing Shot Creator-Wing Shot Creator,All Around Guard,Movement Shooter,Wing Shot Creator,Wing Shot Creator,0.4,0.4,0.12,0.04,0.63,0.37,0.59,0.62,341.0
+4,Anthony Edwards,All Around Guard-Movement Shooter-Wing Shot Creator-Wing Shot Creator,All Around Guard,Movement Shooter,Wing Shot Creator,Wing Shot Creator,0.42,0.38,0.12,0.04,0.63,0.37,0.6,0.63,327.0
 5,Anthony Edwards,Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator-Wing Shot Creator,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,Wing Shot Creator,0.31,0.47,0.15,0.08,0.6,0.4,0.6,0.63,253.0
 6,Anthony Edwards,All Around Big-Movement Shooter-Movement Shooter-Pure Point Guard,All Around Big,Movement Shooter,Movement Shooter,Pure Point Guard,0.4,0.43,0.12,0.03,0.64,0.36,0.57,0.6,223.0
-7,Anthony Edwards,Movement Shooter-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.42,0.4,0.11,0.03,0.62,0.38,0.59,0.62,189.0
+7,Anthony Edwards,Movement Shooter-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.42,0.39,0.11,0.03,0.62,0.38,0.59,0.62,180.0
 8,Anthony Edwards,3&D-Movement Shooter-Pure Point Guard-Wing Shot Creator,3&D,Movement Shooter,Pure Point Guard,Wing Shot Creator,0.42,0.38,0.15,0.03,0.63,0.37,0.54,0.58,157.0
 9,Anthony Edwards,All Around Big-Shot Creator Guard-Wing Shot Creator-Wing Shot Creator,All Around Big,Shot Creator Guard,Wing Shot Creator,Wing Shot Creator,0.38,0.44,0.1,0.06,0.69,0.31,0.59,0.62,144.0
-10,Anthony Edwards,All Around Big-All Around Guard-Movement Shooter-Pure Point Guard,All Around Big,All Around Guard,Movement Shooter,Pure Point Guard,0.3,0.49,0.19,0.05,0.6,0.4,0.54,0.57,139.0
-11,Anthony Edwards,3&D-All Around Big-Movement Shooter-Shot Creator Guard,3&D,All Around Big,Movement Shooter,Shot Creator Guard,0.41,0.44,0.1,0.02,0.61,0.39,0.6,0.63,135.0
-12,Anthony Edwards,All Around Big-All Around Guard-Movement Shooter-Wing Shot Creator,All Around Big,All Around Guard,Movement Shooter,Wing Shot Creator,0.31,0.44,0.13,0.05,0.66,0.34,0.58,0.64,135.0
+10,Anthony Edwards,All Around Big-All Around Guard-Movement Shooter-Pure Point Guard,All Around Big,All Around Guard,Movement Shooter,Pure Point Guard,0.31,0.49,0.18,0.05,0.6,0.4,0.54,0.57,134.0
+11,Anthony Edwards,3&D-All Around Big-Movement Shooter-Shot Creator Guard,3&D,All Around Big,Movement Shooter,Shot Creator Guard,0.42,0.43,0.09,0.02,0.61,0.39,0.59,0.63,130.0
+12,Anthony Edwards,All Around Big-All Around Guard-Movement Shooter-Wing Shot Creator,All Around Big,All Around Guard,Movement Shooter,Wing Shot Creator,0.3,0.44,0.13,0.05,0.66,0.34,0.57,0.63,122.0
 13,Anthony Edwards,All Around Big-All Around Guard-Post Scorer-Wing Shot Creator,All Around Big,All Around Guard,Post Scorer,Wing Shot Creator,0.22,0.47,0.07,0.05,0.61,0.39,0.48,0.55,100.0
 14,Anthony Edwards,All Around Big-Movement Shooter-Post Scorer-Rim Runner/Protector,All Around Big,Movement Shooter,Post Scorer,Rim Runner/Protector,0.3,0.45,0.06,0.05,0.63,0.37,0.59,0.63,99.0
-15,Devin Booker,3&D-Movement Shooter-Post Scorer-Shot Creator Guard,3&D,Movement Shooter,Post Scorer,Shot Creator Guard,0.33,0.39,0.12,0.15,0.61,0.39,0.59,0.62,916.0
+15,Devin Booker,3&D-Movement Shooter-Post Scorer-Shot Creator Guard,3&D,Movement Shooter,Post Scorer,Shot Creator Guard,0.33,0.39,0.12,0.15,0.61,0.39,0.58,0.62,902.0
 16,Devin Booker,Movement Shooter-Post Scorer-Wing Shot Creator-Wing Shot Creator,Movement Shooter,Post Scorer,Wing Shot Creator,Wing Shot Creator,0.35,0.4,0.14,0.13,0.68,0.32,0.63,0.65,595.0
 17,Devin Booker,Movement Shooter-Movement Shooter-Post Scorer-Wing Shot Creator,Movement Shooter,Movement Shooter,Post Scorer,Wing Shot Creator,0.32,0.4,0.12,0.13,0.66,0.34,0.58,0.61,350.0
-18,Devin Booker,Movement Shooter-Pure Point Guard-Rim Runner/Protector-Wing Shot Creator,Movement Shooter,Pure Point Guard,Rim Runner/Protector,Wing Shot Creator,0.3,0.41,0.15,0.13,0.63,0.37,0.58,0.61,291.0
-19,Devin Booker,3&D-Pure Point Guard-Rim Runner/Protector-Wing Shot Creator,3&D,Pure Point Guard,Rim Runner/Protector,Wing Shot Creator,0.26,0.44,0.11,0.16,0.6,0.4,0.57,0.61,278.0
-20,Devin Booker,3&D-3&D-All Around Big-Pure Point Guard,3&D,3&D,All Around Big,Pure Point Guard,0.26,0.43,0.1,0.17,0.61,0.39,0.56,0.59,249.0
-21,Devin Booker,Movement Shooter-Post Scorer-Pure Point Guard-Shot Creator Guard,Movement Shooter,Post Scorer,Pure Point Guard,Shot Creator Guard,0.22,0.45,0.16,0.11,0.71,0.29,0.56,0.62,237.0
-22,Devin Booker,Post Scorer-Post Scorer-Pure Point Guard-Rim Runner/Protector,Post Scorer,Post Scorer,Pure Point Guard,Rim Runner/Protector,0.26,0.42,0.13,0.19,0.55,0.45,0.58,0.6,209.0
-23,Devin Booker,Movement Shooter-Movement Shooter-Post Scorer-Shot Creator Guard,Movement Shooter,Movement Shooter,Post Scorer,Shot Creator Guard,0.29,0.43,0.14,0.14,0.55,0.45,0.56,0.59,204.0
-24,Devin Booker,3&D-Movement Shooter-Post Scorer-Wing Shot Creator,3&D,Movement Shooter,Post Scorer,Wing Shot Creator,0.31,0.38,0.07,0.13,0.62,0.38,0.59,0.64,182.0
-25,Devin Booker,3&D-All Around Big-Movement Shooter-Wing Shot Creator,3&D,All Around Big,Movement Shooter,Wing Shot Creator,0.43,0.36,0.15,0.09,0.62,0.38,0.68,0.7,162.0
+18,Devin Booker,Movement Shooter-Post Scorer-Pure Point Guard-Wing Shot Creator,Movement Shooter,Post Scorer,Pure Point Guard,Wing Shot Creator,0.28,0.45,0.11,0.12,0.69,0.31,0.58,0.61,344.0
+19,Devin Booker,Movement Shooter-Pure Point Guard-Rim Runner/Protector-Wing Shot Creator,Movement Shooter,Pure Point Guard,Rim Runner/Protector,Wing Shot Creator,0.3,0.41,0.15,0.13,0.64,0.36,0.58,0.61,282.0
+20,Devin Booker,3&D-Pure Point Guard-Rim Runner/Protector-Wing Shot Creator,3&D,Pure Point Guard,Rim Runner/Protector,Wing Shot Creator,0.25,0.44,0.11,0.17,0.6,0.4,0.57,0.6,268.0
+21,Devin Booker,3&D-3&D-All Around Big-Pure Point Guard,3&D,3&D,All Around Big,Pure Point Guard,0.26,0.43,0.1,0.17,0.61,0.39,0.56,0.59,249.0
+22,Devin Booker,Movement Shooter-Post Scorer-Pure Point Guard-Shot Creator Guard,Movement Shooter,Post Scorer,Pure Point Guard,Shot Creator Guard,0.22,0.45,0.16,0.11,0.71,0.29,0.56,0.62,237.0
+23,Devin Booker,Post Scorer-Post Scorer-Pure Point Guard-Rim Runner/Protector,Post Scorer,Post Scorer,Pure Point Guard,Rim Runner/Protector,0.26,0.42,0.13,0.19,0.55,0.45,0.58,0.6,209.0
+24,Devin Booker,Movement Shooter-Movement Shooter-Post Scorer-Shot Creator Guard,Movement Shooter,Movement Shooter,Post Scorer,Shot Creator Guard,0.29,0.43,0.14,0.14,0.55,0.45,0.56,0.59,204.0
+25,Devin Booker,3&D-All Around Big-Movement Shooter-Wing Shot Creator,3&D,All Around Big,Movement Shooter,Wing Shot Creator,0.42,0.37,0.15,0.09,0.63,0.37,0.68,0.71,152.0
 26,Devin Booker,Movement Shooter-Movement Shooter-Post Scorer-Pure Point Guard,Movement Shooter,Movement Shooter,Post Scorer,Pure Point Guard,0.26,0.45,0.15,0.13,0.65,0.35,0.56,0.6,142.0
-27,Devin Booker,All Around Big-Movement Shooter-Pure Point Guard-Wing Shot Creator,All Around Big,Movement Shooter,Pure Point Guard,Wing Shot Creator,0.34,0.43,0.12,0.11,0.66,0.34,0.57,0.6,114.0
-28,Devin Booker,All Around Guard-Movement Shooter-Movement Shooter-Stretch Big,All Around Guard,Movement Shooter,Movement Shooter,Stretch Big,0.38,0.36,0.14,0.1,0.66,0.34,0.61,0.64,113.0
-29,Devin Booker,3&D-3&D-Movement Shooter-Rim Runner/Protector,3&D,3&D,Movement Shooter,Rim Runner/Protector,0.52,0.32,0.12,0.05,0.68,0.32,0.61,0.63,109.0
-30,Giannis Antetokounmpo,All Around Big-Movement Shooter-Shot Creator Guard-Wing Shot Creator,All Around Big,Movement Shooter,Shot Creator Guard,Wing Shot Creator,0.32,0.45,0.14,0.08,0.6,0.4,0.58,0.61,1350.0
-31,Giannis Antetokounmpo,All Around Big-Movement Shooter-Movement Shooter-Shot Creator Guard,All Around Big,Movement Shooter,Movement Shooter,Shot Creator Guard,0.36,0.41,0.13,0.06,0.62,0.38,0.59,0.62,1286.0
+27,Devin Booker,All Around Guard-Movement Shooter-Movement Shooter-Stretch Big,All Around Guard,Movement Shooter,Movement Shooter,Stretch Big,0.38,0.36,0.14,0.1,0.66,0.34,0.61,0.64,113.0
+28,Devin Booker,3&D-3&D-Movement Shooter-Rim Runner/Protector,3&D,3&D,Movement Shooter,Rim Runner/Protector,0.52,0.32,0.12,0.05,0.68,0.32,0.61,0.63,109.0
+29,Devin Booker,All Around Big-Movement Shooter-Pure Point Guard-Wing Shot Creator,All Around Big,Movement Shooter,Pure Point Guard,Wing Shot Creator,0.34,0.42,0.12,0.1,0.65,0.35,0.57,0.6,105.0
+30,Giannis Antetokounmpo,All Around Big-Movement Shooter-Shot Creator Guard-Wing Shot Creator,All Around Big,Movement Shooter,Shot Creator Guard,Wing Shot Creator,0.32,0.46,0.14,0.08,0.6,0.4,0.59,0.61,1341.0
+31,Giannis Antetokounmpo,All Around Big-Movement Shooter-Movement Shooter-Shot Creator Guard,All Around Big,Movement Shooter,Movement Shooter,Shot Creator Guard,0.36,0.41,0.13,0.06,0.62,0.38,0.59,0.62,1269.0
 32,Giannis Antetokounmpo,3&D-All Around Big-Shot Creator Guard-Wing Shot Creator,3&D,All Around Big,Shot Creator Guard,Wing Shot Creator,0.34,0.43,0.2,0.08,0.62,0.38,0.55,0.59,530.0
 33,Giannis Antetokounmpo,All Around Big-Pure Point Guard-Wing Shot Creator-Wing Shot Creator,All Around Big,Pure Point Guard,Wing Shot Creator,Wing Shot Creator,0.34,0.46,0.16,0.08,0.6,0.4,0.6,0.62,508.0
-34,Giannis Antetokounmpo,Movement Shooter-Movement Shooter-Shot Creator Guard-Stretch Big,Movement Shooter,Movement Shooter,Shot Creator Guard,Stretch Big,0.37,0.44,0.1,0.06,0.61,0.39,0.62,0.64,285.0
-35,Giannis Antetokounmpo,3&D-All Around Big-Pure Point Guard-Shot Creator Guard,3&D,All Around Big,Pure Point Guard,Shot Creator Guard,0.32,0.47,0.17,0.03,0.6,0.4,0.58,0.61,197.0
-36,Giannis Antetokounmpo,All Around Big-Movement Shooter-Shot Creator Guard-Shot Creator Guard,All Around Big,Movement Shooter,Shot Creator Guard,Shot Creator Guard,0.32,0.47,0.16,0.06,0.57,0.43,0.63,0.67,191.0
-37,Giannis Antetokounmpo,3&D-Movement Shooter-Post Scorer-Shot Creator Guard,3&D,Movement Shooter,Post Scorer,Shot Creator Guard,0.33,0.45,0.15,0.06,0.62,0.38,0.62,0.65,182.0
-38,Giannis Antetokounmpo,All Around Big-Movement Shooter-Pure Point Guard-Wing Shot Creator,All Around Big,Movement Shooter,Pure Point Guard,Wing Shot Creator,0.37,0.42,0.13,0.08,0.57,0.43,0.59,0.61,172.0
-39,Giannis Antetokounmpo,3&D-Shot Creator Guard-Stretch Big-Wing Shot Creator,3&D,Shot Creator Guard,Stretch Big,Wing Shot Creator,0.33,0.39,0.13,0.09,0.55,0.45,0.57,0.61,164.0
-40,Giannis Antetokounmpo,Movement Shooter-Shot Creator Guard-Shot Creator Guard-Stretch Big,Movement Shooter,Shot Creator Guard,Shot Creator Guard,Stretch Big,0.33,0.44,0.19,0.06,0.52,0.48,0.59,0.62,150.0
-41,Giannis Antetokounmpo,All Around Big-Shot Creator Guard-Stretch Big-Wing Shot Creator,All Around Big,Shot Creator Guard,Stretch Big,Wing Shot Creator,0.33,0.48,0.19,0.05,0.55,0.45,0.61,0.63,120.0
-42,Giannis Antetokounmpo,Movement Shooter-Movement Shooter-Movement Shooter-Shot Creator Guard,Movement Shooter,Movement Shooter,Movement Shooter,Shot Creator Guard,0.37,0.37,0.12,0.06,0.65,0.35,0.68,0.71,111.0
-43,Giannis Antetokounmpo,3&D-Movement Shooter-Shot Creator Guard-Wing Shot Creator,3&D,Movement Shooter,Shot Creator Guard,Wing Shot Creator,0.25,0.47,0.19,0.08,0.53,0.47,0.57,0.59,100.0
+34,Giannis Antetokounmpo,3&D-All Around Big-Pure Point Guard-Shot Creator Guard,3&D,All Around Big,Pure Point Guard,Shot Creator Guard,0.32,0.47,0.17,0.03,0.6,0.4,0.58,0.61,192.0
+35,Giannis Antetokounmpo,3&D-Movement Shooter-Post Scorer-Shot Creator Guard,3&D,Movement Shooter,Post Scorer,Shot Creator Guard,0.33,0.45,0.15,0.06,0.62,0.38,0.62,0.65,182.0
+36,Giannis Antetokounmpo,All Around Big-Movement Shooter-Shot Creator Guard-Shot Creator Guard,All Around Big,Movement Shooter,Shot Creator Guard,Shot Creator Guard,0.33,0.44,0.15,0.07,0.57,0.43,0.64,0.68,177.0
+37,Giannis Antetokounmpo,All Around Big-Movement Shooter-Pure Point Guard-Wing Shot Creator,All Around Big,Movement Shooter,Pure Point Guard,Wing Shot Creator,0.37,0.42,0.13,0.08,0.57,0.43,0.59,0.61,172.0
+38,Giannis Antetokounmpo,3&D-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,3&D,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.24,0.46,0.19,0.13,0.58,0.42,0.58,0.62,150.0
+39,Giannis Antetokounmpo,3&D-Shot Creator Guard-Stretch Big-Wing Shot Creator,3&D,Shot Creator Guard,Stretch Big,Wing Shot Creator,0.34,0.37,0.12,0.09,0.56,0.44,0.58,0.63,147.0
+40,Giannis Antetokounmpo,Movement Shooter-Shot Creator Guard-Shot Creator Guard-Stretch Big,Movement Shooter,Shot Creator Guard,Shot Creator Guard,Stretch Big,0.32,0.44,0.19,0.06,0.51,0.49,0.58,0.61,146.0
+41,Giannis Antetokounmpo,3&D-Movement Shooter-Stretch Big-Wing Shot Creator,3&D,Movement Shooter,Stretch Big,Wing Shot Creator,0.41,0.34,0.09,0.07,0.64,0.36,0.61,0.66,122.0
+42,Giannis Antetokounmpo,All Around Big-Shot Creator Guard-Stretch Big-Wing Shot Creator,All Around Big,Shot Creator Guard,Stretch Big,Wing Shot Creator,0.33,0.48,0.19,0.05,0.54,0.46,0.62,0.64,116.0
+43,Giannis Antetokounmpo,Movement Shooter-Movement Shooter-Movement Shooter-Shot Creator Guard,Movement Shooter,Movement Shooter,Movement Shooter,Shot Creator Guard,0.36,0.36,0.13,0.06,0.66,0.34,0.66,0.7,102.0
 44,Giannis Antetokounmpo,All Around Big-All Around Guard-Pure Point Guard-Wing Shot Creator,All Around Big,All Around Guard,Pure Point Guard,Wing Shot Creator,0.32,0.42,0.15,0.08,0.54,0.46,0.59,0.63,100.0
 45,James Harden,Rim Runner/Protector-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,Rim Runner/Protector,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.35,0.42,0.11,0.1,0.63,0.37,0.58,0.61,813.0
-46,James Harden,3&D-Pure Point Guard-Rim Runner/Protector-Stretch Big,3&D,Pure Point Guard,Rim Runner/Protector,Stretch Big,0.41,0.39,0.14,0.05,0.65,0.35,0.58,0.61,741.0
-47,James Harden,3&D-All Around Big-All Around Guard-Wing Shot Creator,3&D,All Around Big,All Around Guard,Wing Shot Creator,0.31,0.4,0.14,0.11,0.66,0.34,0.58,0.63,457.0
-48,James Harden,3&D-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,3&D,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.37,0.4,0.13,0.05,0.6,0.4,0.58,0.62,411.0
-49,James Harden,Movement Shooter-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.32,0.44,0.19,0.07,0.63,0.37,0.58,0.62,376.0
-50,James Harden,Rim Runner/Protector-Shot Creator Guard-Stretch Big-Wing Shot Creator,Rim Runner/Protector,Shot Creator Guard,Stretch Big,Wing Shot Creator,0.35,0.44,0.13,0.08,0.6,0.4,0.59,0.62,333.0
-51,James Harden,All Around Big-All Around Guard-Stretch Big-Wing Shot Creator,All Around Big,All Around Guard,Stretch Big,Wing Shot Creator,0.31,0.43,0.14,0.08,0.64,0.36,0.58,0.63,323.0
-52,James Harden,3&D-All Around Guard-Rim Runner/Protector-Rim Runner/Protector,3&D,All Around Guard,Rim Runner/Protector,Rim Runner/Protector,0.24,0.47,0.17,0.09,0.58,0.42,0.53,0.57,301.0
-53,James Harden,Pure Point Guard-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,Pure Point Guard,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.29,0.52,0.14,0.06,0.66,0.34,0.58,0.61,286.0
-54,James Harden,3&D-3&D-Shot Creator Guard-Wing Shot Creator,3&D,3&D,Shot Creator Guard,Wing Shot Creator,0.4,0.39,0.19,0.04,0.54,0.46,0.57,0.61,263.0
-55,James Harden,Movement Shooter-Movement Shooter-Rim Runner/Protector-Shot Creator Guard,Movement Shooter,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,0.4,0.41,0.12,0.05,0.63,0.37,0.61,0.64,233.0
-56,James Harden,Movement Shooter-Movement Shooter-Rim Runner/Protector-Rim Runner/Protector,Movement Shooter,Movement Shooter,Rim Runner/Protector,Rim Runner/Protector,0.36,0.42,0.21,0.05,0.75,0.25,0.6,0.63,107.0
-57,James Harden,3&D-3&D-Movement Shooter-Rim Runner/Protector,3&D,3&D,Movement Shooter,Rim Runner/Protector,0.47,0.4,0.1,0.01,0.5,0.5,0.64,0.66,106.0
-58,James Harden,All Around Guard-Rim Runner/Protector-Rim Runner/Protector-Wing Shot Creator,All Around Guard,Rim Runner/Protector,Rim Runner/Protector,Wing Shot Creator,0.32,0.45,0.1,0.03,0.62,0.38,0.58,0.62,106.0
-59,James Harden,3&D-All Around Guard-Post Scorer-Shot Creator Guard,3&D,All Around Guard,Post Scorer,Shot Creator Guard,0.33,0.42,0.11,0.07,0.57,0.43,0.58,0.63,105.0
+46,James Harden,3&D-Pure Point Guard-Rim Runner/Protector-Stretch Big,3&D,Pure Point Guard,Rim Runner/Protector,Stretch Big,0.41,0.39,0.14,0.05,0.65,0.35,0.58,0.61,736.0
+47,James Harden,3&D-All Around Big-Movement Shooter-Wing Shot Creator,3&D,All Around Big,Movement Shooter,Wing Shot Creator,0.33,0.37,0.12,0.09,0.69,0.31,0.59,0.65,544.0
+48,James Harden,3&D-All Around Big-All Around Guard-Wing Shot Creator,3&D,All Around Big,All Around Guard,Wing Shot Creator,0.31,0.4,0.14,0.11,0.66,0.34,0.58,0.63,457.0
+49,James Harden,3&D-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,3&D,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.38,0.4,0.13,0.05,0.6,0.4,0.59,0.62,393.0
+50,James Harden,Movement Shooter-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.32,0.44,0.19,0.07,0.62,0.38,0.58,0.63,368.0
+51,James Harden,Rim Runner/Protector-Shot Creator Guard-Stretch Big-Wing Shot Creator,Rim Runner/Protector,Shot Creator Guard,Stretch Big,Wing Shot Creator,0.35,0.44,0.13,0.08,0.6,0.4,0.59,0.62,333.0
+52,James Harden,All Around Big-All Around Guard-Stretch Big-Wing Shot Creator,All Around Big,All Around Guard,Stretch Big,Wing Shot Creator,0.31,0.43,0.14,0.08,0.64,0.36,0.58,0.63,323.0
+53,James Harden,3&D-All Around Guard-Rim Runner/Protector-Rim Runner/Protector,3&D,All Around Guard,Rim Runner/Protector,Rim Runner/Protector,0.24,0.47,0.17,0.09,0.58,0.42,0.53,0.57,301.0
+54,James Harden,Pure Point Guard-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,Pure Point Guard,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.29,0.52,0.14,0.06,0.66,0.34,0.58,0.61,286.0
+55,James Harden,3&D-3&D-Shot Creator Guard-Wing Shot Creator,3&D,3&D,Shot Creator Guard,Wing Shot Creator,0.4,0.39,0.19,0.04,0.54,0.46,0.57,0.61,263.0
+56,James Harden,Movement Shooter-Movement Shooter-Rim Runner/Protector-Shot Creator Guard,Movement Shooter,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,0.39,0.41,0.13,0.05,0.62,0.38,0.59,0.63,221.0
+57,James Harden,3&D-All Around Big-All Around Guard-Movement Shooter,3&D,All Around Big,All Around Guard,Movement Shooter,0.42,0.38,0.09,0.03,0.66,0.34,0.65,0.69,119.0
+58,James Harden,3&D-All Around Guard-Post Scorer-Shot Creator Guard,3&D,All Around Guard,Post Scorer,Shot Creator Guard,0.33,0.42,0.11,0.07,0.57,0.43,0.58,0.63,105.0
+59,James Harden,Movement Shooter-Movement Shooter-Rim Runner/Protector-Rim Runner/Protector,Movement Shooter,Movement Shooter,Rim Runner/Protector,Rim Runner/Protector,0.36,0.42,0.21,0.04,0.74,0.26,0.6,0.63,99.0
 60,Kawhi Leonard,Movement Shooter-Post Scorer-Pure Point Guard-Wing Shot Creator,Movement Shooter,Post Scorer,Pure Point Guard,Wing Shot Creator,0.32,0.41,0.16,0.12,0.61,0.39,0.57,0.61,1019.0
 61,Kawhi Leonard,3&D-All Around Big-All Around Guard-Post Scorer,3&D,All Around Big,All Around Guard,Post Scorer,0.25,0.34,0.09,0.25,0.62,0.38,0.55,0.59,590.0
-62,Kawhi Leonard,All Around Guard-Rim Runner/Protector-Stretch Big-Wing Shot Creator,All Around Guard,Rim Runner/Protector,Stretch Big,Wing Shot Creator,0.39,0.37,0.1,0.12,0.55,0.45,0.61,0.63,512.0
-63,Kawhi Leonard,All Around Guard-Post Scorer-Stretch Big-Wing Shot Creator,All Around Guard,Post Scorer,Stretch Big,Wing Shot Creator,0.42,0.35,0.1,0.11,0.62,0.38,0.59,0.62,442.0
+62,Kawhi Leonard,All Around Guard-Rim Runner/Protector-Stretch Big-Wing Shot Creator,All Around Guard,Rim Runner/Protector,Stretch Big,Wing Shot Creator,0.38,0.37,0.11,0.12,0.55,0.45,0.6,0.63,503.0
+63,Kawhi Leonard,All Around Guard-Post Scorer-Stretch Big-Wing Shot Creator,All Around Guard,Post Scorer,Stretch Big,Wing Shot Creator,0.43,0.35,0.1,0.11,0.63,0.37,0.6,0.62,418.0
 64,Kawhi Leonard,All Around Guard-Movement Shooter-Rim Runner/Protector-Shot Creator Guard,All Around Guard,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,0.31,0.45,0.14,0.07,0.56,0.44,0.6,0.63,378.0
-65,Kawhi Leonard,All Around Guard-Rim Runner/Protector-Shot Creator Guard-Stretch Big,All Around Guard,Rim Runner/Protector,Shot Creator Guard,Stretch Big,0.31,0.45,0.11,0.1,0.56,0.44,0.58,0.61,302.0
+65,Kawhi Leonard,All Around Guard-Rim Runner/Protector-Shot Creator Guard-Stretch Big,All Around Guard,Rim Runner/Protector,Shot Creator Guard,Stretch Big,0.31,0.44,0.1,0.11,0.56,0.44,0.58,0.61,294.0
 66,Kawhi Leonard,Pure Point Guard-Rim Runner/Protector-Shot Creator Guard-Shot Creator Guard,Pure Point Guard,Rim Runner/Protector,Shot Creator Guard,Shot Creator Guard,0.29,0.52,0.14,0.06,0.66,0.34,0.58,0.61,286.0
-67,Kawhi Leonard,3&D-All Around Guard-Post Scorer-Post Scorer,3&D,All Around Guard,Post Scorer,Post Scorer,0.23,0.37,0.1,0.23,0.58,0.42,0.52,0.57,260.0
+67,Kawhi Leonard,3&D-All Around Guard-Post Scorer-Post Scorer,3&D,All Around Guard,Post Scorer,Post Scorer,0.23,0.37,0.1,0.22,0.58,0.42,0.52,0.56,255.0
 68,Kawhi Leonard,Rim Runner/Protector-Shot Creator Guard-Shot Creator Guard-Stretch Big,Rim Runner/Protector,Shot Creator Guard,Shot Creator Guard,Stretch Big,0.32,0.49,0.15,0.08,0.65,0.35,0.61,0.64,219.0
 69,Kawhi Leonard,All Around Guard-All Around Guard-Rim Runner/Protector-Wing Shot Creator,All Around Guard,All Around Guard,Rim Runner/Protector,Wing Shot Creator,0.37,0.33,0.14,0.13,0.57,0.43,0.57,0.61,200.0
-70,Kawhi Leonard,All Around Guard-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,All Around Guard,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.29,0.41,0.14,0.11,0.55,0.45,0.61,0.65,167.0
-71,Kawhi Leonard,Rim Runner/Protector-Wing Shot Creator-Wing Shot Creator-Wing Shot Creator,Rim Runner/Protector,Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,0.37,0.37,0.08,0.14,0.6,0.4,0.64,0.66,142.0
-72,Kawhi Leonard,All Around Big-Movement Shooter-Pure Point Guard-Wing Shot Creator,All Around Big,Movement Shooter,Pure Point Guard,Wing Shot Creator,0.28,0.46,0.19,0.09,0.58,0.42,0.6,0.63,140.0
-73,Kawhi Leonard,All Around Guard-Movement Shooter-Rim Runner/Protector-Wing Shot Creator,All Around Guard,Movement Shooter,Rim Runner/Protector,Wing Shot Creator,0.31,0.42,0.1,0.16,0.59,0.41,0.56,0.59,124.0
-74,Kawhi Leonard,All Around Guard-All Around Guard-Movement Shooter-Rim Runner/Protector,All Around Guard,All Around Guard,Movement Shooter,Rim Runner/Protector,0.31,0.5,0.24,0.04,0.65,0.35,0.56,0.59,99.0
-75,Kevin Durant,3&D-Post Scorer-Rim Runner/Protector-Shot Creator Guard,3&D,Post Scorer,Rim Runner/Protector,Shot Creator Guard,0.22,0.47,0.19,0.17,0.62,0.38,0.56,0.59,1140.0
-76,Kevin Durant,Movement Shooter-Post Scorer-Shot Creator Guard-Wing Shot Creator,Movement Shooter,Post Scorer,Shot Creator Guard,Wing Shot Creator,0.36,0.38,0.14,0.13,0.68,0.32,0.62,0.65,701.0
-77,Kevin Durant,Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator-Wing Shot Creator,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,Wing Shot Creator,0.35,0.37,0.18,0.16,0.72,0.28,0.62,0.64,612.0
-78,Kevin Durant,All Around Big-Post Scorer-Shot Creator Guard-Shot Creator Guard,All Around Big,Post Scorer,Shot Creator Guard,Shot Creator Guard,0.36,0.37,0.22,0.13,0.77,0.23,0.61,0.64,561.0
-79,Kevin Durant,All Around Big-Post Scorer-Shot Creator Guard-Wing Shot Creator,All Around Big,Post Scorer,Shot Creator Guard,Wing Shot Creator,0.35,0.36,0.19,0.16,0.74,0.26,0.62,0.65,529.0
-80,Kevin Durant,3&D-All Around Guard-Rim Runner/Protector-Shot Creator Guard,3&D,All Around Guard,Rim Runner/Protector,Shot Creator Guard,0.34,0.41,0.15,0.1,0.6,0.4,0.6,0.64,344.0
-81,Kevin Durant,All Around Big-Shot Creator Guard-Shot Creator Guard-Wing Shot Creator,All Around Big,Shot Creator Guard,Shot Creator Guard,Wing Shot Creator,0.29,0.41,0.2,0.08,0.7,0.3,0.59,0.65,224.0
-82,Kevin Durant,Movement Shooter-Shot Creator Guard-Wing Shot Creator-Wing Shot Creator,Movement Shooter,Shot Creator Guard,Wing Shot Creator,Wing Shot Creator,0.4,0.31,0.21,0.1,0.65,0.35,0.64,0.68,187.0
-83,Kevin Durant,All Around Big-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,All Around Big,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.33,0.42,0.21,0.12,0.81,0.19,0.65,0.68,182.0
-84,Kevin Durant,3&D-All Around Big-Pure Point Guard-Shot Creator Guard,3&D,All Around Big,Pure Point Guard,Shot Creator Guard,0.37,0.38,0.1,0.1,0.64,0.36,0.61,0.65,150.0
-85,Kevin Durant,Post Scorer-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,Post Scorer,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.34,0.36,0.17,0.17,0.63,0.37,0.65,0.67,148.0
-86,Kevin Durant,All Around Big-Rim Runner/Protector-Shot Creator Guard-Shot Creator Guard,All Around Big,Rim Runner/Protector,Shot Creator Guard,Shot Creator Guard,0.38,0.41,0.24,0.09,0.74,0.26,0.59,0.61,140.0
-87,Kevin Durant,3&D-All Around Big-Movement Shooter-Shot Creator Guard,3&D,All Around Big,Movement Shooter,Shot Creator Guard,0.45,0.33,0.16,0.11,0.64,0.36,0.69,0.71,125.0
-88,Kevin Durant,All Around Guard-Movement Shooter-Rim Runner/Protector-Shot Creator Guard,All Around Guard,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,0.35,0.38,0.19,0.1,0.6,0.4,0.64,0.67,105.0
-89,Kevin Durant,Movement Shooter-Rim Runner/Protector-Shot Creator Guard-Shot Creator Guard,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,Shot Creator Guard,0.3,0.43,0.22,0.07,0.61,0.39,0.58,0.62,101.0
+70,Kawhi Leonard,All Around Guard-Post Scorer-Pure Point Guard-Rim Runner/Protector,All Around Guard,Post Scorer,Pure Point Guard,Rim Runner/Protector,0.25,0.4,0.15,0.2,0.6,0.4,0.55,0.58,182.0
+71,Kawhi Leonard,All Around Guard-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,All Around Guard,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.28,0.41,0.14,0.12,0.55,0.45,0.6,0.64,159.0
+72,Kawhi Leonard,Rim Runner/Protector-Wing Shot Creator-Wing Shot Creator-Wing Shot Creator,Rim Runner/Protector,Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,0.37,0.37,0.08,0.14,0.6,0.4,0.64,0.66,142.0
+73,Kawhi Leonard,All Around Big-Movement Shooter-Pure Point Guard-Wing Shot Creator,All Around Big,Movement Shooter,Pure Point Guard,Wing Shot Creator,0.28,0.46,0.19,0.09,0.58,0.42,0.6,0.63,140.0
+74,Kawhi Leonard,All Around Guard-Movement Shooter-Rim Runner/Protector-Wing Shot Creator,All Around Guard,Movement Shooter,Rim Runner/Protector,Wing Shot Creator,0.3,0.41,0.1,0.17,0.58,0.42,0.54,0.57,110.0
+75,Kevin Durant,3&D-Post Scorer-Rim Runner/Protector-Shot Creator Guard,3&D,Post Scorer,Rim Runner/Protector,Shot Creator Guard,0.21,0.47,0.2,0.17,0.62,0.38,0.56,0.59,1131.0
+76,Kevin Durant,Movement Shooter-Post Scorer-Shot Creator Guard-Wing Shot Creator,Movement Shooter,Post Scorer,Shot Creator Guard,Wing Shot Creator,0.36,0.38,0.14,0.13,0.69,0.31,0.62,0.65,697.0
+77,Kevin Durant,All Around Big-Post Scorer-Shot Creator Guard-Shot Creator Guard,All Around Big,Post Scorer,Shot Creator Guard,Shot Creator Guard,0.36,0.37,0.22,0.13,0.77,0.23,0.61,0.64,561.0
+78,Kevin Durant,All Around Big-Post Scorer-Shot Creator Guard-Wing Shot Creator,All Around Big,Post Scorer,Shot Creator Guard,Wing Shot Creator,0.35,0.37,0.2,0.15,0.74,0.26,0.62,0.65,520.0
+79,Kevin Durant,All Around Big-Shot Creator Guard-Shot Creator Guard-Wing Shot Creator,All Around Big,Shot Creator Guard,Shot Creator Guard,Wing Shot Creator,0.29,0.41,0.2,0.08,0.7,0.3,0.59,0.65,224.0
+80,Kevin Durant,Movement Shooter-Shot Creator Guard-Wing Shot Creator-Wing Shot Creator,Movement Shooter,Shot Creator Guard,Wing Shot Creator,Wing Shot Creator,0.4,0.31,0.21,0.1,0.65,0.35,0.64,0.68,187.0
+81,Kevin Durant,All Around Big-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,All Around Big,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.33,0.42,0.21,0.12,0.81,0.19,0.65,0.68,182.0
+82,Kevin Durant,All Around Big-All Around Guard-Post Scorer-Shot Creator Guard,All Around Big,All Around Guard,Post Scorer,Shot Creator Guard,0.22,0.41,0.16,0.14,0.53,0.47,0.55,0.61,173.0
+83,Kevin Durant,3&D-All Around Big-Pure Point Guard-Shot Creator Guard,3&D,All Around Big,Pure Point Guard,Shot Creator Guard,0.37,0.38,0.1,0.1,0.64,0.36,0.61,0.65,150.0
+84,Kevin Durant,All Around Big-Rim Runner/Protector-Shot Creator Guard-Shot Creator Guard,All Around Big,Rim Runner/Protector,Shot Creator Guard,Shot Creator Guard,0.38,0.41,0.24,0.09,0.74,0.26,0.59,0.61,140.0
+85,Kevin Durant,Post Scorer-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,Post Scorer,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.33,0.37,0.18,0.17,0.64,0.36,0.64,0.67,139.0
+86,Kevin Durant,3&D-All Around Big-Movement Shooter-Shot Creator Guard,3&D,All Around Big,Movement Shooter,Shot Creator Guard,0.45,0.34,0.16,0.1,0.63,0.37,0.7,0.72,120.0
+87,Kevin Durant,3&D-Movement Shooter-Shot Creator Guard-Wing Shot Creator,3&D,Movement Shooter,Shot Creator Guard,Wing Shot Creator,0.36,0.37,0.18,0.08,0.69,0.31,0.65,0.7,110.0
+88,Kevin Durant,Movement Shooter-Rim Runner/Protector-Shot Creator Guard-Shot Creator Guard,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,Shot Creator Guard,0.3,0.43,0.22,0.07,0.61,0.39,0.58,0.62,101.0
+89,Kevin Durant,All Around Guard-Movement Shooter-Rim Runner/Protector-Shot Creator Guard,All Around Guard,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,0.34,0.39,0.18,0.1,0.6,0.4,0.65,0.68,96.0
 90,LeBron James,3&D-All Around Big-All Around Big-Movement Shooter,3&D,All Around Big,All Around Big,Movement Shooter,0.29,0.48,0.23,0.11,0.66,0.34,0.56,0.59,683.0
-91,LeBron James,All Around Big-Movement Shooter-Movement Shooter-Shot Creator Guard,All Around Big,Movement Shooter,Movement Shooter,Shot Creator Guard,0.28,0.48,0.15,0.04,0.67,0.33,0.57,0.61,225.0
-92,LeBron James,3&D-All Around Big-Movement Shooter-Wing Shot Creator,3&D,All Around Big,Movement Shooter,Wing Shot Creator,0.28,0.51,0.23,0.05,0.62,0.38,0.57,0.6,208.0
-93,LeBron James,Movement Shooter-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.3,0.46,0.11,0.07,0.62,0.38,0.6,0.63,199.0
+91,LeBron James,3&D-Pure Point Guard-Rim Runner/Protector-Wing Shot Creator,3&D,Pure Point Guard,Rim Runner/Protector,Wing Shot Creator,0.26,0.51,0.21,0.09,0.55,0.45,0.56,0.58,253.0
+92,LeBron James,All Around Big-Movement Shooter-Movement Shooter-Shot Creator Guard,All Around Big,Movement Shooter,Movement Shooter,Shot Creator Guard,0.3,0.48,0.14,0.03,0.68,0.32,0.57,0.61,212.0
+93,LeBron James,3&D-All Around Big-Movement Shooter-Wing Shot Creator,3&D,All Around Big,Movement Shooter,Wing Shot Creator,0.28,0.51,0.23,0.05,0.61,0.39,0.57,0.6,203.0
 94,LeBron James,Movement Shooter-Shot Creator Guard-Stretch Big-Wing Shot Creator,Movement Shooter,Shot Creator Guard,Stretch Big,Wing Shot Creator,0.37,0.4,0.11,0.09,0.64,0.36,0.59,0.62,195.0
 95,LeBron James,All Around Big-Glue guy-Rim Runner/Protector-Shot Creator Guard,All Around Big,Glue guy,Rim Runner/Protector,Shot Creator Guard,0.38,0.34,0.21,0.13,0.58,0.42,0.62,0.65,193.0
-96,LeBron James,All Around Guard-Movement Shooter-Rim Runner/Protector-Wing Shot Creator,All Around Guard,Movement Shooter,Rim Runner/Protector,Wing Shot Creator,0.34,0.46,0.15,0.08,0.6,0.4,0.62,0.63,188.0
+96,LeBron James,Movement Shooter-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.31,0.46,0.11,0.06,0.64,0.36,0.61,0.64,190.0
 97,LeBron James,All Around Big-All Around Guard-Pure Point Guard-Rim Runner/Protector,All Around Big,All Around Guard,Pure Point Guard,Rim Runner/Protector,0.25,0.43,0.16,0.1,0.59,0.41,0.54,0.59,187.0
-98,LeBron James,All Around Guard-Movement Shooter-Shot Creator Guard-Stretch Big,All Around Guard,Movement Shooter,Shot Creator Guard,Stretch Big,0.36,0.38,0.07,0.09,0.62,0.38,0.66,0.69,153.0
-99,LeBron James,All Around Big-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,All Around Big,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.32,0.45,0.22,0.08,0.62,0.38,0.63,0.65,136.0
-100,LeBron James,All Around Big-All Around Guard-Shot Creator Guard-Wing Shot Creator,All Around Big,All Around Guard,Shot Creator Guard,Wing Shot Creator,0.3,0.48,0.14,0.04,0.71,0.29,0.64,0.67,121.0
-101,LeBron James,All Around Big-All Around Guard-Pure Point Guard-Wing Shot Creator,All Around Big,All Around Guard,Pure Point Guard,Wing Shot Creator,0.36,0.43,0.16,0.07,0.59,0.41,0.6,0.62,110.0
-102,LeBron James,All Around Guard-Movement Shooter-Stretch Big-Wing Shot Creator,All Around Guard,Movement Shooter,Stretch Big,Wing Shot Creator,0.34,0.38,0.12,0.1,0.53,0.47,0.56,0.6,109.0
-103,LeBron James,Shot Creator Guard-Shot Creator Guard-Stretch Big-Stretch Big,Shot Creator Guard,Shot Creator Guard,Stretch Big,Stretch Big,0.39,0.5,0.14,0.04,0.59,0.41,0.65,0.66,108.0
-104,LeBron James,3&D-All Around Big-Movement Shooter-Pure Point Guard,3&D,All Around Big,Movement Shooter,Pure Point Guard,0.28,0.44,0.16,0.07,0.59,0.41,0.57,0.61,105.0
-105,Luka Dončić,All Around Guard-Movement Shooter-Movement Shooter-Rim Runner/Protector,All Around Guard,Movement Shooter,Movement Shooter,Rim Runner/Protector,0.36,0.4,0.08,0.08,0.56,0.44,0.61,0.64,905.0
-106,Luka Dončić,3&D-All Around Guard-Movement Shooter-Rim Runner/Protector,3&D,All Around Guard,Movement Shooter,Rim Runner/Protector,0.45,0.34,0.08,0.07,0.58,0.42,0.62,0.64,423.0
+98,LeBron James,All Around Guard-Movement Shooter-Rim Runner/Protector-Wing Shot Creator,All Around Guard,Movement Shooter,Rim Runner/Protector,Wing Shot Creator,0.34,0.46,0.15,0.08,0.59,0.41,0.61,0.62,183.0
+99,LeBron James,All Around Guard-Movement Shooter-Shot Creator Guard-Stretch Big,All Around Guard,Movement Shooter,Shot Creator Guard,Stretch Big,0.36,0.38,0.08,0.09,0.62,0.38,0.67,0.7,145.0
+100,LeBron James,All Around Big-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,All Around Big,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.32,0.45,0.22,0.08,0.62,0.38,0.63,0.65,136.0
+101,LeBron James,All Around Big-All Around Guard-Shot Creator Guard-Wing Shot Creator,All Around Big,All Around Guard,Shot Creator Guard,Wing Shot Creator,0.3,0.48,0.15,0.04,0.71,0.29,0.65,0.68,116.0
+102,LeBron James,Shot Creator Guard-Shot Creator Guard-Stretch Big-Stretch Big,Shot Creator Guard,Shot Creator Guard,Stretch Big,Stretch Big,0.39,0.5,0.14,0.04,0.59,0.41,0.65,0.66,108.0
+103,LeBron James,3&D-All Around Big-Movement Shooter-Pure Point Guard,3&D,All Around Big,Movement Shooter,Pure Point Guard,0.28,0.44,0.17,0.06,0.61,0.39,0.57,0.61,100.0
+104,LeBron James,All Around Big-All Around Guard-Pure Point Guard-Wing Shot Creator,All Around Big,All Around Guard,Pure Point Guard,Wing Shot Creator,0.35,0.45,0.15,0.07,0.6,0.4,0.59,0.61,97.0
+105,Luka Dončić,All Around Guard-Movement Shooter-Movement Shooter-Rim Runner/Protector,All Around Guard,Movement Shooter,Movement Shooter,Rim Runner/Protector,0.36,0.4,0.08,0.08,0.56,0.44,0.61,0.65,854.0
+106,Luka Dončić,3&D-All Around Guard-Movement Shooter-Rim Runner/Protector,3&D,All Around Guard,Movement Shooter,Rim Runner/Protector,0.45,0.33,0.08,0.07,0.58,0.42,0.62,0.64,414.0
 107,Luka Dončić,3&D-All Around Big-Movement Shooter-Pure Point Guard,3&D,All Around Big,Movement Shooter,Pure Point Guard,0.48,0.33,0.07,0.08,0.57,0.43,0.62,0.64,341.0
-108,Luka Dončić,Movement Shooter-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.34,0.44,0.16,0.1,0.55,0.45,0.59,0.62,328.0
-109,Luka Dončić,3&D-All Around Big-Rim Runner/Protector-Wing Shot Creator,3&D,All Around Big,Rim Runner/Protector,Wing Shot Creator,0.42,0.36,0.12,0.07,0.63,0.37,0.59,0.62,216.0
-110,Luka Dončić,3&D-Movement Shooter-Rim Runner/Protector-Shot Creator Guard,3&D,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,0.41,0.4,0.13,0.07,0.54,0.46,0.63,0.66,212.0
-111,Luka Dončić,Movement Shooter-Movement Shooter-Rim Runner/Protector-Wing Shot Creator,Movement Shooter,Movement Shooter,Rim Runner/Protector,Wing Shot Creator,0.37,0.41,0.13,0.1,0.58,0.42,0.59,0.62,196.0
-112,Luka Dončić,Movement Shooter-Movement Shooter-Stretch Big-Wing Shot Creator,Movement Shooter,Movement Shooter,Stretch Big,Wing Shot Creator,0.36,0.4,0.15,0.09,0.56,0.44,0.61,0.64,175.0
-113,Luka Dončić,Movement Shooter-Stretch Big-Stretch Big-Wing Shot Creator,Movement Shooter,Stretch Big,Stretch Big,Wing Shot Creator,0.38,0.38,0.15,0.06,0.56,0.44,0.57,0.61,170.0
-114,Luka Dončić,3&D-All Around Guard-Rim Runner/Protector-Stretch Big,3&D,All Around Guard,Rim Runner/Protector,Stretch Big,0.41,0.37,0.08,0.06,0.59,0.41,0.62,0.65,109.0
-115,Luka Dončić,3&D-Movement Shooter-Pure Point Guard-Rim Runner/Protector,3&D,Movement Shooter,Pure Point Guard,Rim Runner/Protector,0.34,0.34,0.17,0.1,0.56,0.44,0.55,0.6,108.0
-116,Luka Dončić,Shot Creator Guard-Stretch Big-Stretch Big-Wing Shot Creator,Shot Creator Guard,Stretch Big,Stretch Big,Wing Shot Creator,0.39,0.5,0.14,0.04,0.59,0.41,0.65,0.66,108.0
-117,Luka Dončić,3&D-Rim Runner/Protector-Stretch Big-Wing Shot Creator,3&D,Rim Runner/Protector,Stretch Big,Wing Shot Creator,0.35,0.45,0.09,0.06,0.55,0.45,0.62,0.64,107.0
-118,Luka Dončić,All Around Big-Movement Shooter-Movement Shooter-Stretch Big,All Around Big,Movement Shooter,Movement Shooter,Stretch Big,0.37,0.44,0.07,0.05,0.56,0.44,0.66,0.69,104.0
-119,Luka Dončić,3&D-All Around Guard-Pure Point Guard-Rim Runner/Protector,3&D,All Around Guard,Pure Point Guard,Rim Runner/Protector,0.36,0.44,0.06,0.05,0.56,0.44,0.57,0.6,96.0
+108,Luka Dončić,Movement Shooter-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.34,0.44,0.16,0.1,0.55,0.45,0.59,0.61,323.0
+109,Luka Dončić,3&D-All Around Big-Rim Runner/Protector-Wing Shot Creator,3&D,All Around Big,Rim Runner/Protector,Wing Shot Creator,0.42,0.35,0.12,0.07,0.63,0.37,0.59,0.62,211.0
+110,Luka Dončić,3&D-Movement Shooter-Rim Runner/Protector-Shot Creator Guard,3&D,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,0.42,0.4,0.13,0.07,0.54,0.46,0.64,0.66,204.0
+111,Luka Dončić,Movement Shooter-Movement Shooter-Rim Runner/Protector-Wing Shot Creator,Movement Shooter,Movement Shooter,Rim Runner/Protector,Wing Shot Creator,0.36,0.41,0.13,0.11,0.56,0.44,0.59,0.62,178.0
+112,Luka Dončić,Movement Shooter-Movement Shooter-Stretch Big-Wing Shot Creator,Movement Shooter,Movement Shooter,Stretch Big,Wing Shot Creator,0.37,0.4,0.15,0.09,0.57,0.43,0.61,0.64,166.0
+113,Luka Dončić,Movement Shooter-Stretch Big-Stretch Big-Wing Shot Creator,Movement Shooter,Stretch Big,Stretch Big,Wing Shot Creator,0.37,0.39,0.15,0.06,0.55,0.45,0.57,0.61,166.0
+114,Luka Dončić,3&D-Movement Shooter-Pure Point Guard-Rim Runner/Protector,3&D,Movement Shooter,Pure Point Guard,Rim Runner/Protector,0.34,0.34,0.17,0.1,0.56,0.44,0.55,0.6,108.0
+115,Luka Dončić,Shot Creator Guard-Stretch Big-Stretch Big-Wing Shot Creator,Shot Creator Guard,Stretch Big,Stretch Big,Wing Shot Creator,0.39,0.5,0.14,0.04,0.59,0.41,0.65,0.66,108.0
+116,Luka Dončić,3&D-Movement Shooter-Movement Shooter-Rim Runner/Protector,3&D,Movement Shooter,Movement Shooter,Rim Runner/Protector,0.38,0.43,0.1,0.03,0.61,0.39,0.59,0.62,105.0
+117,Luka Dončić,3&D-All Around Guard-Rim Runner/Protector-Stretch Big,3&D,All Around Guard,Rim Runner/Protector,Stretch Big,0.43,0.37,0.08,0.04,0.61,0.39,0.62,0.65,104.0
+118,Luka Dončić,3&D-Rim Runner/Protector-Stretch Big-Wing Shot Creator,3&D,Rim Runner/Protector,Stretch Big,Wing Shot Creator,0.37,0.43,0.09,0.07,0.54,0.46,0.62,0.64,103.0
+119,Luka Dončić,All Around Guard-Glue guy-Movement Shooter-Rim Runner/Protector,All Around Guard,Glue guy,Movement Shooter,Rim Runner/Protector,0.35,0.41,0.12,0.1,0.53,0.47,0.58,0.61,100.0
 120,Nikola Jokić,All Around Big-Movement Shooter-Shot Creator Guard-Wing Shot Creator,All Around Big,Movement Shooter,Shot Creator Guard,Wing Shot Creator,0.28,0.48,0.13,0.1,0.67,0.33,0.58,0.61,1519.0
 121,Nikola Jokić,Movement Shooter-Shot Creator Guard-Wing Shot Creator-Wing Shot Creator,Movement Shooter,Shot Creator Guard,Wing Shot Creator,Wing Shot Creator,0.3,0.49,0.15,0.07,0.69,0.31,0.61,0.64,1470.0
 122,Nikola Jokić,Shot Creator Guard-Wing Shot Creator-Wing Shot Creator-Wing Shot Creator,Shot Creator Guard,Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,0.31,0.49,0.17,0.07,0.7,0.3,0.61,0.64,1020.0
-123,Nikola Jokić,Movement Shooter-Wing Shot Creator-Wing Shot Creator-Wing Shot Creator,Movement Shooter,Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,0.28,0.52,0.16,0.04,0.75,0.25,0.63,0.66,616.0
-124,Nikola Jokić,Movement Shooter-Movement Shooter-Shot Creator Guard-Wing Shot Creator,Movement Shooter,Movement Shooter,Shot Creator Guard,Wing Shot Creator,0.3,0.49,0.11,0.07,0.67,0.33,0.6,0.63,350.0
-125,Nikola Jokić,All Around Guard-Shot Creator Guard-Shot Creator Guard-Wing Shot Creator,All Around Guard,Shot Creator Guard,Shot Creator Guard,Wing Shot Creator,0.31,0.45,0.11,0.1,0.62,0.38,0.58,0.61,315.0
+123,Nikola Jokić,Movement Shooter-Wing Shot Creator-Wing Shot Creator-Wing Shot Creator,Movement Shooter,Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,0.28,0.52,0.15,0.04,0.75,0.25,0.63,0.66,612.0
+124,Nikola Jokić,Movement Shooter-Movement Shooter-Shot Creator Guard-Wing Shot Creator,Movement Shooter,Movement Shooter,Shot Creator Guard,Wing Shot Creator,0.3,0.49,0.11,0.07,0.67,0.33,0.6,0.63,346.0
+125,Nikola Jokić,All Around Guard-Shot Creator Guard-Shot Creator Guard-Wing Shot Creator,All Around Guard,Shot Creator Guard,Shot Creator Guard,Wing Shot Creator,0.31,0.45,0.11,0.1,0.61,0.39,0.57,0.61,306.0
 126,Nikola Jokić,All Around Big-Movement Shooter-Pure Point Guard-Shot Creator Guard,All Around Big,Movement Shooter,Pure Point Guard,Shot Creator Guard,0.29,0.48,0.13,0.08,0.69,0.31,0.57,0.61,268.0
-127,Nikola Jokić,Pure Point Guard-Shot Creator Guard-Shot Creator Guard-Wing Shot Creator,Pure Point Guard,Shot Creator Guard,Shot Creator Guard,Wing Shot Creator,0.35,0.4,0.14,0.13,0.61,0.39,0.58,0.61,244.0
-128,Nikola Jokić,Shot Creator Guard-Shot Creator Guard-Wing Shot Creator-Wing Shot Creator,Shot Creator Guard,Shot Creator Guard,Wing Shot Creator,Wing Shot Creator,0.31,0.49,0.09,0.1,0.62,0.38,0.61,0.63,218.0
-129,Nikola Jokić,Movement Shooter-Movement Shooter-Wing Shot Creator-Wing Shot Creator,Movement Shooter,Movement Shooter,Wing Shot Creator,Wing Shot Creator,0.24,0.51,0.2,0.06,0.77,0.23,0.61,0.65,201.0
-130,Nikola Jokić,Movement Shooter-Movement Shooter-Stretch Big-Wing Shot Creator,Movement Shooter,Movement Shooter,Stretch Big,Wing Shot Creator,0.23,0.5,0.11,0.07,0.67,0.33,0.59,0.64,192.0
-131,Nikola Jokić,All Around Guard-Pure Point Guard-Shot Creator Guard-Stretch Big,All Around Guard,Pure Point Guard,Shot Creator Guard,Stretch Big,0.36,0.35,0.06,0.11,0.66,0.34,0.58,0.62,176.0
-132,Nikola Jokić,Wing Shot Creator-Wing Shot Creator-Wing Shot Creator-Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,0.34,0.47,0.17,0.06,0.74,0.26,0.64,0.66,128.0
-133,Nikola Jokić,Pure Point Guard-Pure Point Guard-Wing Shot Creator-Wing Shot Creator,Pure Point Guard,Pure Point Guard,Wing Shot Creator,Wing Shot Creator,0.3,0.39,0.13,0.12,0.64,0.36,0.6,0.64,121.0
+127,Nikola Jokić,Pure Point Guard-Shot Creator Guard-Shot Creator Guard-Wing Shot Creator,Pure Point Guard,Shot Creator Guard,Shot Creator Guard,Wing Shot Creator,0.35,0.41,0.14,0.13,0.61,0.39,0.58,0.61,239.0
+128,Nikola Jokić,Movement Shooter-Movement Shooter-Wing Shot Creator-Wing Shot Creator,Movement Shooter,Movement Shooter,Wing Shot Creator,Wing Shot Creator,0.24,0.51,0.2,0.06,0.77,0.23,0.61,0.65,201.0
+129,Nikola Jokić,Movement Shooter-Movement Shooter-Stretch Big-Wing Shot Creator,Movement Shooter,Movement Shooter,Stretch Big,Wing Shot Creator,0.23,0.5,0.11,0.07,0.67,0.33,0.59,0.64,192.0
+130,Nikola Jokić,All Around Guard-Pure Point Guard-Shot Creator Guard-Stretch Big,All Around Guard,Pure Point Guard,Shot Creator Guard,Stretch Big,0.36,0.34,0.06,0.12,0.64,0.36,0.57,0.61,162.0
+131,Nikola Jokić,Wing Shot Creator-Wing Shot Creator-Wing Shot Creator-Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,0.34,0.47,0.17,0.06,0.74,0.26,0.64,0.66,128.0
+132,Nikola Jokić,Pure Point Guard-Pure Point Guard-Wing Shot Creator-Wing Shot Creator,Pure Point Guard,Pure Point Guard,Wing Shot Creator,Wing Shot Creator,0.28,0.4,0.12,0.13,0.63,0.37,0.59,0.63,116.0
+133,Nikola Jokić,Movement Shooter-Stretch Big-Wing Shot Creator-Wing Shot Creator,Movement Shooter,Stretch Big,Wing Shot Creator,Wing Shot Creator,0.27,0.49,0.1,0.06,0.78,0.22,0.63,0.67,114.0
 134,Nikola Jokić,Rim Runner/Protector-Shot Creator Guard-Shot Creator Guard-Shot Creator Guard,Rim Runner/Protector,Shot Creator Guard,Shot Creator Guard,Shot Creator Guard,0.24,0.48,0.14,0.1,0.65,0.35,0.58,0.61,110.0
-135,Shai Gilgeous-Alexander,All Around Big-Movement Shooter-Shot Creator Guard-Wing Shot Creator,All Around Big,Movement Shooter,Shot Creator Guard,Wing Shot Creator,0.31,0.47,0.15,0.09,0.62,0.38,0.58,0.61,970.0
-136,Shai Gilgeous-Alexander,Movement Shooter-Movement Shooter-Rim Runner/Protector-Shot Creator Guard,Movement Shooter,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,0.29,0.47,0.12,0.1,0.59,0.41,0.55,0.59,600.0
+135,Shai Gilgeous-Alexander,All Around Big-Movement Shooter-Shot Creator Guard-Wing Shot Creator,All Around Big,Movement Shooter,Shot Creator Guard,Wing Shot Creator,0.31,0.48,0.14,0.09,0.62,0.38,0.58,0.61,966.0
+136,Shai Gilgeous-Alexander,Movement Shooter-Movement Shooter-Rim Runner/Protector-Shot Creator Guard,Movement Shooter,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,0.28,0.48,0.12,0.1,0.58,0.42,0.55,0.59,586.0
 137,Shai Gilgeous-Alexander,All Around Big-Movement Shooter-Movement Shooter-Shot Creator Guard,All Around Big,Movement Shooter,Movement Shooter,Shot Creator Guard,0.28,0.46,0.13,0.08,0.54,0.46,0.56,0.6,412.0
-138,Shai Gilgeous-Alexander,Movement Shooter-Movement Shooter-Movement Shooter-Stretch Big,Movement Shooter,Movement Shooter,Movement Shooter,Stretch Big,0.41,0.33,0.12,0.09,0.57,0.43,0.62,0.66,360.0
-139,Shai Gilgeous-Alexander,3&D-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,3&D,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.31,0.41,0.07,0.13,0.58,0.42,0.57,0.6,335.0
-140,Shai Gilgeous-Alexander,Movement Shooter-Movement Shooter-Movement Shooter-Shot Creator Guard,Movement Shooter,Movement Shooter,Movement Shooter,Shot Creator Guard,0.38,0.41,0.15,0.05,0.58,0.42,0.56,0.6,261.0
-141,Shai Gilgeous-Alexander,All Around Guard-Movement Shooter-Rim Runner/Protector-Wing Shot Creator,All Around Guard,Movement Shooter,Rim Runner/Protector,Wing Shot Creator,0.36,0.4,0.16,0.09,0.66,0.34,0.56,0.59,255.0
-142,Shai Gilgeous-Alexander,3&D-Movement Shooter-Movement Shooter-Stretch Big,3&D,Movement Shooter,Movement Shooter,Stretch Big,0.4,0.35,0.11,0.06,0.62,0.38,0.57,0.62,185.0
-143,Shai Gilgeous-Alexander,All Around Big-Movement Shooter-Rim Runner/Protector-Shot Creator Guard,All Around Big,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,0.28,0.51,0.11,0.09,0.56,0.44,0.62,0.65,180.0
-144,Shai Gilgeous-Alexander,All Around Big-Shot Creator Guard-Shot Creator Guard-Wing Shot Creator,All Around Big,Shot Creator Guard,Shot Creator Guard,Wing Shot Creator,0.27,0.34,0.06,0.1,0.44,0.56,0.6,0.67,177.0
-145,Shai Gilgeous-Alexander,Movement Shooter-Movement Shooter-Movement Shooter-Rim Runner/Protector,Movement Shooter,Movement Shooter,Movement Shooter,Rim Runner/Protector,0.37,0.38,0.08,0.09,0.59,0.41,0.57,0.6,172.0
-146,Shai Gilgeous-Alexander,All Around Big-Movement Shooter-Movement Shooter-Wing Shot Creator,All Around Big,Movement Shooter,Movement Shooter,Wing Shot Creator,0.36,0.43,0.11,0.07,0.57,0.43,0.59,0.63,165.0
-147,Shai Gilgeous-Alexander,Movement Shooter-Movement Shooter-Pure Point Guard-Stretch Big,Movement Shooter,Movement Shooter,Pure Point Guard,Stretch Big,0.35,0.34,0.09,0.08,0.48,0.52,0.6,0.65,138.0
-148,Shai Gilgeous-Alexander,3&D-Movement Shooter-Movement Shooter-Movement Shooter,3&D,Movement Shooter,Movement Shooter,Movement Shooter,0.39,0.38,0.16,0.1,0.54,0.46,0.59,0.61,128.0
-149,Shai Gilgeous-Alexander,Movement Shooter-Movement Shooter-Movement Shooter-Movement Shooter,Movement Shooter,Movement Shooter,Movement Shooter,Movement Shooter,0.43,0.36,0.14,0.09,0.57,0.43,0.57,0.6,120.0
+138,Shai Gilgeous-Alexander,Movement Shooter-Movement Shooter-Movement Shooter-Stretch Big,Movement Shooter,Movement Shooter,Movement Shooter,Stretch Big,0.4,0.34,0.12,0.09,0.56,0.44,0.62,0.66,350.0
+139,Shai Gilgeous-Alexander,Movement Shooter-Movement Shooter-Movement Shooter-Shot Creator Guard,Movement Shooter,Movement Shooter,Movement Shooter,Shot Creator Guard,0.38,0.41,0.15,0.06,0.58,0.42,0.55,0.59,247.0
+140,Shai Gilgeous-Alexander,All Around Big-Movement Shooter-Rim Runner/Protector-Shot Creator Guard,All Around Big,Movement Shooter,Rim Runner/Protector,Shot Creator Guard,0.28,0.51,0.11,0.09,0.56,0.44,0.62,0.65,180.0
+141,Shai Gilgeous-Alexander,All Around Big-Shot Creator Guard-Shot Creator Guard-Wing Shot Creator,All Around Big,Shot Creator Guard,Shot Creator Guard,Wing Shot Creator,0.27,0.34,0.06,0.1,0.44,0.56,0.6,0.67,177.0
+142,Shai Gilgeous-Alexander,All Around Big-Movement Shooter-Movement Shooter-Movement Shooter,All Around Big,Movement Shooter,Movement Shooter,Movement Shooter,0.3,0.44,0.16,0.12,0.51,0.49,0.57,0.6,170.0
+143,Shai Gilgeous-Alexander,Movement Shooter-Shot Creator Guard-Stretch Big-Wing Shot Creator,Movement Shooter,Shot Creator Guard,Stretch Big,Wing Shot Creator,0.29,0.5,0.13,0.07,0.59,0.41,0.6,0.63,169.0
+144,Shai Gilgeous-Alexander,3&D-Movement Shooter-Movement Shooter-Stretch Big,3&D,Movement Shooter,Movement Shooter,Stretch Big,0.4,0.34,0.1,0.07,0.62,0.38,0.56,0.61,168.0
+145,Shai Gilgeous-Alexander,All Around Big-Movement Shooter-Movement Shooter-Wing Shot Creator,All Around Big,Movement Shooter,Movement Shooter,Wing Shot Creator,0.35,0.44,0.11,0.08,0.58,0.42,0.59,0.63,161.0
+146,Shai Gilgeous-Alexander,Movement Shooter-Movement Shooter-Movement Shooter-Rim Runner/Protector,Movement Shooter,Movement Shooter,Movement Shooter,Rim Runner/Protector,0.36,0.4,0.08,0.09,0.59,0.41,0.57,0.6,155.0
+147,Shai Gilgeous-Alexander,Movement Shooter-Movement Shooter-Pure Point Guard-Stretch Big,Movement Shooter,Movement Shooter,Pure Point Guard,Stretch Big,0.36,0.35,0.09,0.07,0.48,0.52,0.59,0.64,120.0
+148,Shai Gilgeous-Alexander,Movement Shooter-Movement Shooter-Movement Shooter-Movement Shooter,Movement Shooter,Movement Shooter,Movement Shooter,Movement Shooter,0.46,0.36,0.15,0.07,0.59,0.41,0.57,0.6,102.0
+149,Shai Gilgeous-Alexander,3&D-Movement Shooter-Movement Shooter-Movement Shooter,3&D,Movement Shooter,Movement Shooter,Movement Shooter,0.42,0.34,0.17,0.08,0.57,0.43,0.62,0.64,101.0
 150,Stephen Curry,Rim Runner/Protector-Wing Shot Creator-Wing Shot Creator-Wing Shot Creator,Rim Runner/Protector,Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,0.38,0.39,0.2,0.12,0.71,0.29,0.6,0.62,1609.0
-151,Stephen Curry,All Around Big-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,All Around Big,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.37,0.44,0.17,0.07,0.71,0.29,0.6,0.62,845.0
-152,Stephen Curry,All Around Big-Rim Runner/Protector-Wing Shot Creator-Wing Shot Creator,All Around Big,Rim Runner/Protector,Wing Shot Creator,Wing Shot Creator,0.4,0.38,0.16,0.1,0.77,0.23,0.62,0.64,798.0
-153,Stephen Curry,All Around Big-Post Scorer-Shot Creator Guard-Wing Shot Creator,All Around Big,Post Scorer,Shot Creator Guard,Wing Shot Creator,0.35,0.38,0.23,0.13,0.77,0.23,0.61,0.64,633.0
-154,Stephen Curry,All Around Big-Wing Shot Creator-Wing Shot Creator-Wing Shot Creator,All Around Big,Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,0.34,0.38,0.19,0.12,0.73,0.27,0.59,0.63,419.0
-155,Stephen Curry,All Around Big-Movement Shooter-Rim Runner/Protector-Wing Shot Creator,All Around Big,Movement Shooter,Rim Runner/Protector,Wing Shot Creator,0.43,0.38,0.16,0.06,0.68,0.32,0.6,0.63,373.0
-156,Stephen Curry,Post Scorer-Rim Runner/Protector-Wing Shot Creator-Wing Shot Creator,Post Scorer,Rim Runner/Protector,Wing Shot Creator,Wing Shot Creator,0.35,0.39,0.17,0.1,0.66,0.34,0.6,0.64,323.0
-157,Stephen Curry,Movement Shooter-Shot Creator Guard-Stretch Big-Wing Shot Creator,Movement Shooter,Shot Creator Guard,Stretch Big,Wing Shot Creator,0.38,0.4,0.16,0.06,0.74,0.26,0.58,0.62,282.0
-158,Stephen Curry,Movement Shooter-Wing Shot Creator-Wing Shot Creator-Wing Shot Creator,Movement Shooter,Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,0.41,0.34,0.21,0.1,0.71,0.29,0.63,0.66,255.0
-159,Stephen Curry,Movement Shooter-Rim Runner/Protector-Stretch Big-Wing Shot Creator,Movement Shooter,Rim Runner/Protector,Stretch Big,Wing Shot Creator,0.39,0.41,0.17,0.07,0.67,0.33,0.62,0.64,223.0
-160,Stephen Curry,Wing Shot Creator-Wing Shot Creator-Wing Shot Creator-Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,0.43,0.32,0.14,0.07,0.66,0.34,0.72,0.75,172.0
-161,Stephen Curry,Movement Shooter-Rim Runner/Protector-Rim Runner/Protector-Wing Shot Creator,Movement Shooter,Rim Runner/Protector,Rim Runner/Protector,Wing Shot Creator,0.4,0.41,0.16,0.06,0.71,0.29,0.59,0.6,156.0
+151,Stephen Curry,All Around Big-Rim Runner/Protector-Shot Creator Guard-Wing Shot Creator,All Around Big,Rim Runner/Protector,Shot Creator Guard,Wing Shot Creator,0.37,0.44,0.17,0.07,0.71,0.29,0.6,0.62,840.0
+152,Stephen Curry,All Around Big-Rim Runner/Protector-Wing Shot Creator-Wing Shot Creator,All Around Big,Rim Runner/Protector,Wing Shot Creator,Wing Shot Creator,0.4,0.38,0.16,0.1,0.78,0.22,0.62,0.65,793.0
+153,Stephen Curry,All Around Big-Shot Creator Guard-Wing Shot Creator-Wing Shot Creator,All Around Big,Shot Creator Guard,Wing Shot Creator,Wing Shot Creator,0.35,0.43,0.14,0.06,0.7,0.3,0.57,0.61,763.0
+154,Stephen Curry,All Around Big-Post Scorer-Shot Creator Guard-Wing Shot Creator,All Around Big,Post Scorer,Shot Creator Guard,Wing Shot Creator,0.35,0.38,0.23,0.13,0.77,0.23,0.61,0.64,633.0
+155,Stephen Curry,All Around Big-Wing Shot Creator-Wing Shot Creator-Wing Shot Creator,All Around Big,Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,0.34,0.38,0.19,0.12,0.73,0.27,0.59,0.63,419.0
+156,Stephen Curry,All Around Big-Movement Shooter-Rim Runner/Protector-Wing Shot Creator,All Around Big,Movement Shooter,Rim Runner/Protector,Wing Shot Creator,0.42,0.39,0.17,0.06,0.68,0.32,0.59,0.62,359.0
+157,Stephen Curry,Post Scorer-Rim Runner/Protector-Wing Shot Creator-Wing Shot Creator,Post Scorer,Rim Runner/Protector,Wing Shot Creator,Wing Shot Creator,0.35,0.38,0.17,0.1,0.66,0.34,0.6,0.64,319.0
+158,Stephen Curry,Movement Shooter-Shot Creator Guard-Stretch Big-Wing Shot Creator,Movement Shooter,Shot Creator Guard,Stretch Big,Wing Shot Creator,0.38,0.4,0.16,0.06,0.74,0.26,0.58,0.62,274.0
+159,Stephen Curry,Movement Shooter-Wing Shot Creator-Wing Shot Creator-Wing Shot Creator,Movement Shooter,Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,0.41,0.34,0.21,0.1,0.71,0.29,0.63,0.66,255.0
+160,Stephen Curry,Movement Shooter-Rim Runner/Protector-Stretch Big-Wing Shot Creator,Movement Shooter,Rim Runner/Protector,Stretch Big,Wing Shot Creator,0.4,0.41,0.16,0.06,0.67,0.33,0.62,0.64,209.0
+161,Stephen Curry,Wing Shot Creator-Wing Shot Creator-Wing Shot Creator-Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,Wing Shot Creator,0.43,0.32,0.14,0.07,0.66,0.34,0.72,0.75,172.0
 162,Stephen Curry,All Around Big-Shot Creator Guard-Stretch Big-Wing Shot Creator,All Around Big,Shot Creator Guard,Stretch Big,Wing Shot Creator,0.39,0.4,0.16,0.07,0.64,0.36,0.63,0.66,153.0
-163,Stephen Curry,Movement Shooter-Post Scorer-Wing Shot Creator-Wing Shot Creator,Movement Shooter,Post Scorer,Wing Shot Creator,Wing Shot Creator,0.35,0.33,0.15,0.12,0.69,0.31,0.59,0.64,111.0
-164,Stephen Curry,All Around Big-Movement Shooter-Stretch Big-Wing Shot Creator,All Around Big,Movement Shooter,Stretch Big,Wing Shot Creator,0.45,0.36,0.12,0.05,0.67,0.33,0.63,0.66,103.0
+163,Stephen Curry,Movement Shooter-Rim Runner/Protector-Rim Runner/Protector-Wing Shot Creator,Movement Shooter,Rim Runner/Protector,Rim Runner/Protector,Wing Shot Creator,0.41,0.41,0.16,0.06,0.72,0.28,0.58,0.6,147.0
+164,Stephen Curry,All Around Big-Movement Shooter-Stretch Big-Wing Shot Creator,All Around Big,Movement Shooter,Stretch Big,Wing Shot Creator,0.44,0.38,0.12,0.04,0.68,0.32,0.61,0.65,99.0

@@ -1,6 +1,7 @@
 # TODO: replace players with archetypes and group metrics
 import pandas as pd
 from pathlib import Path
+import numpy as np
 
 ROOT = Path(__file__).parent.parent.parent
 #ARCHETYPES_PATH = ROOT / "data" / "interim" / "lineups" / "player_archetypes.csv"
@@ -9,6 +10,317 @@ ROOT = Path(__file__).parent.parent.parent
 ALL_STAR_IDS = set([203999, 201939, 201935, 202695, 2544, 1629029, 203507, 1630162, 1626164, 201142, 1628983])
 #DF_ARCHETYPES = pd.read_csv(ARCHETYPES_PATH)
 #df_lineups = pd.read_csv(lineups_path)
+
+
+# ============================================================================
+# ZONE ASSIGNMENT FUNCTIONS
+# ============================================================================
+
+def point_in_circle(px, py, cx, cy, r):
+    """Check if point (px, py) is inside circle"""
+    return (px - cx) ** 2 + (py - cy) ** 2 <= r ** 2
+
+
+def point_in_polygon(px, py, corners):
+    """Check if point (px, py) is inside polygon using ray casting algorithm"""
+    n = len(corners)
+    inside = False
+    p1x, p1y = corners[0]
+    for i in range(1, n + 1):
+        p2x, p2y = corners[i % n]
+        if py > min(p1y, p2y):
+            if py <= max(p1y, p2y):
+                if px <= max(p1x, p2x):
+                    if p1y != p2y:
+                        xinters = (py - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
+                    if p1x == p2x or px <= xinters:
+                        inside = not inside
+        p1x, p1y = p2x, p2y
+    return inside
+
+
+def point_in_arc_zone(px, py, corners, arc_between, arc_center, arc_radius):
+    """
+    Check if point is in a zone with an arc boundary.
+    
+    For zones with arcs, we check:
+    1. Is the point in the polygon formed by the corners?
+    2. Is the point within a reasonable distance of the arc boundary?
+    
+    Arc types:
+    - Paint zones (radius 80): arc curves INWARD toward basket, contracts the zone
+    - 3-point zones (radius 237.5): arc curves OUTWARD, expands the zone
+    
+    Args:
+        px, py: Point coordinates
+        corners: List of corner coordinates (includes all corner points)
+        arc_between: (i, j) tuple of corner indices the arc connects
+        arc_center: (cx, cy) center of the arc circle
+        arc_radius: radius of the arc circle
+    
+    Returns:
+        True if point should be in this zone
+    """
+    if arc_between is None or arc_center is None or arc_radius is None:
+        # No arc, just use polygon
+        return point_in_polygon(px, py, corners)
+    
+    # Get the two corners where the arc is
+    i, j = arc_between
+    arc_corner_i = corners[i]
+    arc_corner_j = corners[j]
+    
+    # Distance from point to arc center
+    dist_to_center = ((px - arc_center[0]) ** 2 + (py - arc_center[1]) ** 2) ** 0.5
+    
+    import math
+    def angle_to_point(ax, ay, cx, cy):
+        return math.atan2(ay - cy, ax - cx)
+    
+    angle_i = angle_to_point(arc_corner_i[0], arc_corner_i[1], arc_center[0], arc_center[1])
+    angle_j = angle_to_point(arc_corner_j[0], arc_corner_j[1], arc_center[0], arc_center[1])
+    angle_p = angle_to_point(px, py, arc_center[0], arc_center[1])
+    
+    # Normalize angles to [0, 2π)
+    angle_i = angle_i % (2 * math.pi)
+    angle_j = angle_j % (2 * math.pi)
+    angle_p = angle_p % (2 * math.pi)
+    
+    # Check if angle_p is between angle_i and angle_j
+    if angle_i < angle_j:
+        angle_in_range = angle_i <= angle_p <= angle_j
+    else:
+        angle_in_range = angle_p >= angle_i or angle_p <= angle_j
+    
+    if arc_radius > 150:
+        # 3-point zones - arc bulges outward from basket
+        # Point is in zone if:
+        # 1. Inside the straight-line polygon, OR
+        # 2. Beyond polygon but within arc radius tolerance and correct angle
+        
+        in_poly = point_in_polygon(px, py, corners)
+        if in_poly:
+            return True
+        
+        # Check if point is near the arc (beyond the straight-line polygon)
+        if angle_in_range and abs(dist_to_center - arc_radius) < 30:
+            return True
+        
+        return False
+    else:
+        # Paint zones - arc bulges inward toward basket
+        # Point is in zone if:
+        # 1. Inside the polygon boundary, AND
+        # 2. Beyond the arc (farther from center than arc radius)
+        
+        in_poly = point_in_polygon(px, py, corners)
+        if not in_poly:
+            return False
+        
+        # For paint zone arcs, we want points that are:
+        # - In the polygon bounding box, AND
+        # - On the correct side of the arc (farther from center than the arc)
+        # This prevents points too close to the basket from being in this zone
+        # (they should be in Restricted Area instead)
+        
+        if angle_in_range:
+            # Point is in the angular range of the arc
+            # Accept it if it's beyond the arc (farther from center)
+            # Or close enough to the arc line
+            if dist_to_center >= arc_radius - 5:  # Beyond or on the arc
+                return True
+        
+        # For points outside the arc's angular range, just use polygon check
+        return in_poly
+
+
+def get_shot_zone(loc_x, loc_y):
+    """
+    Determine which zone a shot belongs to based on LOC_X and LOC_Y coordinates.
+    
+    Properly handles zone boundaries including arc curves for 3-point line and restricted area.
+    Restricted Area takes priority over Close Paint.
+    Zone checking order matters: simpler zones (corners) checked before complex blended zones.
+    
+    Args:
+        loc_x: X coordinate of shot
+        loc_y: Y coordinate of shot
+    
+    Returns:
+        Zone name (str) or None if shot doesn't match any zone
+    """
+    
+    # Define the 15 zones with their exact boundaries including arcs
+    # ORDER MATTERS: Check non-arc zones and precise zones first, blended zones last
+    zones = [
+        # PAINT ZONES
+        {
+            'name': 'Restricted Area',
+            'type': 'circle',
+            'center': (0, 0),
+            'radius': 40
+        },
+        {
+            'name': 'Close Paint',
+            'type': 'arc_zone',
+            'corners': [[-80, -47.5], [80, -47.5], [80, 20], [-80, 20]],
+            'arc_between': (3, 2),
+            'arc_center': (0, 0),
+            'arc_radius': 80
+        },
+        {
+            'name': 'Far Paint',
+            'type': 'arc_zone',
+            'corners': [[-80, 20], [80, 20], [80, 142.5], [-80, 142.5]],
+            'arc_between': (0, 1),
+            'arc_center': (0, 0),
+            'arc_radius': 80
+        },
+        
+        # 3-POINT CORNERS - Check these BEFORE blended zones
+        {
+            'name': 'Left Corner 3',
+            'type': 'polygon',
+            'corners': [[-250, -47.5], [-220, -47.5], [-220, 92.5], [-250, 92.5]]
+        },
+        {
+            'name': 'Right Corner 3',
+            'type': 'polygon',
+            'corners': [[220, -47.5], [250, -47.5], [250, 92.5], [220, 92.5]]
+        },
+        
+        # LEFT MID-RANGE
+        {
+            'name': 'Left Midrange Close',
+            'type': 'polygon',
+            'corners': [[-160, -47.5], [-80, -47.5], [-80, 92.5], [-160, 92.5]]
+        },
+        {
+            'name': 'Left Midrange Far',
+            'type': 'polygon',
+            'corners': [[-220, -47.5], [-160, -47.5], [-160, 92.5], [-220, 92.5]]
+        },
+        
+        # RIGHT MID-RANGE
+        {
+            'name': 'Right Midrange Close',
+            'type': 'polygon',
+            'corners': [[80, -47.5], [160, -47.5], [160, 92.5], [80, 92.5]]
+        },
+        {
+            'name': 'Right Midrange Far',
+            'type': 'polygon',
+            'corners': [[160, -47.5], [220, -47.5], [220, 92.5], [160, 92.5]]
+        },
+        
+        # CENTER MID-RANGE - Arc zone, check before blended zones
+        {
+            'name': 'Center Midrange',
+            'type': 'arc_zone',
+            'corners': [[-80, 142.5], [80, 142.5], [96, 216], [-96, 216]],
+            'arc_between': (3, 2),
+            'arc_center': (0, 0),
+            'arc_radius': 237.5
+        },
+        
+        # 3-POINT WINGS/ABOVE THE BREAK - Check these before blended zones
+        {
+            'name': 'Above the Break Center 3',
+            'type': 'arc_zone',
+            'corners': [[-96, 216], [96, 216], [150, 340], [-150, 340]],
+            'arc_between': (0, 1),
+            'arc_center': (0, 0),
+            'arc_radius': 237.5
+        },
+        {
+            'name': 'Above the Break Left 3',
+            'type': 'arc_zone',
+            'corners': [[-250, 92.5], [-220, 92.5], [-96, 216], [-150, 340], [-250, 340]],
+            'arc_between': (1, 2),
+            'arc_center': (0, 0),
+            'arc_radius': 237.5
+        },
+        {
+            'name': 'Above the Break Right 3',
+            'type': 'arc_zone',
+            'corners': [[250, 92.5], [250, 340], [150, 340], [96, 216], [220, 92.5]],
+            'arc_between': (3, 4),
+            'arc_center': (0, 0),
+            'arc_radius': 237.5
+        },
+        
+        # LEFT/CENTER MID-RANGE BLEND - Check after specific zones
+        {
+            'name': 'Left Center Midrange',
+            'type': 'arc_zone',
+            'corners': [[-80, 92.5], [-80, 142.5], [-96, 216], [-220, 92.5]],
+            'arc_between': (3, 2),
+            'arc_center': (0, 0),
+            'arc_radius': 237.5
+        },
+        
+        # RIGHT/CENTER MID-RANGE BLEND - Check after specific zones
+        {
+            'name': 'Right Center Midrange',
+            'type': 'arc_zone',
+            'corners': [[80, 92.5], [80, 142.5], [96, 216], [220, 92.5]],
+            'arc_between': (2, 3),
+            'arc_center': (0, 0),
+            'arc_radius': 237.5
+        },
+    ]
+    
+    # Check Restricted Area first (takes priority)
+    if point_in_circle(loc_x, loc_y, 0, 0, 40):
+        return 'Restricted Area'
+    
+    # Check all other zones in order
+    for zone in zones:
+        if zone['name'] == 'Restricted Area':
+            continue  # Already checked above
+        
+        if zone['type'] == 'circle':
+            if point_in_circle(loc_x, loc_y, zone['center'][0], zone['center'][1], zone['radius']):
+                return zone['name']
+        
+        elif zone['type'] == 'polygon':
+            if point_in_polygon(loc_x, loc_y, zone['corners']):
+                return zone['name']
+        
+        elif zone['type'] == 'arc_zone':
+            if point_in_arc_zone(loc_x, loc_y, zone['corners'], zone['arc_between'], 
+                                zone['arc_center'], zone['arc_radius']):
+                return zone['name']
+    
+    return None
+
+
+def assign_zones_to_shots(df):
+    """
+    Add a ZONE column to a shots dataframe by assigning zones based on LOC_X and LOC_Y.
+    Also filters out shots outside the court boundaries.
+    
+    Valid court range: LOC_Y between -47.5 and 340 (baseline to baseline)
+    
+    Args:
+        df: DataFrame with LOC_X and LOC_Y columns
+    
+    Returns:
+        DataFrame with new ZONE column and out-of-bounds shots removed
+    """
+    df = df.copy()
+    
+    # Filter out out-of-bounds shots (LOC_Y <= -47.5 or LOC_Y > 340)
+    initial_count = len(df)
+    df = df[(df['LOC_Y'] > -47.5) & (df['LOC_Y'] <= 340)].copy()
+    filtered_count = len(df)
+    
+    if filtered_count < initial_count:
+        print(f"Filtered out {initial_count - filtered_count} out-of-bounds shots")
+    
+    # Assign zones to remaining shots
+    df['ZONE'] = df.apply(lambda row: get_shot_zone(row['LOC_X'], row['LOC_Y']), axis=1)
+    return df
 
 
 
@@ -73,7 +385,7 @@ def build_archetype_lineups(df_archetypes: pd.DataFrame, df_lineups: pd.DataFram
         .to_dict()
     )
     rows = []
-    df_lineups = df_lineups[df_lineups["MIN"] >= 4]
+    df_lineups = df_lineups[df_lineups["MIN"] >= 6]
 
     for _, row in df_lineups.iterrows():
         rows.extend(
@@ -275,7 +587,11 @@ def build_shots_df(df_archetype_lineups: pd.DataFrame, df_full_shots=pd.DataFram
                             "player4_archetype"]] = df_shots["LINEUP_ARCHETYPE"].str.split("-", expand=True)
     df_shots.rename(columns={"ALL_STAR_NAME" : "star_player"}, inplace = True)
     df_shots = df_shots[["star_player", "LINEUP_ARCHETYPE", "player1_archetype", "player2_archetype", "player3_archetype",
-                            "player4_archetype", "LOC_X", "LOC_Y", "SHOT_MADE_FLAG", "SHOT_DISTANCE", "PERIOD"]]
+                            "player4_archetype", "LOC_X", "LOC_Y", "SHOT_MADE_FLAG", "SHOT_DISTANCE", "SHOT_ZONE_BASIC", "SHOT_ZONE_AREA", "SHOT_ZONE_RANGE", "PERIOD"]]
+    
+    # Add zone column based on shot coordinates
+    df_shots = assign_zones_to_shots(df_shots)
+    
     return df_shots
 
 

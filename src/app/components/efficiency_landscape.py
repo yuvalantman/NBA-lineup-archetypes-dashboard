@@ -9,7 +9,6 @@ import numpy as np
 from plotly.colors import sample_colorscale
 
 
-
 def create_efficiency_landscape(df, selected_lineups=None):
     """
     Creates a scatter plot comparing offensive and defensive ratings.
@@ -98,8 +97,8 @@ def create_efficiency_landscape(df, selected_lineups=None):
     x_min, x_max = df['offensive_rating'].min(), df['offensive_rating'].max()
     y_min, y_max = df['defensive_rating'].min(), df['defensive_rating'].max()
 
-    x_pad = max((x_max - x_min) * 0.1, 2)  # At least 2 points padding
-    y_pad = max((y_max - y_min) * 0.1, 2)  # At least 2 points padding
+    x_pad = max((x_max - x_min) * 0.15, 3)  # Increased padding for better spacing
+    y_pad = max((y_max - y_min) * 0.15, 3)  # Increased padding for better spacing
     
     # Update layout with fixed ranges to prevent graph movement
     fig.update_layout(
@@ -128,10 +127,9 @@ def create_efficiency_landscape(df, selected_lineups=None):
     )
 
 )
+    
     # Remove the scaleanchor to allow independent axis scaling
-    # fig.update_yaxes(scaleanchor="x", scaleratio=1)
     fig.add_hline(y=df['defensive_rating'].mean(), line_dash='dot', line_color='rgba(255,255,255,0.3)')
     fig.add_vline(x=df['offensive_rating'].mean(), line_dash='dot', line_color='rgba(255,255,255,0.3)')
-
 
     return fig

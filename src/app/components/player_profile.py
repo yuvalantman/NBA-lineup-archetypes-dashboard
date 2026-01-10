@@ -182,7 +182,7 @@ def create_player_profile_component(df_players, component_id='star-profile', def
             html.Div(
                 style={
                     'backgroundColor': '#2A3642',
-                    'padding': '15px',
+                    'padding': '10px 15px',
                     'borderRadius': '10px',
                     'border': '1px solid #00BFFF',
                     'boxShadow': '0 4px 6px rgba(0, 0, 0, 0.3)'

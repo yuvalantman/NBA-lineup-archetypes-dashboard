@@ -12,9 +12,10 @@ from src.app.components.player_profile import create_player_card_dash
 from src.app.components.efficiency_landscape import create_efficiency_landscape
 # from src.app.components.tendency_radar_chart import create_tendency_radar  # COMMENTED: Radar chart
 from src.app.components.tendency_heatmap import create_tendency_heatmap  # NEW: Heatmap
-from src.app.components.shot_chart import create_shot_chart, create_hexbin_shot_chart
+from src.app.components.shot_chart import create_shot_chart, create_zone_shot_chart
 from src.app.components.team_vs_opp import create_team_vs_opp_chart
 from src.app.components.archetype_profile import create_archetype_card_dash
+from src.data.archetype_specs import ARCHETYPE_SPECS
 
 
 def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, df_team_vs_opponent):
@@ -42,6 +43,7 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
     @app.callback(
         [Output('star-profile-card-container', 'children'),
          Output('shot-chart-title', 'children'),
+         Output('efficiency-landscape-title', 'children'),
          Output('radar-chart-title', 'children'),
          Output('team-vs-opp-title', 'children')],
         Input('star-profile-player-dropdown', 'value')
@@ -57,19 +59,20 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
             selected_player: Name of the selected star player
 
         Returns:
-            Tuple of (player card, shot chart title, heatmap chart title, team vs opp title)
+            Tuple of (player card, shot chart title, efficiency landscape title, heatmap chart title, team vs opp title)
         """
         if not selected_player or df_efficiency.empty:
-            return None, "Shot Chart", "Lineup Tendency Heatmap", "Team vs Opponent Comparison"
+            return None, "Shot Chart", "Efficiency Landscape", "Lineup Tendency Heatmap", "Team vs Opponent Comparison"
 
         # Get the first row for this player (for card display)
         player_data = df_players[df_players['PLAYER'] == selected_player]
 
         if player_data.empty:
-            return None, "Shot Chart", "Lineup Tendency Heatmap", "Team vs Opponent Comparison"
+            return None, "Shot Chart", "Efficiency Landscape", "Lineup Tendency Heatmap", "Team vs Opponent Comparison"
 
         # Create dynamic titles with player name
         shot_title = f"{selected_player} - Shot Chart"
+        efficiency_title = f"{selected_player} - Efficiency Landscape"
         heatmap_title = f"{selected_player} - Lineup Tendency Heatmap"
         team_vs_opp_title = f"{selected_player} - Team vs Opponent Comparison"
 
@@ -77,6 +80,7 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
         return (
             create_player_card_dash(player_data.iloc[0]),
             shot_title,
+            efficiency_title,
             heatmap_title,
             team_vs_opp_title
         )
@@ -203,7 +207,7 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
             selected_player: Name of the selected star player
             main_lineup: Main lineup archetype
             compare_lineups: List of lineup archetypes for comparison (multi-select)
-            shot_chart_type: Type of shot chart ('raw' or 'hexbin')
+            shot_chart_type: Type of shot chart ('raw' or 'zones')
 
         Returns:
             Tuple of (efficiency_fig, heatmap_fig, shot_fig, team_vs_opp_fig)
@@ -278,9 +282,9 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
         ]
         
         # Choose shot chart type based on user selection
-        if shot_chart_type == 'hexbin':
-            fig_shot = create_hexbin_shot_chart(lineup_shots)
-        else:
+        if shot_chart_type == 'zones':
+            fig_shot = create_zone_shot_chart(lineup_shots)
+        else:  # 'raw'
             fig_shot = create_shot_chart(lineup_shots)
         
         fig_team_vs_opp = create_team_vs_opp_chart(
@@ -317,13 +321,26 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
         p = hoverData['points'][0]
         lineup, off, deff, net, bg = p['customdata']
 
+        # Calculate text color based on background brightness
+        # Extract RGB from color string (handle both rgb and rgba formats)
+        import re
+        match = re.search(r'rgba?\((\d+),\s*(\d+),\s*(\d+)', bg)
+        if match:
+            r, g, b = int(match.group(1)), int(match.group(2)), int(match.group(3))
+            # Calculate luminance (standard formula)
+            luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+            # Use dark text for bright backgrounds, white for dark backgrounds
+            text_color = 'black' if luminance > 0.5 else 'white'
+        else:
+            text_color = 'white'
+
         style = dict(base_style)
         style['backgroundColor'] = bg  # this is now a real rgba/rgb string
 
         return (
             html.Div([
-                html.Div(lineup, style={'fontWeight': 'bold', 'fontSize': '14px', 'marginBottom': '6px'}),
-                html.Div(f"OffRtg: {off:.1f}   |   DefRtg: {deff:.1f}   |   Net: {net:+.1f}")
+                html.Div(lineup, style={'fontWeight': 'bold', 'fontSize': '14px', 'marginBottom': '6px', 'color': text_color}),
+                html.Div(f"OffRtg: {off:.1f}   |   DefRtg: {deff:.1f}   |   Net: {net:+.1f}", style={'color': text_color})
             ]),
             style
         )
@@ -336,21 +353,17 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
     )
     def populate_archetype_dropdown(selected_player):
         """
-        Populates archetype dropdown options.
-        
-        TODO: This will be populated from a DataFrame provided later.
-        For now, returns empty list to prevent errors.
+        Populates archetype dropdown options from ARCHETYPE_SPECS.
         
         Args:
-            selected_player: Currently selected player (for future filtering)
+            selected_player: Currently selected player
             
         Returns:
             List of archetype options for dropdown
         """
-        # Placeholder - will be replaced when archetype data is provided
-        # Example structure when data is ready:
-        # return [{'label': archetype, 'value': archetype} for archetype in df_archetypes['archetype_name'].unique()]
-        return []
+        # Get all archetype names from ARCHETYPE_SPECS
+        archetype_names = sorted(ARCHETYPE_SPECS.keys())
+        return [{'label': archetype, 'value': archetype} for archetype in archetype_names]
     
     @app.callback(
         Output('archetype-card-container', 'children'),
@@ -359,9 +372,6 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
     def update_archetype_card(selected_archetype):
         """
         Updates the archetype profile card when an archetype is selected.
-        
-        TODO: This will fetch data from a DataFrame provided later.
-        For now, returns empty state card.
         
         Args:
             selected_archetype: Name of the selected archetype
@@ -372,6 +382,22 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
         if not selected_archetype:
             return create_archetype_card_dash()
         
+        # Get archetype data from ARCHETYPE_SPECS
+        if selected_archetype not in ARCHETYPE_SPECS:
+            return create_archetype_card_dash()
+        
+        archetype_data = ARCHETYPE_SPECS[selected_archetype]
+        
+        # Format data for the card component
+        card_data = {
+            'archetype_name': selected_archetype,
+            'description': archetype_data.get('description', ''),
+            'strengths': archetype_data.get('strengths', []),
+            'weaknesses': archetype_data.get('limitations', []),  # 'limitations' key in specs
+            'similar_players': archetype_data.get('examples', [])
+        }
+        
+        return create_archetype_card_dash(card_data)
         # Placeholder - will be replaced when archetype data is provided
         # Example structure when data is ready:
         # archetype_row = df_archetypes[df_archetypes['archetype_name'] == selected_archetype].iloc[0]
