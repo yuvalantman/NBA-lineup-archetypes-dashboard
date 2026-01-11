@@ -11,7 +11,7 @@ import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
 from src.app.components.court_visualization import draw_nba_court, draw_arc_trace
-from zone_helpers import create_zone_rect, create_zone_with_arc
+from src.data.zone_helpers import create_zone_rect, create_zone_with_arc
 import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
 

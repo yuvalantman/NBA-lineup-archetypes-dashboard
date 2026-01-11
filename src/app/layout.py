@@ -1,6 +1,5 @@
 from dash import html, dcc
 from src.app.components.player_profile import create_player_profile_component
-from src.app.components.team_vs_opp_placeholder import create_team_vs_opp_placeholder
 from src.app.components.archetype_profile import create_archetype_card_dash
 
 def create_layout(app, df_players):

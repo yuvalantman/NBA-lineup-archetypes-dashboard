@@ -29,11 +29,11 @@ def create_app():
     root_dir = os.path.abspath(os.path.join(current_dir, "..", ".."))
 
     # Paths to the three processed CSV files
-    players_path = os.path.join(root_dir, 'Data', 'raw', 'allstar_data.csv')
-    efficiency_path = os.path.join(root_dir, 'Data', 'processed', 'Ready_efficiency_data.csv')
-    tendencies_path = os.path.join(root_dir, 'Data', 'processed', 'Ready_tendencies_data.csv')
-    shots_path = os.path.join(root_dir, 'Data', 'processed', 'Ready_shots_data.csv')
-    team_vs_opp_path = os.path.join(root_dir, 'Data', 'processed', 'Ready_team_vs_opp_data.csv')
+    players_path = os.path.join(root_dir, 'data', 'raw', 'allstar_data.csv')
+    efficiency_path = os.path.join(root_dir, 'data', 'processed', 'Ready_efficiency_data.csv')
+    tendencies_path = os.path.join(root_dir, 'data', 'processed', 'Ready_tendencies_data.csv')
+    shots_path = os.path.join(root_dir, 'data', 'processed', 'Ready_shots_data.csv')
+    team_vs_opp_path = os.path.join(root_dir, 'data', 'processed', 'Ready_team_vs_opp_data.csv')
 
     # --- Data Loading ---
     try:
@@ -64,9 +64,11 @@ def create_app():
         print(f"   - {efficiency_path}")
         print(f"   - {tendencies_path}")
         print(f"   - {shots_path}")
+        df_players = pd.DataFrame()
         df_efficiency = pd.DataFrame(columns=['star_player', 'LINEUP_ARCHETYPE'])
         df_tendencies = pd.DataFrame()
         df_shots = pd.DataFrame()
+        df_team_vs_opponent = pd.DataFrame()
 
     # Initialize layout with efficiency data (for player selection)
     app.layout = create_layout(app, df_players)
