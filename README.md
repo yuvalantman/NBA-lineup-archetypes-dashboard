@@ -1,96 +1,152 @@
-<<<<<<< HEAD
-# NBA Lineup Analysis Dashboard
+# NBA Lineup Archetypes Dashboard
 
-An interactive dashboard for analyzing NBA player performance, shot charts, lineup efficiency, and team tendencies.
+An interactive analytics dashboard for exploring **NBA lineup performance and player archetypes**. This educational project analyzes lineup metrics for elite NBA players and their teammates using data-driven clustering and visualization techniques.
 
-## Project Overview
+> **For Educational Purposes**: This project is built as a course assignment to demonstrate data analysis, clustering, and interactive dashboard development with NBA player data.
 
-This project provides a comprehensive analysis tool for NBA data, featuring:
-- **Player Profiles**: Visual cards with player stats, photos, and team logos
-- **Shot Charts**: Interactive heatmaps showing shooting patterns and efficiency
-- **Efficiency Landscape**: 3D visualization of lineup performance metrics
-- **Tendency Radar**: Multi-dimensional comparison of lineup playing styles
+---
+
+## Overview
+
+This dashboard answers key questions about NBA lineups:
+- **Which archetype combinations work best** for a star player?
+- **How do lineup metrics compare** (efficiency, shot tendencies, defensive coverage)?
+- **What shooting patterns emerge** in different lineup archetypes?
+
+**Key Methodology:**
+1. **Archetype Clustering**: Players are clustered into role-based archetypes (e.g., "Creator," "Wing Shooter," "Rim Protector") based on their seasonal statistics
+2. **Lineup Grouping**: Real lineups are reconstructed with archetype labels instead of individual players
+3. **Performance Metrics**: Compute weighted averages of efficiency, tendencies, and shot data for each lineup combination
+
+---
+
+## What's on the Dashboard
+
+### Main Interactive Features
+
+| Feature | What It Does |
+|---------|-------------|
+| **Star Player Selector** | Choose from 11 focal NBA players |
+| **Archetype Selector** | Pick a 5-player archetype combination |
+| **Player Profile** | View player stats, team, and photo |
+| **Efficiency Landscape** | 3D scatter plot comparing offensive/defensive ratings across lineups |
+| **Tendency Heatmap** | Visual breakdown of play-style percentages |
+| **Shot Chart** | Interactive court visualization with shooting patterns and zones |
+| **Team vs Opponent Stats** | Compare your lineup's stats against league opponents |
+
+### Data Visualizations
+- **Shot zones** with success rates
+- **3D efficiency curves** for multiple lineup comparisons
+- **Radar-style heatmaps** for playing style tendencies
+- **Interactive filtering** by archetype combinations
+
+---
 
 ## Project Structure
 
 ```
-clusters/
-├── main.py                    # Main entry point to run the dashboard
-├── requirements.txt           # Python dependencies
-├── .gitignore                # Git ignore rules
+NBA-lineup-archetypes-dashboard/
+├── main.py                          # Entry point (runs with: python main.py)
+├── requirements.txt                 # Python dependencies
+├── README.md                        # This file
 │
-├── src/                       # Source code
-│   ├── app/                  # Dash application
-│   │   ├── run.py           # App factory and initialization
-│   │   ├── layout.py        # Dashboard layout definition
-│   │   ├── callbacks.py     # Interactive callback handlers
-│   │   └── components/      # Reusable UI components
+├── src/
+│   ├── app/                         # Dash web application
+│   │   ├── run.py                  # App initialization & data loading
+│   │   ├── layout.py               # Dashboard page layout
+│   │   ├── callbacks.py            # Interactive event handlers
+│   │   └── components/             # Reusable visualization components
+│   │       ├── archetype_profile.py
 │   │       ├── player_profile.py
-│   │       ├── court_visualization.py
 │   │       ├── efficiency_landscape.py
-│   │       ├── tendency_radar.py
-│   │       └── opponent_placeholder.py
+│   │       ├── shot_chart.py
+│   │       ├── team_vs_opp.py
+│   │       ├── tendency_heatmap.py
+│   │       ├── court_visualization.py
+│   │       └── __init__.py
 │   │
-│   ├── data/                 # Data loading utilities
+│   ├── data/                        # Data loading & processing
 │   │   ├── load_players.py
 │   │   ├── load_efficiency.py
+│   │   ├── load_lineups.py
 │   │   ├── load_tendencies.py
-│   │   └── load_lineups.py
+│   │   ├── build_archetype_lineups.py
+│   │   ├── lineup_score.py
+│   │   ├── zone_helpers.py
+│   │   └── __init__.py
 │   │
-│   └── models/              # Data models (clustering, etc.)
-│       └── clustering.py
+│   └── models/
+│       ├── clustering.py            # Player archetype clustering logic
+│       └── __init__.py
 │
-├── data/                     # Data files
-│   ├── raw/                 # Raw data from NBA API
+├── data/                            # Data files
+│   ├── raw/                         # Original data from NBA API
 │   │   ├── allstar_data.csv
-│   │   └── allstar_shots_with_lineups.csv
-│   └── processed/           # Processed/aggregated data
-│       ├── luka_efficiency_graph_data.csv
-│       └── luka_team_tendencies_graph_data.csv
+│   │   ├── allstar_lineups_data_synthetic.csv
+│   │   ├── full_players_shotloc.csv
+│   │   ├── full_players_shottype_small.csv
+│   │   ├── full_players_defense_*.csv
+│   │   └── lineups/
+│   ├── interim/                     # Processed intermediate data
+│   │   ├── clusters/
+│   │   └── lineups/
+│   └── processed/                   # Final data for dashboard
+│       ├── Archetype_lineups_with_scores_data.csv
+│       ├── Ready_efficiency_data.csv
+│       ├── Ready_shots_data.csv
+│       ├── Ready_team_vs_opp_data.csv
+│       ├── Ready_tendencies_data.csv
+│       └── files_for_demo/
 │
-├── assets/                   # Static assets
+├── assets/                          # Static files
+│   ├── custom_styles.css
 │   ├── images/
-│   │   └── player_photos/   # Player headshots
-│   └── logos/               # Team logos
+│   │   └── player_photos/           # Player headshots
+│   └── logos/
 │
-├── docs/                     # Documentation
-│   └── guides/              # Component-specific guides
+├── notebooks/                       # Jupyter notebooks for analysis
+│   ├── Per_season_Data_pull.ipynb
+│   ├── lineups_data_pull.ipynb
+│   └── clustering.ipynb
+│
+├── docs/                            # Documentation
+│   └── guides/
 │       ├── EFFICIENCY_GRAPH_GUIDE.md
 │       ├── PLAYER_PROFILE_INTEGRATION.md
-│       ├── TENDENCY_RADAR_GUIDE.md
-│       └── TENDENCY_RADAR_UPDATES.md
+│       └── TENDENCY_RADAR_GUIDE.md
 │
-└── archive/                  # Archived old experiments
-    └── old_experiments/
+└── tests/                           # Unit tests
 ```
 
-## Installation
+---
+
+## Installation & Setup
 
 ### Prerequisites
-
 - Python 3.8 or higher
 - pip (Python package manager)
 
-### Setup Steps
+### Local Setup
 
-1. **Clone or navigate to the project directory**:
+1. **Clone the repository**:
    ```bash
-   cd /path/to/clusters
+   git clone https://github.com/[your-repo]/NBA-lineup-archetypes-dashboard.git
+   cd NBA-lineup-archetypes-dashboard
    ```
 
 2. **Create a virtual environment** (recommended):
    ```bash
-   python3 -m venv .venv
+   python -m venv .venv
    ```
 
 3. **Activate the virtual environment**:
-   - On macOS/Linux:
-     ```bash
-     source .venv/bin/activate
-     ```
-   - On Windows:
+   - **Windows**:
      ```bash
      .venv\Scripts\activate
+     ```
+   - **macOS/Linux**:
+     ```bash
+     source .venv/bin/activate
      ```
 
 4. **Install dependencies**:
@@ -98,322 +154,122 @@ clusters/
    pip install -r requirements.txt
    ```
 
+---
+
 ## Running the Dashboard
 
-### Quick Start
-
-Simply run the main script:
+### Local Development
 
 ```bash
 python main.py
 ```
 
-The dashboard will start on [http://localhost:8052](http://localhost:8052)
-
-### Alternative Method
-
-You can also run directly from the app module:
-
-```bash
-python -m src.app.run
-```
-
-This will start the dashboard on [http://localhost:8050](http://localhost:8050) (default port)
-
-### Accessing the Dashboard
-
-Once running, open your web browser and navigate to:
-- **http://localhost:8052** (if using `main.py`)
-- **http://localhost:8050** (if using `src.app.run`)
+The dashboard will start at: **http://localhost:8050**
 
 You should see:
 ```
 NBA Dashboard is starting...
-Dash is running on http://127.0.0.1:8052/
-
- * Serving Flask app 'run'
- * Debug mode: on
+✅ Efficiency data loaded: X lineups
+✅ Tendencies data loaded: X lineups
+...
+Dashboard running at: http://localhost:8050
 ```
 
-## Using the Dashboard
+### Using the Dashboard
 
-### Main Features
+1. **Select a Star Player** from the top dropdown
+2. **Choose an Archetype Combination** from the second selector
+3. **View Performance Metrics** in the interactive visualizations
+4. **Hover/Click** on charts for detailed information
+5. **Use 3D Controls** to rotate the efficiency landscape (click and drag)
 
-1. **Star Player Selection** (Top Left)
-   - Select any NBA All-Star from the dropdown
-   - Updates player profile, shot chart automatically
+---
 
-2. **Player Profile Card** (Left Column)
-   - Displays player photo, stats (height, weight, position)
-   - Shows team logo
+## Deployment
 
-3. **Shot Chart** (Center Column)
-   - Interactive visualization of all shots
-   - Green dots = made shots, Red dots = missed shots
-   - Hover for shot details (distance, zone, result)
+This dashboard is deployed and accessible online at: **[Render URL]**
 
-4. **Lineup Comparison** (Top Right)
-   - Select 2-5 lineups to compare
-   - Updates efficiency landscape and tendency radar
+### Deploy Your Own (Render)
 
-5. **Efficiency Landscape** (Right Column)
-   - 3D visualization of offensive/defensive ratings
-   - Compare multiple lineups simultaneously
+1. **Push code to GitHub**:
+   ```bash
+   git add .
+   git commit -m "Deploy dashboard"
+   git push origin main
+   ```
 
-6. **Tendency Radar** (Bottom Right)
-   - Multi-dimensional comparison of playing styles
-   - Metrics: pace, 3-point tendency, rim attempts, etc.
+2. **Connect to Render**:
+   - Go to [render.com](https://render.com)
+   - Create new Web Service
+   - Connect your GitHub repository
+   - Set **Start Command** to: `gunicorn main:app`
+   - Deploy
 
-### Tips
+3. **Share the public URL** with your class!
 
-- **Best Performance**: Select 2-5 lineups for optimal visualization clarity
-- **Shot Chart Zoom**: Use mouse wheel to zoom, click and drag to pan
-- **Efficiency Graph**: Rotate the 3D view by clicking and dragging
-- **Export**: Most visualizations have a camera icon for downloading as PNG
+---
+
+## Technology Stack
+
+| Technology | Purpose |
+|-----------|---------|
+| **Dash** | Interactive web framework |
+| **Plotly** | Interactive visualizations |
+| **Pandas** | Data manipulation |
+| **NumPy** | Numerical computations |
+| **scikit-learn** | Clustering algorithms |
+| **Gunicorn** | Production WSGI server |
+
+---
 
 ## Data Sources
 
-- **NBA Stats API**: Player statistics and shot data
-- **Lineup Data**: Curated lineup combinations with performance metrics
-- **Player Photos**: Sourced from official NBA images
-- **Team Logos**: Official NBA team branding
+- **NBA Stats API**: Player statistics, lineups, and shot data
+- **Archetype Clustering**: K-means clustering on seasonal player stats
+- **Lineup Data**: Real NBA lineups from historical games
+
+---
 
 ## Troubleshooting
 
 ### Port Already in Use
-
-If port 8052 is already in use, you can change it in [main.py](main.py):
-
-```python
-app.run(debug=True, port=8053)  # Change to any available port
-```
+If port 8050 is unavailable, the app will automatically try the next port.
 
 ### Missing Data Files
-
-Ensure all data files are in the correct locations:
-- `data/raw/allstar_data.csv` - Player information
-- `data/raw/allstar_shots_with_lineups.csv` - Shot data
-- `data/processed/luka_efficiency_graph_data.csv` - Efficiency metrics
-- `data/processed/luka_team_tendencies_graph_data.csv` - Tendency metrics
-
-### Missing Player Images/Logos
-
-If player photos or team logos are missing:
-- Check `assets/images/player_photos/` for player headshots
-- Check `assets/logos/` for team logos
-- The dashboard will show placeholder icons if images are not found
+Ensure these files exist in `data/processed/`:
+- `Ready_efficiency_data.csv`
+- `Ready_tendencies_data.csv`
+- `Ready_shots_data.csv`
+- `Ready_team_vs_opp_data.csv`
 
 ### Import Errors
-
-If you see import errors, make sure you're running from the project root directory:
-
+Run from the project root directory:
 ```bash
-cd /path/to/clusters
+cd NBA-lineup-archetypes-dashboard
 python main.py
 ```
 
-## Development
+---
 
-### Project Dependencies
+## Contributing
 
-Core libraries used:
-- **Dash**: Web application framework
-- **Plotly**: Interactive visualizations
-- **Pandas**: Data manipulation
-- **NumPy**: Numerical computations
-- **NBA API**: NBA statistics
-- **scikit-learn**: Machine learning utilities
+To add features:
+1. Create a feature branch: `git checkout -b feature/my-feature`
+2. Add code to appropriate files
+3. Test locally: `python main.py`
+4. Push and open a pull request
 
-### Adding New Features
-
-1. **New Components**: Add to `src/app/components/`
-2. **New Data Loaders**: Add to `src/data/`
-3. **Update Layout**: Modify `src/app/layout.py`
-4. **Add Callbacks**: Update `src/app/callbacks.py`
-
-### Code Style
-
-- Follow PEP 8 guidelines
-- Use type hints where applicable
-- Add docstrings to all functions
-- Keep components modular and reusable
+---
 
 ## Credits
 
-Built with [Dash](https://dash.plotly.com/) & [Plotly](https://plotly.com/)
+Built with:
+- [Dash](https://dash.plotly.com/) for interactive dashboards
+- [Plotly](https://plotly.com/) for visualizations
+- [NBA Stats API](https://www.nba.com/stats/) for data
 
-Data from [NBA Stats API](https://www.nba.com/stats/)
+---
 
 ## License
 
-This project is for educational purposes.
-=======
-# NBA Lineup Archetypes Dashboard
-
-Team project: interactive Dash dashboard to explore lineup performance around 11 selected NBA "star" players, using archetype clustering for their teammates.
-
-## 1. Project overview
-
-High-level idea:
-
-- Choose 11 focal players ("stars").
-- For the last 10 seasons, collect **all lineups that include at least one of these stars**.
-- Build a **player-season table**:
-  - Each row = a (player, season) pair.
-  - A player can have multiple rows (one per season).
-  - For each row, pull many stats/features for that player-season.
-- Cluster all player-season rows into **archetypes** (role types).
-- Build **lineup tables**:
-  - For each star player, collect all lineups that include them.
-  - Replace non-star players in each lineup with their **archetype labels**.
-  - Group lineups by **archetype combinations** (e.g., Star + [Creator, Wing Shooter, Rim Protector, Connector]).
-  - Compute **weighted averages** of lineup metrics using minutes played together.
-- Build a **Dash dashboard**:
-  - Select a star player.
-  - Select an archetype combination.
-  - Visualize lineup metrics for that combo and compare to other combos.
-
-> (Optional future step – not implemented yet):  
-> For a chosen star + archetype combination, show the list of actual players from last season that match each archetype and simulate predicted metrics for a specific 4-player + star lineup.
-
----
-
-## 2. Repository structure
-
-```text
-NBA-lineup-archetypes-dashboard/
-├─ README.md
-├─ .gitignore
-├─ requirements.txt
-├─ Makefile
-│
-├─ data/
-│  ├─ raw/          # original data pulled from APIs / sources
-│  │  ├─ lineups/
-│  │  ├─ clusters/
-│  ├─ interim/      # cleaned / merged tables before modeling
-│  │  ├─ lineups/
-│  │  ├─ clusters/
-│  └─ processed/    # final tables used directly by the dashboard
-│
-├─ notebooks/
-│  ├─ Per_season_data_pull.ipynb    # data for clusters pull
-│  ├─ lineups_data_pull.ipynb
-│  └─ 03_clustering_experiments.ipynb
-│
-├─ src/
-│  ├─ __init__.py
-│  │
-│  ├─ data/
-│  │  ├─ __init__.py
-│  │  ├─ load_players.py
-│  │  ├─ load_lineups.py
-│  │  └─ build_archetype_lineups.py
-│  │
-│  ├─ models/
-│  │  ├─ __init__.py
-│  │  └─ clustering.py
-│  │
-│  └─ app/
-│     ├─ __init__.py
-│     ├─ layout.py
-│     ├─ callbacks.py
-│     └─ run.py
-│
-└─ tests/
-```
----
-
-## 3. Installation
-### A. Clone this repository
-
-  git clone https://github.com/<username>/NBA-lineup-archetypes-dashboard.git
-
-  cd NBA-lineup-archetypes-dashboard
-
-### B. Install environment (via Makefile)
-
-  make install
-
-  This will:
-  Create a .venv virtual environment
-
-  Install all requirements
-
-  Prepare the project for development
-
-### C. Run the dashboard locally
-  make run
-
-  Dashboard starts at:
-  http://127.0.0.1:8050/
-  
----
-
-## 4. Collaboration workflow
-Branching strategy
-
-- main → stable, production-ready code
-- dev → integration branch (optional)
-- Feature branches → individual tasks
-
-  Examples:
-  - feature/clustering
-  - feature/data-processing
-  - feature/dashboard-ui
-
-Workflow example
-
-  git checkout -b feature/clustering
-  #### make changes
-  git add .
-
-  git commit -m "Implement clustering step"
-
-  git push -u origin feature/clustering
-
-Then open a Pull Request (PR) to main.
-
----
-
-## 5. Data guidelines
-### Safe to commit:
-- Notebooks
-- Small raw datasets in data/raw/
-- Source code (src/)
-- Configuration files
-
-### Do NOT commit:
-- data/interim/
-- data/processed/
-- Raw files > 50–100 MB (GitHub will reject them)
-- API keys or secrets
-- Binary temporary files
-
----
-
-## 6. Deployment (for course evaluation)
-
-This repository is structured to support deployment on:
-- Render (recommended)
-- Railway
-- HuggingFace Spaces
-- Heroku (paid)
-- DigitalOcean
-
-Deployment will require adding:
-- Procfile
-- runtime.txt (optional)
-- Uploading small processed datasets to data/processed/
-
-When you reach deployment, instructions will be added.
-
----
-
-## 7. Notes
-Notebooks should use relative paths (data/raw/...)
-
-Dash app loads data from data/processed/
-
-The Makefile provides a reproducible setup for all team members
->>>>>>> 35217567569a3e4a4d5abe233313123ba3bbeed6
+This project is for **educational purposes** as part of a course assignment.
