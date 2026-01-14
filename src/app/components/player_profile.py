@@ -191,7 +191,7 @@ def create_player_profile_component(df_players, component_id='star-profile', def
                     html.Label(
                         "Select Star Player",
                         style={
-                            'color': '#00BFFF',
+                            'color': '#ffa600',
                             'fontWeight': 'bold',
                             'marginBottom': '10px',
                             'display': 'block',

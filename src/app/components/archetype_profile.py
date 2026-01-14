@@ -117,7 +117,7 @@ def create_archetype_card_dash(archetype_data=None):
                         style={
                             'display': 'inline-block',
                             'backgroundColor': 'rgba(0, 191, 255, 0.1)',
-                            'color': '#00BFFF',
+                            'color': '#FFFFFF',
                             'padding': '4px 10px',
                             'borderRadius': '12px',
                             'fontSize': '15px',

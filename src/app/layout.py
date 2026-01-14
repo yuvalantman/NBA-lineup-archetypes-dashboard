@@ -50,24 +50,24 @@ def create_layout(app, df_players):
                 },
                 children=[
                     html.H3("📖 How to Use This Dashboard", 
-                            style={'color': '#00BFFF', 'fontSize': '18px', 'marginTop': '0', 'marginBottom': '10px'}),
+                            style={'color': "#ffa600", 'fontSize': '18px', 'marginTop': '0', 'marginBottom': '10px'}),
                     html.Div(
                         style={'fontSize': '13px', 'color': '#b8c5d6', 'lineHeight': '1.6'},
                         children=[
                             html.P([
-                                html.Strong("1. Select a Star Player:", style={'color': '#00BFFF'}),
+                                html.Strong("1. Select a Star Player:", style={'color': '#E7C0D2'}),
                                 " Choose from the dropdown in the left sidebar to view their profile and statistics."
                             ], style={'margin': '5px 0'}),
                             html.P([
-                                html.Strong("2. Choose Main Lineup:", style={'color': '#00BFFF'}),
+                                html.Strong("2. Choose Main Lineup:", style={'color': '#E7C0D2'}),
                                 " Each lineup represents 4 player archetypes combination. Select a lineup Archetype to analyze its play style and estimated stats."
                             ], style={'margin': '5px 0'}),
                             html.P([
-                                html.Strong("3. Compare Lineups (Optional):", style={'color': '#00BFFF'}),
+                                html.Strong("3. Compare Lineups (Optional):", style={'color': '#E7C0D2'}),
                                 " Multi-select additional lineups to compare tendency patterns on the heatmap."
                             ], style={'margin': '5px 0'}),
                             html.P([
-                                html.Strong("4. Analyze Visualizations:", style={'color': '#00BFFF'}),
+                                html.Strong("4. Analyze Visualizations:", style={'color': "#E7C0D2"}),
                                 " Efficiency Landscape shows offensive vs defensive ratings. Shot Distribution displays shooting tendencies by location and type. Tendency Heatmap compares playstyle metrics across lineups with color coding (green=high, red=low). Team vs Opponent chart highlights strengths and weaknesses against opponents on the court."
                             ], style={'margin': '5px 0'}),
                             html.P([
@@ -105,7 +105,7 @@ def create_layout(app, df_players):
                                 },
                                 children=[
                                     html.Label("Main Lineup:",
-                                                style={'fontSize': '11px', 'color': '#00BFFF', 'fontWeight': 'bold', 'marginBottom': '2px'}),
+                                                style={'fontSize': '11px', 'color': '#ffa600', 'fontWeight': 'bold', 'marginBottom': '2px'}),
                                     dcc.Dropdown(
                                         id='main-lineup-dropdown',
                                         options=[], # Populated by callback
@@ -127,7 +127,7 @@ def create_layout(app, df_players):
                                 },
                                 children=[
                                     html.Label("Explore Player Archetypes:",
-                                                style={'fontSize': '11px', 'color': '#00BFFF', 'fontWeight': 'bold', 'marginBottom': '2px'}),
+                                                style={'fontSize': '11px', 'color': '#ffa600', 'fontWeight': 'bold', 'marginBottom': '2px'}),
                                     dcc.Dropdown(
                                         id='archetype-dropdown',
                                         options=[],  # Populated by callback
@@ -152,7 +152,7 @@ def create_layout(app, df_players):
                                 },
                                 children=[
                                     html.Label("Compare Tendencies with Lineups:",
-                                                style={'fontSize': '11px', 'color': '#00BFFF', 'fontWeight': 'bold', 'marginBottom': '2px'}),
+                                                style={'fontSize': '11px', 'color': '#ffa600', 'fontWeight': 'bold', 'marginBottom': '2px'}),
                                     dcc.Dropdown(
                                         id='lineup-dropdown',
                                         options=[], # Populated by callback
@@ -206,7 +206,7 @@ def create_layout(app, df_players):
                                     'marginBottom': '12px'
                                 },
                                 children=[
-                                    html.H4("Main Lineup Specifications", style={'color': '#00BFFF', 'marginTop': '0', 'marginBottom': '8px', 'fontSize': '15px'}),
+                                    html.H4("Main Lineup Specifications", style={'color': '#ffa600', 'marginTop': '0', 'marginBottom': '8px', 'fontSize': '15px'}),
                                     html.Div(id='lineup-specs-content', children=[
                                         html.P("Select a lineup to view specifications", style={'color': '#8e9aaf', 'fontStyle': 'italic', 'fontSize': '12px', 'margin': '0'})
                                     ])
@@ -245,12 +245,12 @@ def create_layout(app, df_players):
                                                     html.H4(
                                                         id='shot-chart-title',
                                                         children="Shot Chart",
-                                                        style={'color': '#00BFFF', 'margin': '0', 'fontSize': '18px'}
+                                                        style={'color': '#ffa600', 'margin': '0', 'fontSize': '18px'}
                                                     ),
                                                     dcc.RadioItems(
                                                         id='shot-chart-type',
                                                         options=[
-                                                            {'label': ' Make/Miss', 'value': 'raw'},
+                                                            {'label': ' Made/Missed', 'value': 'raw'},
                                                             {'label': ' Zones', 'value': 'zones'}
                                                         ],
                                                         value='raw',
@@ -278,7 +278,7 @@ def create_layout(app, df_players):
                                             'border': '1px solid #2d384d'
                                         },
                                         children=[
-                                            html.H4(id='efficiency-landscape-title', children="Efficiency Landscape", style={'color': '#00BFFF', 'marginBottom': '10px'}),
+                                            html.H4(id='efficiency-landscape-title', children="Efficiency Landscape", style={'color': '#ffa600', 'marginBottom': '10px'}),
                                             html.Div(
                                                 id='efficiency-hover-info',
                                                 style={
@@ -286,10 +286,10 @@ def create_layout(app, df_players):
                                                     'marginBottom': '8px',
                                                     'color': 'rgba(255,255,255,0.85)',
                                                     'fontSize': '14px'
-                                                },
-                                                children=[
-                                                    html.H5("Hover a point to see lineup details.", style={'color': 'white', 'marginBottom' : '5px'})
-                                                ]
+                                                }
+                                                # children=[
+                                                #     html.H5("Hover a point to see lineup details.", style={'color': 'white', 'marginBottom' : '5px'})
+                                                # ]
                                             ),
                                             dcc.Graph(id='efficiency-graph', style={'height': '500px'}, clear_on_unhover=True)
                                         ]
@@ -347,7 +347,7 @@ def create_layout(app, df_players):
                                             'minHeight': '520px'
                                         },
                                         children=[
-                                            html.H5(id='radar-chart-title', style={'color': '#00BFFF', 'marginBottom': '5px'}),
+                                            html.H5(id='radar-chart-title', style={'color': '#ffa600', 'marginBottom': '5px'}),
                                             html.P(
                                                 "Each metric is independently normalized across all player lineups (darker = below average, brighter = above average)",
                                                 style={'color': 'white', 'fontSize': '13px', 'marginTop': '0', 'marginBottom': '15px', 'fontStyle': 'italic'}
@@ -367,7 +367,7 @@ def create_layout(app, df_players):
                                             'minHeight': '520px'
                                         },
                                         children=[
-                                            html.H5(id='team-vs-opp-title', style={'color': '#00BFFF', 'marginBottom': '5px'}),
+                                            html.H5(id='team-vs-opp-title', style={'color': '#ffa600', 'marginBottom': '5px'}),
                                             html.P(
                                                 "Compares lineup performance against opponents. Circles show lineup values, triangles show opponent values. Larger gaps indicate stronger advantages or disadvantages.",
                                                 style={'color': 'white', 'fontSize': '13px', 'marginTop': '0', 'marginBottom': '15px', 'fontStyle': 'italic'}

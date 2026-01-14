@@ -154,14 +154,14 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
         return html.Div([
             # Archetypes section
             html.Div([
-                html.H6("Lineup Archetypes:", style={'color': '#00BFFF', 'fontSize': '12px', 'marginBottom': '6px', 'fontWeight': 'bold', 'marginTop': '0'}),
+                html.H6("Lineup Archetypes:", style={'color': '#E7C0D2', 'fontSize': '12px', 'marginBottom': '6px', 'fontWeight': 'bold', 'marginTop': '0'}),
                 html.Div(
                     [html.Span(
                         archetype,
                         style={
                             'display': 'inline-block',
                             'backgroundColor': 'rgba(0, 191, 255, 0.15)',
-                            'color': '#00BFFF',
+                            'color': '#FFFFFF',
                             'padding': '4px 10px',
                             'borderRadius': '6px',
                             'fontSize': '11px',
@@ -314,7 +314,7 @@ def register_callbacks(app, df_players, df_efficiency, df_tendencies, df_shots, 
         # When not hovering (clear_on_unhover=True makes hoverData None)
         if not hoverData or 'points' not in hoverData or not hoverData['points']:
             return (
-                html.H5("Hover a point to see lineup details.", style={'color': 'white', 'marginBottom': '5px'}),
+                html.H5("", style={'color': 'white', 'marginBottom': '5px'}),
                 base_style
             )
 
