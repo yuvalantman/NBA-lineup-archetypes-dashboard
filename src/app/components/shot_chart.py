@@ -162,6 +162,7 @@ def create_shot_chart(df, height=500):
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
         height=height,
+        hovermode=False,
         xaxis=dict(
             visible=False,
             range=[-260, 260]
@@ -205,7 +206,8 @@ def create_zone_shot_chart(df, height=500):
             height=height,
             xaxis=dict(visible=False, range=[-260, 260]),
             yaxis=dict(visible=False, range=[-52.5, 430], scaleanchor="x"),
-            margin=dict(l=5, r=5, t=5, b=5)
+            margin=dict(l=5, r=5, t=5, b=5),
+            hovermode=False
         )
         return fig
     
@@ -221,7 +223,8 @@ def create_zone_shot_chart(df, height=500):
             height=height,
             xaxis=dict(visible=False, range=[-260, 260]),
             yaxis=dict(visible=False, range=[-52.5, 430], scaleanchor="x"),
-            margin=dict(l=5, r=5, t=5, b=5)
+            margin=dict(l=5, r=5, t=5, b=5),
+            hovermode=False
         )
         return fig
     
@@ -239,7 +242,7 @@ def create_zone_shot_chart(df, height=500):
             'name': 'Close Paint',
             **create_zone_with_arc(
                 corners=[[-80, -47.5], [80, -47.5], [80, 20], [-80, 20]],
-                arc_between=(3, 2),
+                arc_between=(2, 3),
                 arc_center=(0, 0),
                 arc_radius=80
             ),
@@ -285,7 +288,7 @@ def create_zone_shot_chart(df, height=500):
             'name': 'Center Midrange',
             **create_zone_with_arc(
                 corners=[[-80, 142.5], [80, 142.5], [96, 216], [-96, 216]],
-                arc_between=(3, 2),
+                arc_between=(2, 3),
                 arc_center=(0, 0),
                 arc_radius=237.5
             ),
@@ -298,7 +301,7 @@ def create_zone_shot_chart(df, height=500):
             'shape_type': 'polygon',
             **create_zone_with_arc(
                 corners=[[-80, 92.5], [-80, 142.5], [-96, 216], [-220, 92.5]],
-                arc_between=(3, 2),
+                arc_between=(2, 3),
                 arc_center=(0, 0),
                 arc_radius=237.5
             ),
@@ -369,7 +372,7 @@ def create_zone_shot_chart(df, height=500):
         # 3-POINT WINGS/ABOVE THE BREAK
         {
             'name': 'Above the Break Left 3',
-            'shape_type': 'path',
+            #'shape_type': 'path',
             **create_zone_with_arc(
                 corners=[[-250, 92.5], [-220, 92.5], [-96, 216], [-150, 340], [-250, 340]],
                 arc_between=(1, 2),
@@ -608,6 +611,7 @@ def create_zone_shot_chart(df, height=500):
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
         height=height,
+        hovermode=False,
         xaxis=dict(
             visible=False,
             range=[-260, 260]

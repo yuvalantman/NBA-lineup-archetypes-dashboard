@@ -1,6 +1,6 @@
-# TODO: load lineup-level data
 import pandas as pd
 from pathlib import Path
+# Note: Parquet support is provided by pyarrow (via pandas df.to_parquet() and pd.read_parquet())
 import build_archetype_lineups
 import lineup_score
 
@@ -25,7 +25,8 @@ def load_lineups_data():
     df_efficiency.to_csv(ROOT / "data" / "processed" / "try" / "allstar_efficiency_graph_data.csv", index=False)
     df_tendencies.to_csv(ROOT / "data" / "processed" / "try" / "allstar_tendencies_graph_data.csv", index=False)
     df_team_vs_opponent.to_csv(ROOT / "data" / "processed" / "try" / "allstar_team_vs_opponent_graph_data.csv", index=False)
-    df_shots.to_csv(ROOT / "data" / "processed" / "try"/ "allstar_shots_data.csv")
+    #df_shots.to_csv(ROOT / "data" / "processed" / "try"/ "allstar_shots_data.csv")
+    df_shots.to_parquet(ROOT / "data" / "processed" / "try"/ "allstar_shots_data.parquet")
 
     df_scores_lineups = lineup_score.lineups_scores(df_archetype_lineups, df_efficiency, df_tendencies, df_team_vs_opponent)
     top15 = (

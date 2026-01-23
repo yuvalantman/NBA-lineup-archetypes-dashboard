@@ -1,4 +1,3 @@
-# TODO: replace players with archetypes and group metrics
 import pandas as pd
 from pathlib import Path
 import numpy as np
@@ -28,7 +27,7 @@ def point_in_polygon(px, py, corners):
     p1x, p1y = corners[0]
     for i in range(1, n + 1):
         p2x, p2y = corners[i % n]
-        if py > min(p1y, p2y):
+        if py >= min(p1y, p2y):  # Changed > to >= for inclusive lower boundary
             if py <= max(p1y, p2y):
                 if px <= max(p1x, p2x):
                     if p1y != p2y:
@@ -43,17 +42,13 @@ def point_in_arc_zone(px, py, corners, arc_between, arc_center, arc_radius):
     """
     Check if point is in a zone with an arc boundary.
     
-    For zones with arcs, we check:
-    1. Is the point in the polygon formed by the corners?
-    2. Is the point within a reasonable distance of the arc boundary?
-    
-    Arc types:
-    - Paint zones (radius 80): arc curves INWARD toward basket, contracts the zone
-    - 3-point zones (radius 237.5): arc curves OUTWARD, expands the zone
+    For zones with arcs:
+    - Paint zones (radius 80): Arc curves inward - zone includes area near the arc within the zone bounds
+    - 3-point zones (radius 237.5): Arc curves outward - zone extends to the arc
     
     Args:
         px, py: Point coordinates
-        corners: List of corner coordinates (includes all corner points)
+        corners: List of corner coordinates
         arc_between: (i, j) tuple of corner indices the arc connects
         arc_center: (cx, cy) center of the arc circle
         arc_radius: radius of the arc circle
@@ -65,7 +60,8 @@ def point_in_arc_zone(px, py, corners, arc_between, arc_center, arc_radius):
         # No arc, just use polygon
         return point_in_polygon(px, py, corners)
     
-    # Get the two corners where the arc is
+    import math
+    
     i, j = arc_between
     arc_corner_i = corners[i]
     arc_corner_j = corners[j]
@@ -73,7 +69,6 @@ def point_in_arc_zone(px, py, corners, arc_between, arc_center, arc_radius):
     # Distance from point to arc center
     dist_to_center = ((px - arc_center[0]) ** 2 + (py - arc_center[1]) ** 2) ** 0.5
     
-    import math
     def angle_to_point(ax, ay, cx, cy):
         return math.atan2(ay - cy, ax - cx)
     
@@ -86,52 +81,76 @@ def point_in_arc_zone(px, py, corners, arc_between, arc_center, arc_radius):
     angle_j = angle_j % (2 * math.pi)
     angle_p = angle_p % (2 * math.pi)
     
-    # Check if angle_p is between angle_i and angle_j
-    if angle_i < angle_j:
-        angle_in_range = angle_i <= angle_p <= angle_j
-    else:
-        angle_in_range = angle_p >= angle_i or angle_p <= angle_j
+    # Check if angle_p is between angle_i and angle_j using the shorter arc
+    def is_angle_between_shortest(a1, a2, test, tolerance=0.1):
+        """Check if test angle is between a1 and a2 using the shortest path"""
+        a1 = a1 % (2 * math.pi)
+        a2 = a2 % (2 * math.pi)
+        test = test % (2 * math.pi)
+        
+        # Calculate both spans
+        forward_span = (a2 - a1) % (2 * math.pi)
+        backward_span = (a1 - a2) % (2 * math.pi)
+        
+        # Use the shorter span
+        if forward_span <= backward_span:
+            # Forward is shorter
+            test_span = (test - a1) % (2 * math.pi)
+            return test_span <= forward_span + tolerance
+        else:
+            # Backward is shorter (which means forward is > 180°)
+            # So we should go from a2 to a1 instead
+            test_span = (test - a2) % (2 * math.pi)
+            return test_span <= backward_span + tolerance
+    
+    angle_in_range = is_angle_between_shortest(angle_i, angle_j, angle_p)
     
     if arc_radius > 150:
         # 3-point zones - arc bulges outward from basket
+        # Get the y-range of the zone from its corners
+        y_values = [c[1] for c in corners]
+        y_min, y_max = min(y_values), max(y_values)
+        
+        # Point must be within the y-bounds of the zone (allow small tolerance)
+        if py < y_min - 5 or py > y_max + 5:
+            return False
+        
         # Point is in zone if:
         # 1. Inside the straight-line polygon, OR
-        # 2. Beyond polygon but within arc radius tolerance and correct angle
+        # 2. Outside polygon but within arc boundary (at right distance and angle)
         
         in_poly = point_in_polygon(px, py, corners)
         if in_poly:
             return True
         
-        # Check if point is near the arc (beyond the straight-line polygon)
-        if angle_in_range and abs(dist_to_center - arc_radius) < 30:
+        # Check if point is at/near the arc boundary
+        if angle_in_range and dist_to_center <= arc_radius + 5:
             return True
         
         return False
     else:
-        # Paint zones - arc bulges inward toward basket
-        # Point is in zone if:
-        # 1. Inside the polygon boundary, AND
-        # 2. Beyond the arc (farther from center than arc radius)
+        # Paint zones - arc curves inward toward basket
+        # Get the y-range of the zone from its corners
+        y_values = [c[1] for c in corners]
+        y_min, y_max = min(y_values), max(y_values)
         
+        # First check if point is in the polygon
         in_poly = point_in_polygon(px, py, corners)
-        if not in_poly:
+        if in_poly:
+            return True
+        
+        # For points outside the polygon:
+        # Only accept if within the y-bounds AND in the arc-extended area
+        # This prevents zones from claiming points that are way outside their range
+        if py < y_min - 50 or py > y_max + 50:
+            # Point is too far outside the y-bounds
             return False
         
-        # For paint zone arcs, we want points that are:
-        # - In the polygon bounding box, AND
-        # - On the correct side of the arc (farther from center than the arc)
-        # This prevents points too close to the basket from being in this zone
-        # (they should be in Restricted Area instead)
+        # Check if in the arc-extended area
+        if angle_in_range and dist_to_center <= arc_radius + 5:
+            return True
         
-        if angle_in_range:
-            # Point is in the angular range of the arc
-            # Accept it if it's beyond the arc (farther from center)
-            # Or close enough to the arc line
-            if dist_to_center >= arc_radius - 5:  # Beyond or on the arc
-                return True
-        
-        # For points outside the arc's angular range, just use polygon check
-        return in_poly
+        return False
 
 
 def get_shot_zone(loc_x, loc_y):
@@ -164,7 +183,7 @@ def get_shot_zone(loc_x, loc_y):
             'name': 'Close Paint',
             'type': 'arc_zone',
             'corners': [[-80, -47.5], [80, -47.5], [80, 20], [-80, 20]],
-            'arc_between': (3, 2),
+            'arc_between': (2, 3),
             'arc_center': (0, 0),
             'arc_radius': 80
         },
@@ -213,17 +232,37 @@ def get_shot_zone(loc_x, loc_y):
             'corners': [[160, -47.5], [220, -47.5], [220, 92.5], [160, 92.5]]
         },
         
-        # CENTER MID-RANGE - Arc zone, check before blended zones
+        # CENTER MID-RANGE - Arc zone
         {
             'name': 'Center Midrange',
             'type': 'arc_zone',
             'corners': [[-80, 142.5], [80, 142.5], [96, 216], [-96, 216]],
-            'arc_between': (3, 2),
+            'arc_between': (2, 3),
             'arc_center': (0, 0),
             'arc_radius': 237.5
         },
         
-        # 3-POINT WINGS/ABOVE THE BREAK - Check these before blended zones
+        # LEFT/CENTER MID-RANGE BLEND - Check before wing zones to avoid conflicts
+        {
+            'name': 'Left Center Midrange',
+            'type': 'arc_zone',
+            'corners': [[-80, 92.5], [-80, 142.5], [-96, 216], [-220, 92.5]],
+            'arc_between': (2, 3),
+            'arc_center': (0, 0),
+            'arc_radius': 237.5
+        },
+        
+        # RIGHT/CENTER MID-RANGE BLEND - Check before wing zones to avoid conflicts
+        {
+            'name': 'Right Center Midrange',
+            'type': 'arc_zone',
+            'corners': [[80, 92.5], [80, 142.5], [96, 216], [220, 92.5]],
+            'arc_between': (2, 3),
+            'arc_center': (0, 0),
+            'arc_radius': 237.5
+        },
+        
+        # 3-POINT WINGS/ABOVE THE BREAK
         {
             'name': 'Above the Break Center 3',
             'type': 'arc_zone',
@@ -245,26 +284,6 @@ def get_shot_zone(loc_x, loc_y):
             'type': 'arc_zone',
             'corners': [[250, 92.5], [250, 340], [150, 340], [96, 216], [220, 92.5]],
             'arc_between': (3, 4),
-            'arc_center': (0, 0),
-            'arc_radius': 237.5
-        },
-        
-        # LEFT/CENTER MID-RANGE BLEND - Check after specific zones
-        {
-            'name': 'Left Center Midrange',
-            'type': 'arc_zone',
-            'corners': [[-80, 92.5], [-80, 142.5], [-96, 216], [-220, 92.5]],
-            'arc_between': (3, 2),
-            'arc_center': (0, 0),
-            'arc_radius': 237.5
-        },
-        
-        # RIGHT/CENTER MID-RANGE BLEND - Check after specific zones
-        {
-            'name': 'Right Center Midrange',
-            'type': 'arc_zone',
-            'corners': [[80, 92.5], [80, 142.5], [96, 216], [220, 92.5]],
-            'arc_between': (2, 3),
             'arc_center': (0, 0),
             'arc_radius': 237.5
         },

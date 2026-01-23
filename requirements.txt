@@ -8,3 +8,4 @@ gunicorn
 jupyter
 matplotlib
 scipy
+pyarrow
